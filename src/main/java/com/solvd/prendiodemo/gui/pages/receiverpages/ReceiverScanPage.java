@@ -6,6 +6,7 @@ import com.solvd.prendiodemo.gui.pages.ReceiverPage;
 import com.zebrunner.carina.utils.R;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.remote.Augmenter;
 import org.openqa.selenium.remote.LocalFileDetector;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.FindBy;
@@ -42,7 +43,8 @@ public class ReceiverScanPage extends ReceiverPage {
     }
 
     public void addUploadFile() {
-        ((RemoteWebDriver) driver).setFileDetector(new LocalFileDetector());
+        RemoteWebDriver drv = (RemoteWebDriver) new Augmenter().augment(driver);
+        drv.setFileDetector(new LocalFileDetector());
         File file = new File("sample_slip.pdf");
         try {
             FileUtils.copyURLToFile(new URL(R.CONFIG.get("sample_slip_url")), file);
