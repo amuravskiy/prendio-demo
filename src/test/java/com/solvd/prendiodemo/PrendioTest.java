@@ -142,6 +142,11 @@ public class PrendioTest extends AbstractTest {
         String cartId = cartPage.getId();
         Assert.assertTrue(cartPage.isItemSelectsAsCartSelects(0));
         cartPage.clickSubmitCartButton();
+        if (cartPage.isInfoPopupVisible()) {
+            cartPage.clickOkOnInfoPopup();
+            Assert.assertTrue(cartPage.isInfoPopupDisappeared());
+            cartPage.ensureLoaded();
+        }
         Assert.assertTrue(cartPage.isReqApprovalPopupVisible());
         Assert.assertEquals(cartPage.getReqApprovalPopupTitle(), "Requisition Approval");
         Assert.assertTrue(cartPage.isSubmitReqApprovalClickable(), "Sumbit requisition approval button in not clickable");
