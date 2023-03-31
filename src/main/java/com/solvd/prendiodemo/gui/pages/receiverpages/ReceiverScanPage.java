@@ -37,8 +37,7 @@ public class ReceiverScanPage extends ReceiverPage {
     }
 
     public void addUploadFile() {
-        URL resourceUrl = this.getClass().getClassLoader().getResource(R.CONFIG.get("sample_pdf_name"));
-        fileInput.type(resourceUrl.getPath());
+        fileInput.type(R.CONFIG.get("sample_pdf_zebrunner_path"));
     }
 
     public void clickUpload() {

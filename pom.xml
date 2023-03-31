@@ -105,7 +105,7 @@
                                 <resource>
                                     <directory>source-files</directory>
                                     <includes>
-                                        <include>packslip.pdf</include>
+                                        <include>sample_slip.pdf</include>
                                     </includes>
                                 </resource>
                             </resources>

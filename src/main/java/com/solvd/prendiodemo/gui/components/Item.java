@@ -63,7 +63,7 @@ public class Item extends AbstractUIObject {
                 .setSupplier(supplierText.getText())
                 .setTitle(title.getText())
                 .setCurrencyType(currencyTypeText.getText().replaceAll("[^a-zA-Z]", ""))
-                .setPrice(priceContainer.getAttribute("cprice"))
+                .setPrice(priceContainer.getAttribute("cprice").replace("NA", "0.00"))
                 .build();
     }
 }
