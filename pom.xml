@@ -100,7 +100,7 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${basedir}/target/classes/</outputDirectory>
+                            <outputDirectory>/workdir/</outputDirectory>
                             <resources>
                                 <resource>
                                     <directory>source-files</directory>

@@ -75,7 +75,6 @@ public class DepartmentSetupPopup extends BasePopup {
     }
 
     public String getWatchersText() {
-        System.out.println(watchersBlock.getText() + watchersCountBlock.getAttribute("innerText"));
         return watchersBlock.getText() + watchersCountBlock.getAttribute("innerText");
     }
 
@@ -104,12 +103,14 @@ public class DepartmentSetupPopup extends BasePopup {
                 .filter(ExtendedWebElement::isClickable)
                 .findAny()
                 .orElseThrow();
-        toCheck.check();
+        toCheck.clickByJs();
         return toCheck.findExtendedWebElement(usernameOfTheCheckboxLocator).getText();
     }
 
     public DepInfo getInfo() {
-        return new DepInfo(depNameField.getText(), depDescField.getText(), depNotesField.getText());
+        return new DepInfo(depNameField.getAttribute("value"),
+                depDescField.getAttribute("value"),
+                depNotesField.getAttribute("value"));
     }
 
     public WatcherInfo getWatcherInfo() {

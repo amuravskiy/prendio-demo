@@ -6,8 +6,6 @@ import com.solvd.prendiodemo.gui.pages.ReceiverPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
-import java.io.File;
-
 public class ReceiverScanPage extends ReceiverPage {
 
     @FindBy(xpath = "//li//a[text()='Scan']")
@@ -36,7 +34,7 @@ public class ReceiverScanPage extends ReceiverPage {
     }
 
     public void addUploadFile() {
-        fileInput.type(new File("").getAbsolutePath());
+        fileInput.type("/workdir/sample_slip.pdf");
     }
 
     public void clickUpload() {

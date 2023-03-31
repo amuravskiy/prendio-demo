@@ -35,4 +35,13 @@ public class DepInfo {
     public void setNotes(String notes) {
         this.notes = notes;
     }
+
+    @Override
+    public String toString() {
+        return "DepInfo{" +
+                "name='" + name + '\'' +
+                ", desc='" + desc + '\'' +
+                ", notes='" + notes + '\'' +
+                '}';
+    }
 }

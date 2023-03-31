@@ -200,6 +200,7 @@ public class PrendioTest extends AbstractTest {
         depSetupPopup.clickClose();
         depSetupPopup.ensureLoaded();
         Assert.assertTrue(depSetupPopup.isDisappeared());
+        departmentPage = new DepartmentPage(getDriver());
         depSetupPopup = departmentPage.editDepByName(enteredDepInfo.getName());
         DepInfo loadedInfo = depSetupPopup.getInfo();
         Assert.assertEquals(loadedInfo, enteredDepInfo);
