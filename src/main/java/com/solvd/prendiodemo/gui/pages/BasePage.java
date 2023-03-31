@@ -6,6 +6,7 @@ import com.solvd.prendiodemo.gui.components.NavigationMenu;
 import com.solvd.prendiodemo.gui.components.NavigationTabs;
 import com.solvd.prendiodemo.gui.components.SearchBlock;
 import com.solvd.prendiodemo.gui.components.UserPhotoBlock;
+import com.zebrunner.carina.utils.R;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -80,6 +81,7 @@ public class BasePage extends AbstractPage {
     }
 
     public void ensureLoaded() {
+        loadingBlock.isVisible(R.CONFIG.getInt("loading_block_appear_timeout"));
         loadingBlock.waitUntilElementDisappear(EXPLICIT_TIMEOUT);
     }
 
