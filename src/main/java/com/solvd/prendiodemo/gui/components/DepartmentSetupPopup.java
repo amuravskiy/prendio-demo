@@ -115,7 +115,8 @@ public class DepartmentSetupPopup extends BasePopup {
     }
 
     public WatcherInfo getWatcherInfo() {
-        return new WatcherInfo(firstWatcherName.getText(), firstWatcherNotifyAt.getText());
+        String watchedNotifyAtInteger = firstWatcherNotifyAt.getText().replace(".00", "").replace(",", "");
+        return new WatcherInfo(firstWatcherName.getText(), watchedNotifyAtInteger);
     }
 
     public String getSelectedUserName() {
