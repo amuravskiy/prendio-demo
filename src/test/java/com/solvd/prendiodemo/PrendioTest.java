@@ -31,7 +31,7 @@ public class PrendioTest extends AbstractTest {
         LoginPage loginPage = new LoginPage(getDriver());
         loginPage.open();
         loginPage.assertPageOpened();
-        OneLoginPortalPage oneLoginPortalPage = loginPage.login("andrew@solvd.com", "Gosh@1234567890");
+        OneLoginPortalPage oneLoginPortalPage = loginPage.login(R.CONFIG.get("username"), R.CONFIG.get("password"));
         DashboardPage dashboardPage = oneLoginPortalPage.goToPrendio();
         Util.switchToTabOne(getDriver());
         dashboardPage.assertPageOpened();
