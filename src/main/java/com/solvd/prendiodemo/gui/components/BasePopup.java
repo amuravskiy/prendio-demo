@@ -24,7 +24,7 @@ public class BasePopup extends AbstractUIObject {
     @FindBy(xpath = "..//div[@class='popuplast_div' and contains(text(), 'Created')]")
     private ExtendedWebElement createdTrail;
 
-    @FindBy(id = ".//input[@type='button' and @value='Save']")
+    @FindBy(id = "..//input[@type='button' and @value='Save']")
     private ExtendedWebElement saveButton;
 
     public BasePopup(WebDriver driver, SearchContext searchContext) {

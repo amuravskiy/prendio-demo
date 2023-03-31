@@ -90,9 +90,9 @@ public class PrendioTest extends AbstractTest {
         Assert.assertTrue(cartPage.isConfirmPopupDisappeared());
         cartPage = new CartPage(getDriver());
         CartContents duplicatedContents = cartPage.getCartContents();
-        Assert.assertEquals(cartContents.getPartNumbers(), duplicatedContents.getPartNumbers());
-        Assert.assertEquals(cartContents.getDescriptions(), duplicatedContents.getDescriptions());
-        Assert.assertEquals(cartContents.getTotals(), duplicatedContents.getTotals());
+        Assert.assertEquals(duplicatedContents.getPartNumbers(), cartContents.getPartNumbers());
+        Assert.assertEquals(duplicatedContents.getDescriptions(), cartContents.getDescriptions());
+        Assert.assertEquals(duplicatedContents.getTotals(), cartContents.getTotals());
         Assert.assertEquals(templateCartName, cartPage.getCartName());
         cartPage.removeTemplateWord();
         Assert.assertTrue(cartPage.isSuccessMessageVisible());
