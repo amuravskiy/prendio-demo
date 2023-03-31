@@ -34,8 +34,7 @@ public class ReceiverScanPage extends ReceiverPage {
     }
 
     public void addUploadFile() {
-        LOGGER.error("MAAAARK: " + System.getProperty("user.dir"));
-        fileInput.type(System.getProperty("user.dir") + "/resources/sample_slip.pdf");
+        fileInput.type("sample_slip.pdf");
     }
 
     public void clickUpload() {

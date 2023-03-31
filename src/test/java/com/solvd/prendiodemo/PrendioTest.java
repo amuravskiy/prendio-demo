@@ -191,7 +191,9 @@ public class PrendioTest extends AbstractTest {
         Assert.assertEquals(confirmationPopup.getHeaderText(), "CONFIRMATION");
         confirmationPopup.clickYes();
         Assert.assertTrue(confirmationPopup.isDisappeared());
+        departmentPage = new DepartmentPage(getDriver());
         depSetupPopup = departmentPage.editDepByName(enteredDepInfo.getName());
+        depSetupPopup.clickUsers();
         String username = depSetupPopup.selectAnyUser();
         Assert.assertTrue(departmentPage.isSuccessMessageVisible());
         Assert.assertEquals(departmentPage.getSuccessMessageText(), "Saved Successfully");
