@@ -7,8 +7,6 @@ import com.zebrunner.carina.utils.R;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
-import java.net.URL;
-
 public class ReceiverScanPage extends ReceiverPage {
 
     @FindBy(xpath = "//li//a[text()='Scan']")
@@ -37,6 +35,7 @@ public class ReceiverScanPage extends ReceiverPage {
     }
 
     public void addUploadFile() {
+        LOGGER.info(System.getProperty("user.dir"));
         fileInput.type(R.CONFIG.get("sample_pdf_zebrunner_path"));
     }
 

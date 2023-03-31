@@ -6,8 +6,14 @@ import com.qaprosoft.carina.core.gui.AbstractUIObject;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.lang.invoke.MethodHandles;
 
 public class BasePopup extends AbstractUIObject {
+
+    protected static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     @FindBy(className = "HiderText")
     private ExtendedWebElement loadingBlock;
@@ -24,7 +30,7 @@ public class BasePopup extends AbstractUIObject {
     @FindBy(xpath = "..//div[@class='popuplast_div' and contains(text(), 'Created')]")
     private ExtendedWebElement createdTrail;
 
-    @FindBy(id = "..//input[@type='button' and @value='Save']")
+    @FindBy(id = "./input[@type='button' and @value='Save']")
     private ExtendedWebElement saveButton;
 
     public BasePopup(WebDriver driver, SearchContext searchContext) {
