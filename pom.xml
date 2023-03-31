@@ -89,8 +89,9 @@
                 </configuration>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>3.0.2</version>
+                <version>3.3.1</version>
                 <executions>
                     <execution>
                         <id>copy-resource-one</id>
@@ -111,6 +112,18 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M6</version>
+                <configuration>
+                    <argLine>-javaagent:${project.build.directory}/agent/zebrunner-agent.jar</argLine>
+                    <useSystemClassLoader>false</useSystemClassLoader>
+                    <suiteXmlFiles>
+                        <suiteXmlFile>${project.build.directory}/test-classes/suite/${suite}.xml</suiteXmlFile>
+                    </suiteXmlFiles>
+                </configuration>
             </plugin>
         </plugins>
     </build>
