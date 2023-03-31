@@ -7,6 +7,7 @@ import com.zebrunner.carina.utils.R;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 
 import java.io.File;
 import java.io.IOException;
@@ -46,6 +47,23 @@ public class ReceiverScanPage extends ReceiverPage {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        File folder = new File(System.getProperty("user.dir"));
+        File[] listOfFiles = folder.listFiles();
+        boolean found = false;
+        File f = null;
+        //Look for the file in the files
+        // You should write smart REGEX according to the filename
+        for (File listOfFile : listOfFiles) {
+            if (listOfFile.isFile()) {
+                String fileName = listOfFile.getName();
+                System.out.println("File " + listOfFile.getName());
+                if (fileName.matches("sample_slip.pdf")) {
+                    f = new File(fileName);
+                    found = true;
+                }
+            }
+        }
+        Assert.assertTrue(found, "Downloaded document is not found");
         fileInput.type(file.getAbsolutePath());
     }
 
