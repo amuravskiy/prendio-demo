@@ -3,7 +3,6 @@ package com.solvd.prendiodemo.gui.pages.receiverpages;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.PageOpeningStrategy;
 import com.solvd.prendiodemo.gui.pages.ReceiverPage;
-import com.zebrunner.carina.utils.R;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
@@ -35,8 +34,8 @@ public class ReceiverScanPage extends ReceiverPage {
     }
 
     public void addUploadFile() {
-        LOGGER.error(System.getProperty("user.dir"));
-        fileInput.type(System.getProperty("user.dir")+"/resources/sample_slip.pdf");
+        LOGGER.error("MAAAARK: " + System.getProperty("user.dir"));
+        fileInput.type(System.getProperty("user.dir") + "/resources/sample_slip.pdf");
     }
 
     public void clickUpload() {
