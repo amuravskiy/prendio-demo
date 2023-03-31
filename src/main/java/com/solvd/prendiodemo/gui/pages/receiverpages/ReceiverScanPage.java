@@ -3,8 +3,14 @@ package com.solvd.prendiodemo.gui.pages.receiverpages;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.PageOpeningStrategy;
 import com.solvd.prendiodemo.gui.pages.ReceiverPage;
+import com.zebrunner.carina.utils.R;
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 
 public class ReceiverScanPage extends ReceiverPage {
 
@@ -34,7 +40,13 @@ public class ReceiverScanPage extends ReceiverPage {
     }
 
     public void addUploadFile() {
-        fileInput.type("https://www.kkfreight.com/documents/packlist.pdf");
+        File file = new File("sample_slip.pdf");
+        try {
+            FileUtils.copyURLToFile(new URL(R.CONFIG.get("sample_slip_url")), file);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        fileInput.type(file.getAbsolutePath());
     }
 
     public void clickUpload() {
