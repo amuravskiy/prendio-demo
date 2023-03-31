@@ -9,11 +9,11 @@ import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
-import java.util.List;
-
 public class DepartmentSetupPopup extends BasePopup {
 
     private final By usernameOfTheCheckboxLocator = By.xpath("..//..//..//td");
+
+    private final By membersCheckboxesLocator = By.xpath("//table[@id='tbldeptuser']//input[@class='memberdeptchk']");
 
     @FindBy(id = "txtdepname")
     private ExtendedWebElement depNameField;
@@ -38,9 +38,6 @@ public class DepartmentSetupPopup extends BasePopup {
 
     @FindBy(xpath = "//div[h2[text()='Department Watcher Setup']]")
     private DepWatcherSetupPopup depWatcherSetupPopup;
-
-    @FindBy(xpath = "//table[@id='tbldeptuser']//input[@class='memberdeptchk']")
-    private List<ExtendedWebElement> memberCheckboxes;
 
     @FindBy(xpath = "//table[@id='tbldeptwatcher']//td[1]")
     private ExtendedWebElement firstWatcherName;
@@ -78,6 +75,7 @@ public class DepartmentSetupPopup extends BasePopup {
     }
 
     public String getWatchersText() {
+        System.out.println(watchersBlock.getText() + watchersCountBlock.getAttribute("innerText"));
         return watchersBlock.getText() + watchersCountBlock.getAttribute("innerText");
     }
 
@@ -100,7 +98,9 @@ public class DepartmentSetupPopup extends BasePopup {
     }
 
     public String selectAnyUser() {
-        ExtendedWebElement toCheck = memberCheckboxes.stream()
+        ensureLoaded();
+        ExtendedWebElement toCheck = findExtendedWebElements(membersCheckboxesLocator)
+                .stream()
                 .filter(ExtendedWebElement::isClickable)
                 .findAny()
                 .orElseThrow();
@@ -117,7 +117,8 @@ public class DepartmentSetupPopup extends BasePopup {
     }
 
     public String getSelectedUserName() {
-        ExtendedWebElement selected = memberCheckboxes.stream()
+        ExtendedWebElement selected = findExtendedWebElements(membersCheckboxesLocator)
+                .stream()
                 .filter(ExtendedWebElement::isClickable)
                 .filter(ExtendedWebElement::isChecked)
                 .findAny()
