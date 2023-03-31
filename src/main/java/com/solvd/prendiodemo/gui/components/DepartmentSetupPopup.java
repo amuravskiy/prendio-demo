@@ -75,7 +75,7 @@ public class DepartmentSetupPopup extends BasePopup {
     }
 
     public String getWatchersText() {
-        return watchersBlock.getText() + watchersCountBlock.getAttribute("innerText");
+        return watchersBlock.getText();
     }
 
     public boolean isWatchersTableEmpty() {
