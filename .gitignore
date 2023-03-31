@@ -1,0 +1,10 @@
+/log
+/out
+/target
+/.idea
+/reports
+*.iml
+*.log
+*.txt
+*.jar
+*.key
