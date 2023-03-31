@@ -16,6 +16,9 @@ public class DepWatcherSetupPopup extends BasePopup {
     @FindBy(xpath = "//input[@id='deptapproveliit']")
     private ExtendedWebElement notifyAtField;
 
+    @FindBy(id = "Savedeptwatch")
+    private ExtendedWebElement saveButton;
+
     public DepWatcherSetupPopup(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
     }
@@ -25,5 +28,9 @@ public class DepWatcherSetupPopup extends BasePopup {
         WatcherInfo watcherInfo = new WatcherInfo(watcherSelect.getText(), String.valueOf(RandomUtils.nextInt(2, 10000)));
         notifyAtField.type(watcherInfo.getNotifyAt());
         return watcherInfo;
+    }
+
+    public void clickSave() {
+        saveButton.click();
     }
 }

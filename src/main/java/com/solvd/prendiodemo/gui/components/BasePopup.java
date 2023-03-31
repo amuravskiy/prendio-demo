@@ -30,9 +30,6 @@ public class BasePopup extends AbstractUIObject {
     @FindBy(xpath = "..//div[@class='popuplast_div' and contains(text(), 'Created')]")
     private ExtendedWebElement createdTrail;
 
-    @FindBy(id = "./input[@type='button' and @value='Save']")
-    private ExtendedWebElement saveButton;
-
     public BasePopup(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
         setUiLoadedMarker(popupHeader);
@@ -50,10 +47,6 @@ public class BasePopup extends AbstractUIObject {
 
     public void clickClose() {
         closeButton.click();
-    }
-
-    public void clickSave() {
-        saveButton.click();
     }
 
     public PopupLeftMenu getPopupLeftMenu() {

@@ -51,6 +51,9 @@ public class DepartmentSetupPopup extends BasePopup {
     @FindBy(xpath = "//div[h2[text()='CONFIRMATION']]")
     private YesNoPopup yesNoPopup;
 
+    @FindBy(id = "SaveDepartment")
+    private ExtendedWebElement saveButton;
+
     public DepartmentSetupPopup(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
     }
@@ -90,6 +93,10 @@ public class DepartmentSetupPopup extends BasePopup {
     public YesNoPopup close() {
         super.clickClose();
         return yesNoPopup;
+    }
+
+    public void clickSave() {
+        saveButton.click();
     }
 
     public String selectAnyUser() {

@@ -35,8 +35,8 @@ public class ReceiverScanPage extends ReceiverPage {
     }
 
     public void addUploadFile() {
-        LOGGER.info(System.getProperty("user.dir"));
-        fileInput.type(R.CONFIG.get("sample_pdf_zebrunner_path"));
+        LOGGER.error(System.getProperty("user.dir"));
+        fileInput.type(System.getProperty("user.dir")+"/resources/sample_slip.pdf");
     }
 
     public void clickUpload() {
