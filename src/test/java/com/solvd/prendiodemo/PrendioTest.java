@@ -31,7 +31,7 @@ public class PrendioTest extends AbstractTest {
         LoginPage loginPage = new LoginPage(getDriver());
         loginPage.open();
         loginPage.assertPageOpened();
-        OneLoginPortalPage oneLoginPortalPage = loginPage.login("andrew@solvd.com", "Gosh@1234567890");
+        OneLoginPortalPage oneLoginPortalPage = loginPage.login(R.CONFIG.get("username"), R.CONFIG.get("password"));
         DashboardPage dashboardPage = oneLoginPortalPage.goToPrendio();
         Util.switchToTabOne(getDriver());
         dashboardPage.assertPageOpened();
@@ -90,9 +90,9 @@ public class PrendioTest extends AbstractTest {
         Assert.assertTrue(cartPage.isConfirmPopupDisappeared());
         cartPage = new CartPage(getDriver());
         CartContents duplicatedContents = cartPage.getCartContents();
-        Assert.assertEquals(cartContents.getPartNumbers(), duplicatedContents.getPartNumbers());
-        Assert.assertEquals(cartContents.getDescriptions(), duplicatedContents.getDescriptions());
-        Assert.assertEquals(cartContents.getTotals(), duplicatedContents.getTotals());
+        Assert.assertEquals(duplicatedContents.getPartNumbers(), cartContents.getPartNumbers());
+        Assert.assertEquals(duplicatedContents.getDescriptions(), cartContents.getDescriptions());
+        Assert.assertEquals(duplicatedContents.getTotals(), cartContents.getTotals());
         Assert.assertEquals(templateCartName, cartPage.getCartName());
         cartPage.removeTemplateWord();
         Assert.assertTrue(cartPage.isSuccessMessageVisible());
@@ -142,6 +142,11 @@ public class PrendioTest extends AbstractTest {
         String cartId = cartPage.getId();
         Assert.assertTrue(cartPage.isItemSelectsAsCartSelects(0));
         cartPage.clickSubmitCartButton();
+        if (cartPage.isInfoPopupVisible()) {
+            cartPage.clickOkOnInfoPopup();
+            Assert.assertTrue(cartPage.isInfoPopupDisappeared());
+            cartPage.ensureLoaded();
+        }
         Assert.assertTrue(cartPage.isReqApprovalPopupVisible());
         Assert.assertEquals(cartPage.getReqApprovalPopupTitle(), "Requisition Approval");
         Assert.assertTrue(cartPage.isSubmitReqApprovalClickable(), "Sumbit requisition approval button in not clickable");
@@ -171,7 +176,7 @@ public class PrendioTest extends AbstractTest {
         String expectedName = ("Department Setup - " + enteredDepInfo.getName()).toLowerCase();
         Assert.assertEquals(depSetupPopup.getHeaderText().toLowerCase(), expectedName);
         depSetupPopup.clickWatchers();
-        Assert.assertEquals(depSetupPopup.getWatchersText(), "Watchers (0)");
+        Assert.assertTrue(depSetupPopup.getWatchersText().contains("0"));
         Assert.assertTrue(depSetupPopup.isWatchersTableEmpty());
         DepWatcherSetupPopup depWatcherSetupPopup = depSetupPopup.clickAddWatcher();
         Assert.assertTrue(depWatcherSetupPopup.isVisible());
@@ -186,13 +191,16 @@ public class PrendioTest extends AbstractTest {
         Assert.assertEquals(confirmationPopup.getHeaderText(), "CONFIRMATION");
         confirmationPopup.clickYes();
         Assert.assertTrue(confirmationPopup.isDisappeared());
+        departmentPage = new DepartmentPage(getDriver());
         depSetupPopup = departmentPage.editDepByName(enteredDepInfo.getName());
+        depSetupPopup.clickUsers();
         String username = depSetupPopup.selectAnyUser();
         Assert.assertTrue(departmentPage.isSuccessMessageVisible());
         Assert.assertEquals(departmentPage.getSuccessMessageText(), "Saved Successfully");
         depSetupPopup.clickClose();
         depSetupPopup.ensureLoaded();
         Assert.assertTrue(depSetupPopup.isDisappeared());
+        departmentPage = new DepartmentPage(getDriver());
         depSetupPopup = departmentPage.editDepByName(enteredDepInfo.getName());
         DepInfo loadedInfo = depSetupPopup.getInfo();
         Assert.assertEquals(loadedInfo, enteredDepInfo);

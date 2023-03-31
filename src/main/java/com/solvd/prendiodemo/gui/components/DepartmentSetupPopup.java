@@ -9,11 +9,11 @@ import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
-import java.util.List;
-
 public class DepartmentSetupPopup extends BasePopup {
 
     private final By usernameOfTheCheckboxLocator = By.xpath("..//..//..//td");
+
+    private final By membersCheckboxesLocator = By.xpath("//table[@id='tbldeptuser']//input[@class='memberdeptchk']");
 
     @FindBy(id = "txtdepname")
     private ExtendedWebElement depNameField;
@@ -39,9 +39,6 @@ public class DepartmentSetupPopup extends BasePopup {
     @FindBy(xpath = "//div[h2[text()='Department Watcher Setup']]")
     private DepWatcherSetupPopup depWatcherSetupPopup;
 
-    @FindBy(xpath = "//table[@id='tbldeptuser']//input[@class='memberdeptchk']")
-    private List<ExtendedWebElement> memberCheckboxes;
-
     @FindBy(xpath = "//table[@id='tbldeptwatcher']//td[1]")
     private ExtendedWebElement firstWatcherName;
 
@@ -50,6 +47,9 @@ public class DepartmentSetupPopup extends BasePopup {
 
     @FindBy(xpath = "//div[h2[text()='CONFIRMATION']]")
     private YesNoPopup yesNoPopup;
+
+    @FindBy(id = "SaveDepartment")
+    private ExtendedWebElement saveButton;
 
     public DepartmentSetupPopup(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
@@ -75,6 +75,7 @@ public class DepartmentSetupPopup extends BasePopup {
     }
 
     public String getWatchersText() {
+        LOGGER.info(watchersBlock.getText() + watchersCountBlock.getAttribute("innerText"));
         return watchersBlock.getText() + watchersCountBlock.getAttribute("innerText");
     }
 
@@ -92,25 +93,35 @@ public class DepartmentSetupPopup extends BasePopup {
         return yesNoPopup;
     }
 
+    public void clickSave() {
+        saveButton.click();
+    }
+
     public String selectAnyUser() {
-        ExtendedWebElement toCheck = memberCheckboxes.stream()
+        ensureLoaded();
+        ExtendedWebElement toCheck = findExtendedWebElements(membersCheckboxesLocator)
+                .stream()
                 .filter(ExtendedWebElement::isClickable)
                 .findAny()
                 .orElseThrow();
-        toCheck.check();
+        toCheck.clickByJs();
         return toCheck.findExtendedWebElement(usernameOfTheCheckboxLocator).getText();
     }
 
     public DepInfo getInfo() {
-        return new DepInfo(depNameField.getText(), depDescField.getText(), depNotesField.getText());
+        return new DepInfo(depNameField.getAttribute("value"),
+                depDescField.getAttribute("value"),
+                depNotesField.getAttribute("value"));
     }
 
     public WatcherInfo getWatcherInfo() {
-        return new WatcherInfo(firstWatcherName.getText(), firstWatcherNotifyAt.getText());
+        String watchedNotifyAtInteger = firstWatcherNotifyAt.getText().replace(".00", "").replace(",", "");
+        return new WatcherInfo(firstWatcherName.getText(), watchedNotifyAtInteger);
     }
 
     public String getSelectedUserName() {
-        ExtendedWebElement selected = memberCheckboxes.stream()
+        ExtendedWebElement selected = findExtendedWebElements(membersCheckboxesLocator)
+                .stream()
                 .filter(ExtendedWebElement::isClickable)
                 .filter(ExtendedWebElement::isChecked)
                 .findAny()

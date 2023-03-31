@@ -35,6 +35,9 @@ public class AddSupplierPopup extends BasePopup {
     @FindBy(id = "stxtstreet1")
     private ExtendedWebElement addressLine1;
 
+    @FindBy(id = "Savesupplier")
+    private ExtendedWebElement saveButton;
+
     public AddSupplierPopup(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
     }
@@ -50,5 +53,9 @@ public class AddSupplierPopup extends BasePopup {
         defaultUserPhoneField.type(RandomStringUtils.randomNumeric(10));
         addressLine1.type(RandomStringUtils.randomAlphabetic(20));
         return supplierName;
+    }
+
+    public void clickSave() {
+        saveButton.click();
     }
 }

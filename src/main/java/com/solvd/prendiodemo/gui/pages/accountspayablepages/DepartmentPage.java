@@ -46,7 +46,6 @@ public class DepartmentPage extends BasePage {
                 .orElseThrow()
                 .getEditIcon()
                 .click();
-        ensureLoaded();
         return new DepartmentPage(driver).depSetupPopup;
     }
 }

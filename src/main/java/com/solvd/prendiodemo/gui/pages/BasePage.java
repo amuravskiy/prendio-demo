@@ -6,27 +6,39 @@ import com.solvd.prendiodemo.gui.components.NavigationMenu;
 import com.solvd.prendiodemo.gui.components.NavigationTabs;
 import com.solvd.prendiodemo.gui.components.SearchBlock;
 import com.solvd.prendiodemo.gui.components.UserPhotoBlock;
+import com.zebrunner.carina.utils.R;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BasePage extends AbstractPage {
 
+    protected static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+
     @FindBy(className = "logo_block")
     protected ExtendedWebElement logoBlock;
+
     @FindBy(className = "searchblock")
     protected SearchBlock searchBlock;
+
     @FindBy(className = "userstatusmenu_block")
     protected UserPhotoBlock userphotoblock;
+
     @FindBy(className = "navigationmenu")
     protected NavigationMenu navigationMenu;
+
     @FindBy(className = "rtabs")
     protected NavigationTabs navigationTabs;
+
     @FindBy(className = "successmsg")
     protected ExtendedWebElement successMessage;
+
     @FindBy(className = "HiderText")
     private ExtendedWebElement loadingBlock;
 
@@ -69,6 +81,7 @@ public class BasePage extends AbstractPage {
     }
 
     public void ensureLoaded() {
+        loadingBlock.isVisible(R.CONFIG.getInt("loading_block_appear_timeout"));
         loadingBlock.waitUntilElementDisappear(EXPLICIT_TIMEOUT);
     }
 

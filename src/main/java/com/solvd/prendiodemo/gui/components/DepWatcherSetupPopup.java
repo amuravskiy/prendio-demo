@@ -10,11 +10,14 @@ import org.openqa.selenium.support.FindBy;
 
 public class DepWatcherSetupPopup extends BasePopup {
 
-    @FindBy(xpath = "//select[@id='selectwatcher']")
+    @FindBy(id = "selectwatcher")
     private ExtendedWebElement watcherSelect;
 
     @FindBy(xpath = "//input[@id='deptapproveliit']")
     private ExtendedWebElement notifyAtField;
+
+    @FindBy(id = "Savedeptwatch")
+    private ExtendedWebElement saveButton;
 
     public DepWatcherSetupPopup(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
@@ -22,8 +25,12 @@ public class DepWatcherSetupPopup extends BasePopup {
 
     public WatcherInfo fillWatcher() {
         Util.selectByIndex(watcherSelect, 1);
-        WatcherInfo watcherInfo = new WatcherInfo(watcherSelect.getText(), String.valueOf(RandomUtils.nextInt(2, 10000)));
+        WatcherInfo watcherInfo = new WatcherInfo(watcherSelect.getSelectedValue(), String.valueOf(RandomUtils.nextInt(2, 10000)));
         notifyAtField.type(watcherInfo.getNotifyAt());
         return watcherInfo;
+    }
+
+    public void clickSave() {
+        saveButton.click();
     }
 }

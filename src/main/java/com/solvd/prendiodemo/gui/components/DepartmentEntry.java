@@ -8,7 +8,7 @@ import org.openqa.selenium.support.FindBy;
 
 public class DepartmentEntry extends AbstractUIObject {
 
-    @FindBy(xpath = "./td[1]")
+    @FindBy(xpath = ".//td[1]")
     private ExtendedWebElement nameContainer;
 
     @FindBy(xpath = ".//a[@class='edit_icon']")
