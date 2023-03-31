@@ -64,7 +64,7 @@ public class ReceiverScanPage extends ReceiverPage {
             }
         }
         Assert.assertTrue(found, "Downloaded document is not found");
-        fileInput.type(file.getAbsolutePath());
+        fileInput.type(f.getAbsolutePath());
     }
 
     public void clickUpload() {
