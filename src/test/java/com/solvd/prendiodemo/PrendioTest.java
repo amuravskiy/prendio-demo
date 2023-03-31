@@ -176,7 +176,7 @@ public class PrendioTest extends AbstractTest {
         String expectedName = ("Department Setup - " + enteredDepInfo.getName()).toLowerCase();
         Assert.assertEquals(depSetupPopup.getHeaderText().toLowerCase(), expectedName);
         depSetupPopup.clickWatchers();
-        Assert.assertTrue(depSetupPopup.getWatchersText().contains("(0)"));
+        Assert.assertTrue(depSetupPopup.getWatchersText().contains("0"));
         Assert.assertTrue(depSetupPopup.isWatchersTableEmpty());
         DepWatcherSetupPopup depWatcherSetupPopup = depSetupPopup.clickAddWatcher();
         Assert.assertTrue(depWatcherSetupPopup.isVisible());

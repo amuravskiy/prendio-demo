@@ -44,4 +44,12 @@ public class WatcherInfo {
         }
         return Objects.equals(notifyAt, that.notifyAt);
     }
+
+    @Override
+    public String toString() {
+        return "WatcherInfo{" +
+                "watcherName='" + watcherName + '\'' +
+                ", notifyAt='" + notifyAt + '\'' +
+                '}';
+    }
 }
