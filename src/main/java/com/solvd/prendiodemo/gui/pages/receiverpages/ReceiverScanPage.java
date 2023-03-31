@@ -34,7 +34,7 @@ public class ReceiverScanPage extends ReceiverPage {
     }
 
     public void addUploadFile() {
-        fileInput.type("/workdir/sample_slip.pdf");
+        fileInput.type("/workdir/target/classes/sample_slip.pdf");
     }
 
     public void clickUpload() {

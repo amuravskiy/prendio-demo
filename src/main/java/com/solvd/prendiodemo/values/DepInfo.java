@@ -1,5 +1,7 @@
 package com.solvd.prendiodemo.values;
 
+import java.util.Objects;
+
 public class DepInfo {
 
     private String name;
@@ -43,5 +45,25 @@ public class DepInfo {
                 ", desc='" + desc + '\'' +
                 ", notes='" + notes + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        DepInfo depInfo = (DepInfo) o;
+
+        if (!Objects.equals(name, depInfo.name)) {
+            return false;
+        }
+        if (!Objects.equals(desc, depInfo.desc)) {
+            return false;
+        }
+        return Objects.equals(notes, depInfo.notes);
     }
 }
