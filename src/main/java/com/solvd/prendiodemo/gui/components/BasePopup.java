@@ -54,7 +54,9 @@ public class BasePopup extends AbstractUIObject {
     }
 
     public String getCreatedTrailText() {
-        return createdTrail.getText();
+        String text = createdTrail.getText();
+        LOGGER.info("Trail record text: " + createdTrail.getText());
+        return text;
     }
 
     public boolean isVisible() {

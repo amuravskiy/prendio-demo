@@ -23,6 +23,6 @@ public class ProfilePage extends BasePage {
     }
 
     public String getFullName() {
-        return firstName.getText() + " " + lastName.getText();
+        return firstName.getAttribute("value") + " " + lastName.getAttribute("value");
     }
 }
