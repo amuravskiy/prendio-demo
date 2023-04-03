@@ -21,7 +21,6 @@ public class UserPhotoBlock extends AbstractUIObject {
 
     public UserStatusWindow openUserStatus() {
         userStatusOpener.click();
-        userStatusOpener.isVisible();
         return userStatusWindow;
     }
 

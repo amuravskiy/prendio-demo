@@ -42,6 +42,9 @@ public class BasePage extends AbstractPage {
     @FindBy(className = "HiderText")
     private ExtendedWebElement loadingBlock;
 
+    @FindBy(className = "ooolink")
+    private ExtendedWebElement outLink;
+
     public BasePage(WebDriver driver) {
         super(driver);
         ensureLoaded();
@@ -81,14 +84,14 @@ public class BasePage extends AbstractPage {
     }
 
     public void ensureLoaded() {
-        loadingBlock.isVisible(R.CONFIG.getInt("loading_block_appear_timeout"));
+        loadingBlock.isVisible(R.CONFIG.getLong("loading_block_appear_timeout"));
         loadingBlock.waitUntilElementDisappear(EXPLICIT_TIMEOUT);
     }
 
     public String getFullName() {
         String fullname = userphotoblock.openProfile().getFullName();
         LOGGER.info("Fullname from user profile: " + fullname);
-        return userphotoblock.openProfile().getFullName();
+        return fullname;
     }
 
     public boolean isSuccessMessageVisible() {
@@ -101,5 +104,13 @@ public class BasePage extends AbstractPage {
 
     public String getSuccessMessageText() {
         return successMessage.getText();
+    }
+
+    public UserPhotoBlock getUserphotoblock() {
+        return userphotoblock;
+    }
+
+    public boolean isOutLinkVisible() {
+        return outLink.isVisible();
     }
 }

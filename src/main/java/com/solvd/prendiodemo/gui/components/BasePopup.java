@@ -3,6 +3,7 @@ package com.solvd.prendiodemo.gui.components;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ElementLoadingStrategy;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractUIObject;
+import com.zebrunner.carina.utils.R;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
@@ -38,6 +39,7 @@ public class BasePopup extends AbstractUIObject {
     }
 
     public void ensureLoaded() {
+        loadingBlock.isVisible(R.CONFIG.getLong("loading_block_appear_timeout"));
         loadingBlock.waitUntilElementDisappear(EXPLICIT_TIMEOUT);
     }
 

@@ -257,4 +257,32 @@ public class PrendioTest extends AbstractTest {
         Assert.assertEquals(vouchersPage.getFirstVoucherInvDateText(), slipInfoEntered.getInvDate());
         Assert.assertEquals(vouchersPage.getFirstVoucherInvNumberText(), slipInfoEntered.getInvoiceNumber());
     }
+
+    @Test(description = "Verifies user profile update")
+    public void checkUserProfileUpdateTest() {
+        DashboardPage dashboardPage = Util.loginAs(getDriver());
+        dashboardPage.assertPageOpened();
+        UserStatusWindow statusWindow = dashboardPage.getUserphotoblock().openUserStatus();
+        statusWindow.assertUIObjectPresent();
+        ProfilePage profilePage = statusWindow.clickViewProfileButton();
+        profilePage.assertPageOpened();
+        UserProfileInfo filledInfo = profilePage.fillProfileInfo();
+        profilePage.hoverUploadButton();
+        Assert.assertTrue(profilePage.isUploadButtonVisible());
+        ImageUploadPopup imageUploadPopup = profilePage.clickUploadButton();
+        Assert.assertTrue(imageUploadPopup.isVisible());
+        imageUploadPopup.attachPhoto();
+        Assert.assertTrue(imageUploadPopup.imageAppeared());
+        imageUploadPopup.clickUpload();
+        imageUploadPopup.ensureLoaded();
+        Assert.assertTrue(imageUploadPopup.isDisappeared());
+        Assert.assertEquals(profilePage.getSuccessMessageText(), "Image Uploaded Successfully");
+        profilePage.clickSave();
+        Assert.assertEquals(profilePage.getSuccessMessageText(), "User Profile Saved.");
+        profilePage.refresh();
+        profilePage = new ProfilePage(getDriver());
+        profilePage.assertPageOpened();
+        Assert.assertEquals(profilePage.getProfileInfo(), filledInfo);
+        Assert.assertTrue(profilePage.isOutLinkVisible());
+    }
 }
