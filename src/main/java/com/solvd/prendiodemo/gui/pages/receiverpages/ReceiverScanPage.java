@@ -43,15 +43,15 @@ public class ReceiverScanPage extends ReceiverPage {
     }
 
     public void addUploadFile() {
-        RemoteWebDriver drv = (RemoteWebDriver) new Augmenter().augment(driver);
-        drv.setFileDetector(new LocalFileDetector());
+//        RemoteWebDriver drv = (RemoteWebDriver) new Augmenter().augment(driver);
+//        drv.setFileDetector(new LocalFileDetector());
         File file = new File("sample_slip.pdf");
         try {
             FileUtils.copyURLToFile(new URL(R.CONFIG.get("sample_slip_url")), file);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        fileInput.type(file.getAbsolutePath());
+        fileInput.attachFile(file.getAbsolutePath());
     }
 
     public void clickUpload() {
