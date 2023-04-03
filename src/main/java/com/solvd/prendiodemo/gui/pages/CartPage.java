@@ -26,7 +26,7 @@ public class CartPage extends BasePage {
     @FindBy(xpath = "//div[@id='btmCartDiv']//div[@id='btncopycart']")
     private ExtendedWebElement duplicateCartButton;
 
-    @FindBy(xpath = "//div[@id='confirmpopup' and //child::input[@value='Ok']]")
+    @FindBy(xpath = "//div[@id='popupform' and //child::input[@value='Ok']]")
     private OKPopup okPopup;
 
     @FindBy(xpath = "//div[@id='popupform' and h2[text()='CONFIRMATION']]")

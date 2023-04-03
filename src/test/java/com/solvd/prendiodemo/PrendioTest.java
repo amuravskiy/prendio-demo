@@ -19,11 +19,12 @@ import org.testng.annotations.Test;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class PrendioTest extends AbstractTest {
 
     private static int hoursOffsetFromUTC = R.CONFIG.getInt("hours_offset_from_utc");
-    private static DateTimeFormatter formatterLong = DateTimeFormatter.ofPattern("MM/dd/yyyy").withZone(ZoneOffset.ofHours(hoursOffsetFromUTC));
     private static DateTimeFormatter formatterShort = DateTimeFormatter.ofPattern("M/d/yyyy").withZone(ZoneOffset.ofHours(hoursOffsetFromUTC));
 
     @Test(description = "Verifies login works properly")
@@ -53,7 +54,7 @@ public class PrendioTest extends AbstractTest {
         Assert.assertTrue(suppliersPage.isSuccessMessageVisible());
         Assert.assertEquals(suppliersPage.getSuccessMessageText(), "Supplier Added Successfully");
         addSupplierPopup.clickClose();
-        addSupplierPopup.assertUIObjectNotPresent();
+        Assert.assertTrue(addSupplierPopup.isDisappeared());
         AccountPayablePage accountPayablePage = suppliersPage.clickAccountsPayable();
         accountPayablePage.assertPageOpened();
         AccountsPayableSuppliersPage accountsPayableSuppliersPage = accountPayablePage.clickSuppliers();
@@ -61,9 +62,18 @@ public class PrendioTest extends AbstractTest {
         BasePopup supplierInfoPopup = accountsPayableSuppliersPage.clickSupplierByName(supplierName);
         Assert.assertTrue(supplierInfoPopup.isUIObjectPresent());
         String trailRecordText = supplierInfoPopup.getCreatedTrailText();
-        Assert.assertTrue(trailRecordText.contains(fullName));
-        String currentDateFormatted = formatterLong.format(Instant.now());
-        Assert.assertTrue(trailRecordText.contains(currentDateFormatted));
+        DateTimeFormatter addSupplierTrailDateFormatter = DateTimeFormatter
+                .ofPattern(R.CONFIG.get("add_supplier_date_format"))
+                .withZone(ZoneOffset.ofHours(hoursOffsetFromUTC));
+        String currentDateFormatted = addSupplierTrailDateFormatter.format(Instant.now());
+        Matcher trailFullnameMatcher = Pattern.compile(R.CONFIG.get("trail_fullname_regex")).matcher(trailRecordText);
+        Matcher trailDateMatcher = Pattern.compile(R.CONFIG.get("trail_date_regex")).matcher(trailRecordText);
+        Assert.assertTrue(trailDateMatcher.find(), "Date is not found in trail text");
+        Assert.assertTrue(trailFullnameMatcher.find(), "Full name is not found in trail text");
+        String trailDate = trailDateMatcher.group(1);
+        String trailFullname = trailFullnameMatcher.group(1);
+        Assert.assertEquals(trailDate, currentDateFormatted);
+        Assert.assertEquals(trailFullname, fullName);
     }
 
     @Test(description = "Verifies cart remains unchanged after duplication")

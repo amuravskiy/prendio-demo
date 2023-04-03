@@ -12,9 +12,6 @@ public class UserStatusWindow extends AbstractUIObject {
     @FindBy(xpath = "//a[text()='View profile']")
     private ExtendedWebElement viewProfileButton;
 
-    @FindBy(xpath = "//a[text()='Sign out']")
-    private ExtendedWebElement signOutButton;
-
     public UserStatusWindow(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
     }
@@ -24,7 +21,7 @@ public class UserStatusWindow extends AbstractUIObject {
         return new ProfilePage(driver);
     }
 
-    public void clickSignOutButton() {
-        signOutButton.click();
+    public boolean isVisible() {
+        return getRootExtendedElement().isVisible();
     }
 }

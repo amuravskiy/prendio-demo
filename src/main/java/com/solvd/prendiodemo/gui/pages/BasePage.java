@@ -86,6 +86,8 @@ public class BasePage extends AbstractPage {
     }
 
     public String getFullName() {
+        String fullname = userphotoblock.openProfile().getFullName();
+        LOGGER.info("Fullname from user profile: " + fullname);
         return userphotoblock.openProfile().getFullName();
     }
 
