@@ -13,7 +13,6 @@ import com.solvd.prendiodemo.utils.Util;
 import com.solvd.prendiodemo.values.*;
 import com.zebrunner.carina.utils.R;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -24,7 +23,8 @@ import java.time.format.DateTimeFormatter;
 public class PrendioTest extends AbstractTest {
 
     private static int hoursOffsetFromUTC = R.CONFIG.getInt("hours_offset_from_utc");
-    private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy").withZone(ZoneOffset.ofHours(hoursOffsetFromUTC));
+    private static DateTimeFormatter formatterLong = DateTimeFormatter.ofPattern("MM/dd/yyyy").withZone(ZoneOffset.ofHours(hoursOffsetFromUTC));
+    private static DateTimeFormatter formatterShort = DateTimeFormatter.ofPattern("M/d/yyyy").withZone(ZoneOffset.ofHours(hoursOffsetFromUTC));
 
     @Test(description = "Verifies login works properly")
     public void checkLoginTest() {
@@ -62,7 +62,7 @@ public class PrendioTest extends AbstractTest {
         Assert.assertTrue(supplierInfoPopup.isUIObjectPresent());
         String trailRecordText = supplierInfoPopup.getCreatedTrailText();
         Assert.assertTrue(trailRecordText.contains(fullName));
-        String currentDateFormatted = formatter.format(Instant.now());
+        String currentDateFormatted = formatterLong.format(Instant.now());
         Assert.assertTrue(trailRecordText.contains(currentDateFormatted));
     }
 
@@ -228,7 +228,7 @@ public class PrendioTest extends AbstractTest {
         matchPage.assertPageOpened();
         Assert.assertTrue(matchPage.isScanItemVisible());
         matchPage.checkFirstItem();
-        String currentDateFormatted = StringUtils.stripStart(formatter.format(Instant.now()), "0");
+        String currentDateFormatted = formatterShort.format(Instant.now());
         SlipInfo slipInfoEntered = new SlipInfo.SlipInfoBuilder()
                 .setRecDate(currentDateFormatted)
                 .setInvoiceNumber(RandomStringUtils.randomNumeric(4))
