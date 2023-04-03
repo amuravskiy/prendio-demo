@@ -75,7 +75,6 @@ public class DepartmentSetupPopup extends BasePopup {
     }
 
     public String getWatchersText() {
-        LOGGER.info(watchersBlock.getText() + watchersCountBlock.getAttribute("innerText"));
         return watchersBlock.getText() + watchersCountBlock.getAttribute("innerText");
     }
 
