@@ -6,6 +6,9 @@ import com.solvd.prendiodemo.gui.pages.ReceiverPage;
 import com.zebrunner.carina.utils.R;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.remote.Augmenter;
+import org.openqa.selenium.remote.LocalFileDetector;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.FindBy;
 
 import java.io.File;
@@ -46,7 +49,7 @@ public class ReceiverScanPage extends ReceiverPage {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        fileInput.type(file.getAbsolutePath());
+        fileInput.attachFile(file.getAbsolutePath());
     }
 
     public void clickUpload() {
