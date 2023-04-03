@@ -278,6 +278,7 @@ public class PrendioTest extends AbstractTest {
         Assert.assertTrue(imageUploadPopup.isDisappeared());
         Assert.assertEquals(profilePage.getSuccessMessageText(), "Image Uploaded Successfully");
         profilePage.clickSave();
+        profilePage.ensureLoaded();
         Assert.assertEquals(profilePage.getSuccessMessageText(), "User Profile Saved.");
         profilePage.refresh();
         profilePage = new ProfilePage(getDriver());
