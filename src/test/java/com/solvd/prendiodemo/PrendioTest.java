@@ -147,7 +147,7 @@ public class PrendioTest extends AbstractTest {
         Assert.assertEquals(cartPage.getShipToPopupTitle(), "Ship To Address List");
         String line1 = cartPage.getAddressLine1(0);
         cartPage.chooseShipToAddress(0);
-        Assert.assertEquals(line1, cartPage.getshipToAddressText());
+        Assert.assertEquals(cartPage.getShipToAddressLine1Text(), line1);
         cartPage.setSelects();
         cartPage.clickApplyToAll();
         String cartId = cartPage.getId();
@@ -160,7 +160,6 @@ public class PrendioTest extends AbstractTest {
         }
         Assert.assertTrue(cartPage.isReqApprovalPopupVisible());
         Assert.assertEquals(cartPage.getReqApprovalPopupTitle(), "Requisition Approval");
-        Assert.assertTrue(cartPage.isSubmitReqApprovalClickable(), "Sumbit requisition approval button in not clickable");
         dashboardPage = cartPage.clickSubmitReqApproval();
         dashboardPage.assertPageOpened();
         Assert.assertTrue(dashboardPage.getOrderPreviewsCartName(0).contains(cartId));

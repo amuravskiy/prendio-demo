@@ -189,8 +189,8 @@ public class CartPage extends BasePage {
         ensureLoaded();
     }
 
-    public String getshipToAddressText() {
-        return shipToAddressText.getText();
+    public String getShipToAddressLine1Text() {
+        return shipToAddressText.getText().split("\n")[0];
     }
 
     public void setSelects() {
