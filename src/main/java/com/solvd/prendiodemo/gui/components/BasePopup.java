@@ -32,6 +32,9 @@ public class BasePopup extends AbstractUIObject {
     @FindBy(xpath = "..//div[@class='popuplast_div' and contains(text(), 'Created')]")
     private ExtendedWebElement createdTrail;
 
+    @FindBy(xpath = "//input[@value='OK' or @value='Ok' or @value='Yes' or @value='Submit']")
+    private ExtendedWebElement confirmationButton;
+
     public BasePopup(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
         setUiLoadedMarker(popupHeader);
@@ -62,11 +65,24 @@ public class BasePopup extends AbstractUIObject {
         return text;
     }
 
+    public void assertVisible() {
+        Assert.assertTrue(getRootExtendedElement().isVisible(), "Popup \"" + getHeaderText() + "\" is not visible");
+    }
+
+    public void assertVisibleWithText(String expected) {
+        Assert.assertTrue(getRootExtendedElement().isVisible(), "Popup \"" + getHeaderText() + "\" is not visible");
+        Assert.assertEquals(getHeaderText(), expected);
+    }
+
     public boolean isVisible() {
         return getRootExtendedElement().isVisible();
     }
 
     public void assertDisappeared() {
         Assert.assertTrue(this.getRootExtendedElement().waitUntilElementDisappear(EXPLICIT_TIMEOUT));
+    }
+
+    public void clickConfirmationButton() {
+        confirmationButton.click();
     }
 }

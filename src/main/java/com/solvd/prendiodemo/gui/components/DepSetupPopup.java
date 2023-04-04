@@ -46,7 +46,7 @@ public class DepSetupPopup extends BasePopup {
     private ExtendedWebElement firstWatcherNotifyAt;
 
     @FindBy(xpath = "//div[h2[text()='CONFIRMATION']]")
-    private YesNoPopup yesNoPopup;
+    private BasePopup BasePopup;
 
     @FindBy(id = "SaveDepartment")
     private ExtendedWebElement saveButton;
@@ -87,9 +87,9 @@ public class DepSetupPopup extends BasePopup {
         return depWatcherSetupPopup;
     }
 
-    public YesNoPopup close() {
+    public BasePopup close() {
         super.clickClose();
-        return yesNoPopup;
+        return BasePopup;
     }
 
     public void clickSave() {

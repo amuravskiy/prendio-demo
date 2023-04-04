@@ -1,12 +1,12 @@
 package com.solvd.prendiodemo.gui.pages.receiverpages;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
-import com.solvd.prendiodemo.gui.components.ConfirmationPopup;
+import com.solvd.prendiodemo.gui.components.BasePopup;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
-public class SupplierSelectPopup extends ConfirmationPopup {
+public class SupplierSelectPopup extends BasePopup {
 
     @FindBy(id = "scansuplier")
     private ExtendedWebElement searchSupplierInput;
