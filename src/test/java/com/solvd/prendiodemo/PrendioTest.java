@@ -6,9 +6,7 @@ import com.solvd.prendiodemo.gui.pages.*;
 import com.solvd.prendiodemo.gui.pages.accountspayablepages.AccountsPayableSuppliersPage;
 import com.solvd.prendiodemo.gui.pages.accountspayablepages.DepartmentPage;
 import com.solvd.prendiodemo.gui.pages.accountspayablepages.VouchersPage;
-import com.solvd.prendiodemo.gui.pages.buyerpages.AddAccountNumbersPopup;
-import com.solvd.prendiodemo.gui.pages.buyerpages.AddressPopup;
-import com.solvd.prendiodemo.gui.pages.buyerpages.BuyerSuppliersPage;
+import com.solvd.prendiodemo.gui.pages.buyerpages.*;
 import com.solvd.prendiodemo.gui.pages.receiverpages.ReceiverScanMatchPage;
 import com.solvd.prendiodemo.gui.pages.receiverpages.ReceiverScanPage;
 import com.solvd.prendiodemo.utils.Util;
@@ -291,7 +289,7 @@ public class PrendioTest extends AbstractTest {
     }
 
     @Test(description = "Verifies supplier creation")
-    public void checkCreateAndEditSupplierTest() {
+    public void checkCreateSupplierTest() {
         DashboardPage dashboardPage = Util.loginAs(getDriver());
         dashboardPage.assertPageOpened();
         BuyerPage buyerPage = dashboardPage.clickBuyer();
@@ -323,5 +321,33 @@ public class PrendioTest extends AbstractTest {
         Assert.assertTrue(addSupplierPopup.isVisible());
         Map<String, String> infoRead = addSupplierPopup.getFullInfo();
         Assert.assertEquals(infoRead, infoEntered);
+    }
+
+    @Test(description = "Verifies shipping address creation")
+    public void checkCreateShippingAddressTest() {
+        DashboardPage dashboardPage = Util.loginAs(getDriver());
+        dashboardPage.assertPageOpened();
+        BuyerPage buyerPage = dashboardPage.clickBuyer();
+        buyerPage.assertPageOpened();
+        AddressesPage addressesPage = buyerPage.clickAddresses();
+        addressesPage.assertPageOpened();
+        AddressSetupPopup addressSetupPopup = addressesPage.clickAddAddress();
+        Assert.assertTrue(addressSetupPopup.isVisible());
+        Assert.assertEquals(addressSetupPopup.getHeaderText(), "Address Setup");
+        Map<String, String> addressInfo = addressSetupPopup.fillInfo();
+        addressSetupPopup.clickSave();
+        addressSetupPopup.ensureLoaded();
+        Assert.assertEquals(addressesPage.getSuccessMessageText(), "Saved Successfully");
+        addressSetupPopup.clickUsers();
+        addressSetupPopup.ensureLoaded();
+        addressSetupPopup.checkAllDefault();
+        addressSetupPopup.assertAllDefaultActive();
+        addressSetupPopup.clickClose();
+        addressSetupPopup.ensureLoaded();
+        addressSetupPopup.assertDisappeared();
+        addressesPage = addressesPage.search(addressInfo.get("line1"));
+        addressesPage.assertAddressFound(addressInfo.get("line1"));
+        addressSetupPopup = addressesPage.editFirstAddress();
+        Assert.assertEquals(addressSetupPopup.getInfo(), addressInfo);
     }
 }
