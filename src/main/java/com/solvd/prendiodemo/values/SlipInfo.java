@@ -8,10 +8,9 @@ public class SlipInfo {
     private String invoiceNumber;
     private String invDate;
     private String invoiceAmount;
-
     private String day;
 
-    public SlipInfo(SlipInfoBuilder builder) {
+    private SlipInfo(SlipInfoBuilder builder) {
         this.recDate = builder.recDate;
         this.invoiceNumber = builder.invoiceNumber;
         this.invDate = builder.invDate;

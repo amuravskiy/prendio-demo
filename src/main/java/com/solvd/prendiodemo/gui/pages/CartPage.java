@@ -181,8 +181,9 @@ public class CartPage extends BasePage {
     }
 
     public String chooseShipToAddress(int index) {
+        String address = shipToPopup.getAddressLine1Text(index);
         shipToPopup.clickAddress(index);
-        return shipToPopup.getAddressLine1Text(index);
+        return address;
     }
 
     public String getShipToAddressLine1Text() {
@@ -226,7 +227,7 @@ public class CartPage extends BasePage {
         return new DashboardPage(driver);
     }
 
-    public boolean isSubmitReqApprovalClickable() {
-        return requisitionApprovalPopup.isClickable();
+    public OKPopup getOkPopup() {
+        return okPopup;
     }
 }

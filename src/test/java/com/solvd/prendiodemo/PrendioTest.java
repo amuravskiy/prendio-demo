@@ -89,8 +89,9 @@ public class PrendioTest extends AbstractTest {
         CartPage cartPage = allCartsPage.clickFirstCart();
         cartPage.assertPageOpened();
         if (cartPage.isInfoPopupVisible()) {
-            cartPage.clickOkOnInfoPopup();
-            Assert.assertTrue(cartPage.isInfoPopupDisappeared());
+            OKPopup okPopup = cartPage.getOkPopup();
+            okPopup.clickOk();
+            okPopup.assertDisappeared();
         }
         CartContents cartContents = cartPage.getCartContents();
         String templateCartId = cartPage.getId();
@@ -154,8 +155,9 @@ public class PrendioTest extends AbstractTest {
         Assert.assertTrue(cartPage.isItemSelectsAsCartSelects(0));
         cartPage.clickSubmitCartButton();
         if (cartPage.isInfoPopupVisible()) {
-            cartPage.clickOkOnInfoPopup();
-            Assert.assertTrue(cartPage.isInfoPopupDisappeared());
+            OKPopup okPopup = cartPage.getOkPopup();
+            okPopup.clickOk();
+            okPopup.assertDisappeared();
             cartPage.ensureLoaded();
         }
         Assert.assertTrue(cartPage.isReqApprovalPopupVisible());
