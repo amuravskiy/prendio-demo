@@ -52,8 +52,7 @@ public class PrendioTest extends AbstractTest {
         BuyerSuppliersPage suppliersPage = buyerPage.clickSuppliers();
         suppliersPage.assertPageOpened();
         AddSupplierPopup addSupplierPopup = suppliersPage.clickAddSupplierButton();
-        addSupplierPopup.assertUIObjectPresent();
-        Assert.assertEquals(addSupplierPopup.getHeaderText(), "Supplier Detail");
+        addSupplierPopup.assertVisibleWithText("Supplier Detail");
         String supplierName = addSupplierPopup.fillRequiredFields();
         addSupplierPopup.clickSave();
         suppliersPage.assertSuccessMessageVisibleWithText("Supplier Added Successfully");
@@ -64,7 +63,7 @@ public class PrendioTest extends AbstractTest {
         AccountsPayableSuppliersPage accountsPayableSuppliersPage = accountPayablePage.clickSuppliers();
         accountsPayableSuppliersPage.assertPageOpened();
         BasePopup supplierInfoPopup = accountsPayableSuppliersPage.clickSupplierByName(supplierName);
-        Assert.assertTrue(supplierInfoPopup.isUIObjectPresent());
+        supplierInfoPopup.assertVisible();
         String trailRecordText = supplierInfoPopup.getCreatedTrailText();
         String currentDateFormatted = addSupplierTrailDateFormatter.format(Instant.now());
         Matcher trailFullnameMatcher = Pattern.compile(R.CONFIG.get("trail_fullname_regex")).matcher(trailRecordText);
@@ -132,7 +131,7 @@ public class PrendioTest extends AbstractTest {
         searchResultPage.assertPageOpened();
         Assert.assertTrue(searchResultPage.waitRetrieving(R.CONFIG.getInt("retrieving_timeout")));
         Assert.assertTrue(searchResultPage.isItemsDisplayed());
-        Assert.assertTrue(searchResultPage.isAllItemTitlesContainQuery(query));
+        Assert.assertTrue(searchResultPage.isAllItemTitlesContainQuery(query), "Not all items contain query string in their title");
         ItemContents itemContents = searchResultPage.getItemContents(index);
         searchResultPage.clickAddToCart(index);
         Assert.assertTrue(searchResultPage.isCreateNewCartButtonDisplayed(index));
@@ -143,7 +142,7 @@ public class PrendioTest extends AbstractTest {
         Assert.assertEquals(itemContentsInCart, itemContents);
         ShipToPopup shipToPopup = cartPage.clickShipToButton();
         shipToPopup.assertVisibleWithText("Ship To Address List");
-        String line1 = cartPage.chooseShipToAddress(0);
+        String line1 = shipToPopup.chooseShipToAddress(0);
         cartPage.ensureLoaded();
         Assert.assertEquals(cartPage.getShipToAddressLine1Text(), line1);
         cartPage.setSelects();
@@ -314,6 +313,7 @@ public class PrendioTest extends AbstractTest {
         addSupplierPopup.assertDisappeared();
         suppliersPage = suppliersPage.search(infoEntered.get("name"));
         addSupplierPopup = suppliersPage.editSupplierByName(infoEntered.get("name"));
+        suppliersPage.ensureLoaded();
         addSupplierPopup.assertVisible();
         Map<String, String> infoRead = addSupplierPopup.getFullInfo();
         Assert.assertEquals(infoRead, infoEntered);
@@ -372,7 +372,7 @@ public class PrendioTest extends AbstractTest {
         Map<String, String> infoEntered = itemPopup.fillInfo();
         Assert.assertEquals(infoEntered.get("genericDesc"), infoEntered.get("desc"));
         itemPopup.clickAddSpec();
-        Assert.assertTrue(itemPopup.getSpecNumber() > 1);
+        Assert.assertTrue(itemPopup.getSpecNumber() > 1, "Spec number has not increased");
         itemPopup.clickSave();
         itemPopup.ensureLoaded();
         suppliersPage.assertSuccessMessageVisibleWithText("Catalog Items Added Successfully");

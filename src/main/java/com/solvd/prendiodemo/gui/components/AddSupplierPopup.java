@@ -87,37 +87,23 @@ public class AddSupplierPopup extends BasePopup {
     }
 
     public Map<String, String> fillInfo() {
-        Map<String, String> info = new HashMap<>();
-        info.put("name", RandomStringUtils.randomAlphabetic(10));
-        supplierNameField.type(info.get("name"));
+        supplierNameField.type(RandomStringUtils.randomAlphabetic(10));
         List.of(shippingMethodSelect, prepaidFreightSelect, paymentTermsSelect, FOBSelect)
                 .forEach(select -> Util.selectByIndex(select, 1));
-        info.put("shippingMethod", Util.getSelectedOptionText(shippingMethodSelect));
-        info.put("repaidFreight", Util.getSelectedOptionText(prepaidFreightSelect));
-        info.put("paymentTerms", Util.getSelectedOptionText(paymentTermsSelect));
-        info.put("FOB", Util.getSelectedOptionText(FOBSelect));
         String email = RandomStringUtils.randomAlphabetic(5) + "@" +
                 RandomStringUtils.randomAlphabetic(4) + "." +
                 RandomStringUtils.randomAlphabetic(3);
-        info.put("email", email);
         emailField.type(email);
-        info.put("defaultServicePhone", RandomStringUtils.randomNumeric(10));
-        defaultUserPhoneField.type(info.get("defaultServicePhone"));
-        info.put("remitName", RandomStringUtils.randomAlphabetic(20));
-        remitNameField.type(info.get("remitName"));
+        defaultUserPhoneField.type(RandomStringUtils.randomNumeric(10));
+        remitNameField.type(RandomStringUtils.randomAlphabetic(20));
         for (int i = 1; i < 5; i++) {
-            info.put("line" + i, RandomStringUtils.randomAlphabetic(20));
-            findExtendedWebElement(By.id(partialLineId + i)).type(info.get("line" + i));
+            findExtendedWebElement(By.id(partialLineId + i)).type(RandomStringUtils.randomAlphabetic(20));
         }
-        info.put("city", RandomStringUtils.randomAlphabetic(20));
-        cityField.type(info.get("city"));
-        info.put("state", RandomStringUtils.randomAlphabetic(20));
-        stateField.type(info.get("state"));
-        info.put("zip", RandomStringUtils.randomAlphabetic(20));
-        zipCodeField.type(info.get("zip"));
-        info.put("notes", RandomStringUtils.randomAlphabetic(50));
-        notesField.type(info.get("notes"));
-        return info;
+        cityField.type(RandomStringUtils.randomAlphabetic(20));
+        stateField.type(RandomStringUtils.randomAlphabetic(20));
+        zipCodeField.type(RandomStringUtils.randomAlphabetic(20));
+        notesField.type(RandomStringUtils.randomAlphabetic(50));
+        return getGeneralInfo();
     }
 
     public void clickSave() {
@@ -133,7 +119,7 @@ public class AddSupplierPopup extends BasePopup {
         return addAccountNumbersPopup;
     }
 
-    public Map<String, String> getFullInfo() {
+    public Map<String, String> getGeneralInfo() {
         Map<String, String> info = new HashMap<>();
         info.put("name", supplierNameField.getAttribute("value"));
         info.put("shippingMethod", Util.getSelectedOptionText(shippingMethodSelect));
@@ -150,6 +136,11 @@ public class AddSupplierPopup extends BasePopup {
         info.put("state", stateField.getAttribute("value"));
         info.put("zip", zipCodeField.getAttribute("value"));
         info.put("notes", notesField.getAttribute("value"));
+        return info;
+    }
+
+    public Map<String, String> getFullInfo() {
+        Map<String, String> info = getGeneralInfo();
         getPopupLeftMenu().clickTabByName("Account Numbers");
         firstShipToAddress.isVisible();
         info.put("shipToLine2", firstShipToAddress.getText().split(",")[0]);
@@ -164,8 +155,6 @@ public class AddSupplierPopup extends BasePopup {
 
     public AddSupplierItemPopup clickAddItem() {
         addItemButton.click();
-        //return new BuyerSuppliersPage(driver).getAddSupplierPopup().addSupplierItemPopup;
-        PageFactory.initElements(driver, this);
         return addSupplierItemPopup;
     }
 

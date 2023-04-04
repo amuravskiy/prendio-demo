@@ -148,12 +148,6 @@ public class CartPage extends BasePage {
         return shipToPopup;
     }
 
-    public String chooseShipToAddress(int index) {
-        String address = shipToPopup.getAddressLine1Text(index);
-        shipToPopup.clickAddress(index);
-        return address;
-    }
-
     public String getShipToAddressLine1Text() {
         return shipToAddressText.getText().split("\n")[0];
     }

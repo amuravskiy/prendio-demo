@@ -72,7 +72,6 @@ public class ReceiverScanMatchPage extends ReceiverPage {
         dayToClickOn.waitUntilElementDisappear(EXPLICIT_TIMEOUT);
         invAmountInput.type(slipInfo.getInvoiceAmount());
         noPOCheckbox.clickByJs();
-        //noPOCheckbox.click();
         Util.selectByIndex(chooseUserSelect, 1);
     }
 
