@@ -2,11 +2,11 @@ package com.solvd.prendiodemo.gui.pages;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.PageOpeningStrategy;
-import com.solvd.prendiodemo.utils.Util;
 import com.solvd.prendiodemo.gui.components.ConfirmationPopup;
 import com.solvd.prendiodemo.gui.components.OKPopup;
 import com.solvd.prendiodemo.gui.components.ReqApprovalPopup;
 import com.solvd.prendiodemo.gui.components.ShipToPopup;
+import com.solvd.prendiodemo.utils.Util;
 import com.solvd.prendiodemo.values.CartContents;
 import com.solvd.prendiodemo.values.ItemContents;
 import org.openqa.selenium.WebDriver;
@@ -180,13 +180,9 @@ public class CartPage extends BasePage {
         return shipToPopup.getHeaderText();
     }
 
-    public String getAddressLine1(int index) {
-        return shipToPopup.getAddressLine1Text(index);
-    }
-
-    public void chooseShipToAddress(int index) {
+    public String chooseShipToAddress(int index) {
         shipToPopup.clickAddress(index);
-        ensureLoaded();
+        return shipToPopup.getAddressLine1Text(index);
     }
 
     public String getShipToAddressLine1Text() {

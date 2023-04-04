@@ -145,8 +145,7 @@ public class PrendioTest extends AbstractTest {
         cartPage.clickShipToButton();
         Assert.assertTrue(cartPage.isShipToPopupVisible());
         Assert.assertEquals(cartPage.getShipToPopupTitle(), "Ship To Address List");
-        String line1 = cartPage.getAddressLine1(0);
-        cartPage.chooseShipToAddress(0);
+        String line1 = cartPage.chooseShipToAddress(0);
         Assert.assertEquals(cartPage.getShipToAddressLine1Text(), line1);
         cartPage.setSelects();
         cartPage.clickApplyToAll();
