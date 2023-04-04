@@ -6,6 +6,8 @@ import com.solvd.prendiodemo.gui.pages.*;
 import com.solvd.prendiodemo.gui.pages.accountspayablepages.AccountsPayableSuppliersPage;
 import com.solvd.prendiodemo.gui.pages.accountspayablepages.DepartmentPage;
 import com.solvd.prendiodemo.gui.pages.accountspayablepages.VouchersPage;
+import com.solvd.prendiodemo.gui.pages.buyerpages.AddAccountNumbersPopup;
+import com.solvd.prendiodemo.gui.pages.buyerpages.AddressPopup;
 import com.solvd.prendiodemo.gui.pages.buyerpages.BuyerSuppliersPage;
 import com.solvd.prendiodemo.gui.pages.receiverpages.ReceiverScanMatchPage;
 import com.solvd.prendiodemo.gui.pages.receiverpages.ReceiverScanPage;
@@ -19,6 +21,7 @@ import org.testng.annotations.Test;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -54,7 +57,7 @@ public class PrendioTest extends AbstractTest {
         Assert.assertTrue(suppliersPage.isSuccessMessageVisible());
         Assert.assertEquals(suppliersPage.getSuccessMessageText(), "Supplier Added Successfully");
         addSupplierPopup.clickClose();
-        Assert.assertTrue(addSupplierPopup.isDisappeared());
+        addSupplierPopup.assertDisappeared();
         AccountPayablePage accountPayablePage = suppliersPage.clickAccountsPayable();
         accountPayablePage.assertPageOpened();
         AccountsPayableSuppliersPage accountsPayableSuppliersPage = accountPayablePage.clickSuppliers();
@@ -165,7 +168,7 @@ public class PrendioTest extends AbstractTest {
         Assert.assertTrue(dashboardPage.getOrderPreviewsCartName(0).contains(cartId));
     }
 
-    @Test(description = "Verifies supplier creation")
+    @Test(description = "Verifies department creation")
     public void checkCreateAndEditDepartmentTest() {
         DashboardPage dashboardPage = Util.loginAs(getDriver());
         dashboardPage.assertPageOpened();
@@ -174,12 +177,12 @@ public class PrendioTest extends AbstractTest {
         DepartmentPage departmentPage = accountPayablePage.clickDepartment();
         departmentPage.assertPageOpened();
         Assert.assertTrue(departmentPage.isAddButtonVisible());
-        DepartmentSetupPopup depSetupPopup = departmentPage.clickAddDep();
+        DepSetupPopup depSetupPopup = departmentPage.clickAddDep();
         Assert.assertTrue(depSetupPopup.isVisible());
         Assert.assertEquals(depSetupPopup.getHeaderText(), "Department Setup");
         DepInfo enteredDepInfo = depSetupPopup.fillFields();
         depSetupPopup.clickSave();
-        Assert.assertTrue(depSetupPopup.isDisappeared());
+        depSetupPopup.assertDisappeared();
         Assert.assertEquals(departmentPage.getSuccessMessageText(), "Department Added Successfully");
         depSetupPopup = departmentPage.editDepByName(enteredDepInfo.getName());
         Assert.assertTrue(depSetupPopup.isVisible());
@@ -193,14 +196,14 @@ public class PrendioTest extends AbstractTest {
         Assert.assertEquals(depWatcherSetupPopup.getHeaderText(), "Department Watcher Setup");
         WatcherInfo watcherInfoEntered = depWatcherSetupPopup.fillWatcher();
         depWatcherSetupPopup.clickSave();
-        Assert.assertTrue(depWatcherSetupPopup.isDisappeared());
+        depWatcherSetupPopup.assertDisappeared();
         Assert.assertTrue(departmentPage.isSuccessMessageVisible());
         Assert.assertEquals(departmentPage.getSuccessMessageText(), "Department Watcher Added Successfully");
         YesNoPopup confirmationPopup = depSetupPopup.close();
         Assert.assertTrue(confirmationPopup.isVisible());
         Assert.assertEquals(confirmationPopup.getHeaderText(), "CONFIRMATION");
         confirmationPopup.clickYes();
-        Assert.assertTrue(confirmationPopup.isDisappeared());
+        confirmationPopup.assertDisappeared();
         departmentPage = new DepartmentPage(getDriver());
         depSetupPopup = departmentPage.editDepByName(enteredDepInfo.getName());
         depSetupPopup.clickUsers();
@@ -209,7 +212,7 @@ public class PrendioTest extends AbstractTest {
         Assert.assertEquals(departmentPage.getSuccessMessageText(), "Saved Successfully");
         depSetupPopup.clickClose();
         depSetupPopup.ensureLoaded();
-        Assert.assertTrue(depSetupPopup.isDisappeared());
+        depSetupPopup.assertDisappeared();
         departmentPage = new DepartmentPage(getDriver());
         depSetupPopup = departmentPage.editDepByName(enteredDepInfo.getName());
         DepInfo loadedInfo = depSetupPopup.getInfo();
@@ -275,7 +278,7 @@ public class PrendioTest extends AbstractTest {
         Assert.assertTrue(imageUploadPopup.imageAppeared());
         imageUploadPopup.clickUpload();
         imageUploadPopup.ensureLoaded();
-        Assert.assertTrue(imageUploadPopup.isDisappeared());
+        imageUploadPopup.assertDisappeared();
         Assert.assertEquals(profilePage.getSuccessMessageText(), "Image Uploaded Successfully");
         profilePage.clickSave();
         profilePage.ensureLoaded();
@@ -285,5 +288,40 @@ public class PrendioTest extends AbstractTest {
         profilePage.assertPageOpened();
         Assert.assertEquals(profilePage.getProfileInfo(), filledInfo);
         Assert.assertTrue(profilePage.isOutLinkVisible());
+    }
+
+    @Test(description = "Verifies supplier creation")
+    public void checkCreateAndEditSupplierTest() {
+        DashboardPage dashboardPage = Util.loginAs(getDriver());
+        dashboardPage.assertPageOpened();
+        BuyerPage buyerPage = dashboardPage.clickBuyer();
+        BuyerSuppliersPage suppliersPage = buyerPage.clickSuppliers();
+        suppliersPage.assertPageOpened();
+        AddSupplierPopup addSupplierPopup = suppliersPage.clickAddSupplierButton();
+        Assert.assertTrue(addSupplierPopup.isVisible());
+        Assert.assertEquals(addSupplierPopup.getHeaderText(), "Supplier Detail");
+        Map<String, String> infoEntered = addSupplierPopup.fillInfo();
+        addSupplierPopup.clickSave();
+        Assert.assertEquals(suppliersPage.getSuccessMessageText(), "Supplier Added Successfully");
+        addSupplierPopup.getPopupLeftMenu().clickTabByName("Account Numbers");
+        Assert.assertTrue(addSupplierPopup.isAccountsSectionDisplayed());
+        AddAccountNumbersPopup addAccountNumbersPopup = addSupplierPopup.clickAdd();
+        Assert.assertTrue(addAccountNumbersPopup.isVisible());
+        AddressPopup addressPopup = addAccountNumbersPopup.clickSelectShipToAddress();
+        Assert.assertTrue(addressPopup.isVisible());
+        infoEntered.put("shipToLine2", addressPopup.getAddressLine2Text(0));
+        addressPopup.clickAddress(0);
+        addressPopup.assertDisappeared();
+        infoEntered.put("accountNumber", addAccountNumbersPopup.fillAccountNumber());
+        addAccountNumbersPopup.clickSave();
+        addAccountNumbersPopup.assertDisappeared();
+        Assert.assertEquals(suppliersPage.getSuccessMessageText(), "Account Added Successfully");
+        addSupplierPopup.clickClose();
+        addSupplierPopup.assertDisappeared();
+        suppliersPage = suppliersPage.search(infoEntered.get("name"));
+        addSupplierPopup = suppliersPage.editSupplierByName(infoEntered.get("name"));
+        Assert.assertTrue(addSupplierPopup.isVisible());
+        Map<String, String> infoRead = addSupplierPopup.getFullInfo();
+        Assert.assertEquals(infoRead, infoEntered);
     }
 }

@@ -7,6 +7,7 @@ import com.solvd.prendiodemo.gui.pages.OneLoginPortalPage;
 import com.zebrunner.carina.utils.R;
 import org.openqa.selenium.NotFoundException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
 import java.util.ArrayList;
@@ -40,5 +41,13 @@ public class Util {
     public static void selectByIndex(ExtendedWebElement element, int index) {
         Select select = new Select(element.getElement());
         select.selectByIndex(index);
+    }
+
+    public static String getSelectedOptionText(ExtendedWebElement select) {
+        return new Select(select.getElement()).getOptions().stream()
+                .filter(WebElement::isSelected)
+                .findFirst()
+                .orElseThrow()
+                .getText();
     }
 }

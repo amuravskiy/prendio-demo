@@ -3,6 +3,7 @@ package com.solvd.prendiodemo.gui.pages;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.PageOpeningStrategy;
 import com.solvd.prendiodemo.gui.components.ImageUploadPopup;
+import com.solvd.prendiodemo.utils.Util;
 import com.solvd.prendiodemo.values.UserProfileInfo;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -75,11 +76,7 @@ public class ProfilePage extends BasePage {
                 .orElseThrow()
                 .getAttribute("value");
         select.selectByValue(valueToSelect);
-        return select.getAllSelectedOptions().stream()
-                .filter(WebElement::isSelected)
-                .findFirst()
-                .orElseThrow()
-                .getText();
+        return Util.getSelectedOptionText(carrierSelect);
     }
 
     public Pair<String, String> fillOutOfOffice() {
@@ -124,15 +121,10 @@ public class ProfilePage extends BasePage {
     }
 
     public UserProfileInfo getProfileInfo() {
-        String carrier = new Select(carrierSelect.getElement()).getOptions().stream()
-                .filter(WebElement::isSelected)
-                .findFirst()
-                .orElseThrow()
-                .getText();
         return new UserProfileInfo.Builder()
                 .setTitle(titleInput.getAttribute("value"))
                 .setPhoneNumber(phoneNumberInput.getAttribute("value"))
-                .setCarrier(carrier)
+                .setCarrier(Util.getSelectedOptionText(carrierSelect))
                 .setStartDate(formatDate(startDateInput.getAttribute("value")))
                 .setEndDate(formatDate(endDateInput.getAttribute("value")))
                 .build();

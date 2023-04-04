@@ -2,8 +2,8 @@ package com.solvd.prendiodemo.gui.pages.accountspayablepages;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.PageOpeningStrategy;
-import com.solvd.prendiodemo.gui.components.DepartmentEntry;
-import com.solvd.prendiodemo.gui.components.DepartmentSetupPopup;
+import com.solvd.prendiodemo.gui.components.TableEntry;
+import com.solvd.prendiodemo.gui.components.DepSetupPopup;
 import com.solvd.prendiodemo.gui.pages.BasePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
@@ -19,10 +19,10 @@ public class DepartmentPage extends BasePage {
     private ExtendedWebElement addDepButton;
 
     @FindBy(xpath = "//div[contains(@class,'departmentpopup')]")
-    private DepartmentSetupPopup depSetupPopup;
+    private DepSetupPopup depSetupPopup;
 
     @FindBy(xpath = "//tbody[@class='ui-sortable']/tr")
-    private List<DepartmentEntry> departments;
+    private List<TableEntry> departments;
 
     public DepartmentPage(WebDriver driver) {
         super(driver);
@@ -34,12 +34,12 @@ public class DepartmentPage extends BasePage {
         return addDepButton.isVisible();
     }
 
-    public DepartmentSetupPopup clickAddDep() {
+    public DepSetupPopup clickAddDep() {
         addDepButton.click();
         return depSetupPopup;
     }
 
-    public DepartmentSetupPopup editDepByName(String name) {
+    public DepSetupPopup editDepByName(String name) {
         departments.stream()
                 .filter(dep -> dep.getNameContainer().getText().equals(name))
                 .findFirst()

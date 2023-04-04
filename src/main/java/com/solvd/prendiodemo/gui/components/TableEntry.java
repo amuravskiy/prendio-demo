@@ -6,7 +6,7 @@ import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
-public class DepartmentEntry extends AbstractUIObject {
+public class TableEntry extends AbstractUIObject {
 
     @FindBy(xpath = ".//td[1]")
     private ExtendedWebElement nameContainer;
@@ -14,7 +14,7 @@ public class DepartmentEntry extends AbstractUIObject {
     @FindBy(xpath = ".//a[@class='edit_icon']")
     private ExtendedWebElement editIcon;
 
-    public DepartmentEntry(WebDriver driver, SearchContext searchContext) {
+    public TableEntry(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
     }
 

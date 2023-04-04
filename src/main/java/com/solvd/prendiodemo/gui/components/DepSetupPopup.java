@@ -9,7 +9,7 @@ import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
-public class DepartmentSetupPopup extends BasePopup {
+public class DepSetupPopup extends BasePopup {
 
     private final By usernameOfTheCheckboxLocator = By.xpath("..//..//..//td");
 
@@ -51,7 +51,7 @@ public class DepartmentSetupPopup extends BasePopup {
     @FindBy(id = "SaveDepartment")
     private ExtendedWebElement saveButton;
 
-    public DepartmentSetupPopup(WebDriver driver, SearchContext searchContext) {
+    public DepSetupPopup(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
     }
 
