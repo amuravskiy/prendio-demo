@@ -30,10 +30,12 @@ public class PrendioTest extends AbstractTest {
 
     @Test(description = "Verifies login works properly")
     public void checkLoginTest() {
+        final String username = R.CONFIG.get("username");
+        final String password = R.CONFIG.get("password");
         LoginPage loginPage = new LoginPage(getDriver());
         loginPage.open();
         loginPage.assertPageOpened();
-        OneLoginPortalPage oneLoginPortalPage = loginPage.login(R.CONFIG.get("username"), R.CONFIG.get("password"));
+        OneLoginPortalPage oneLoginPortalPage = loginPage.login(username, password);
         DashboardPage dashboardPage = oneLoginPortalPage.goToPrendio();
         Util.switchToTabOne(getDriver());
         dashboardPage.assertPageOpened();
@@ -41,8 +43,11 @@ public class PrendioTest extends AbstractTest {
 
     @Test(description = "Verifies adding supplier leaves trail")
     public void checkAddingSupplierTrailTest() {
+        final DateTimeFormatter addSupplierTrailDateFormatter = DateTimeFormatter
+                .ofPattern(R.CONFIG.get("add_supplier_date_format"))
+                .withZone(ZoneOffset.ofHours(hoursOffsetFromUTC));
         DashboardPage dashboardPage = Util.loginAs(getDriver());
-        String fullName = dashboardPage.getFullName();
+        String fullName = dashboardPage.getFullname();
         BuyerPage buyerPage = dashboardPage.clickBuyer();
         buyerPage.assertPageOpened();
         BuyerSuppliersPage suppliersPage = buyerPage.clickSuppliers();
@@ -52,8 +57,7 @@ public class PrendioTest extends AbstractTest {
         Assert.assertEquals(addSupplierPopup.getHeaderText(), "Supplier Detail");
         String supplierName = addSupplierPopup.fillRequiredFields();
         addSupplierPopup.clickSave();
-        Assert.assertTrue(suppliersPage.isSuccessMessageVisible());
-        Assert.assertEquals(suppliersPage.getSuccessMessageText(), "Supplier Added Successfully");
+        suppliersPage.assertSuccessMessageVisibleWithText("Supplier Added Successfully");
         addSupplierPopup.clickClose();
         addSupplierPopup.assertDisappeared();
         AccountPayablePage accountPayablePage = suppliersPage.clickAccountsPayable();
@@ -63,9 +67,6 @@ public class PrendioTest extends AbstractTest {
         BasePopup supplierInfoPopup = accountsPayableSuppliersPage.clickSupplierByName(supplierName);
         Assert.assertTrue(supplierInfoPopup.isUIObjectPresent());
         String trailRecordText = supplierInfoPopup.getCreatedTrailText();
-        DateTimeFormatter addSupplierTrailDateFormatter = DateTimeFormatter
-                .ofPattern(R.CONFIG.get("add_supplier_date_format"))
-                .withZone(ZoneOffset.ofHours(hoursOffsetFromUTC));
         String currentDateFormatted = addSupplierTrailDateFormatter.format(Instant.now());
         Matcher trailFullnameMatcher = Pattern.compile(R.CONFIG.get("trail_fullname_regex")).matcher(trailRecordText);
         Matcher trailDateMatcher = Pattern.compile(R.CONFIG.get("trail_date_regex")).matcher(trailRecordText);
@@ -107,8 +108,7 @@ public class PrendioTest extends AbstractTest {
         Assert.assertEquals(duplicatedContents.getTotals(), cartContents.getTotals());
         Assert.assertEquals(templateCartName, cartPage.getCartName());
         cartPage.removeTemplateWord();
-        Assert.assertTrue(cartPage.isSuccessMessageVisible());
-        Assert.assertEquals(cartPage.getSuccessMessageText(), "Cart items saved");
+        cartPage.assertSuccessMessageVisibleWithText("Cart items saved");
         String newOrderName = cartPage.getCartName();
         String newOrderId = cartPage.getId();
         Assert.assertEquals(cartPage.getCartName(), templateCartName.replace(" Template", ""));
@@ -182,7 +182,7 @@ public class PrendioTest extends AbstractTest {
         DepInfo enteredDepInfo = depSetupPopup.fillFields();
         depSetupPopup.clickSave();
         depSetupPopup.assertDisappeared();
-        Assert.assertEquals(departmentPage.getSuccessMessageText(), "Department Added Successfully");
+        departmentPage.assertSuccessMessageVisibleWithText("Department Added Successfully");
         depSetupPopup = departmentPage.editDepByName(enteredDepInfo.getName());
         Assert.assertTrue(depSetupPopup.isVisible());
         String expectedName = ("Department Setup - " + enteredDepInfo.getName()).toLowerCase();
@@ -196,8 +196,7 @@ public class PrendioTest extends AbstractTest {
         WatcherInfo watcherInfoEntered = depWatcherSetupPopup.fillWatcher();
         depWatcherSetupPopup.clickSave();
         depWatcherSetupPopup.assertDisappeared();
-        Assert.assertTrue(departmentPage.isSuccessMessageVisible());
-        Assert.assertEquals(departmentPage.getSuccessMessageText(), "Department Watcher Added Successfully");
+        departmentPage.assertSuccessMessageVisibleWithText("Department Watcher Added Successfully");
         YesNoPopup confirmationPopup = depSetupPopup.close();
         Assert.assertTrue(confirmationPopup.isVisible());
         Assert.assertEquals(confirmationPopup.getHeaderText(), "CONFIRMATION");
@@ -207,8 +206,7 @@ public class PrendioTest extends AbstractTest {
         depSetupPopup = departmentPage.editDepByName(enteredDepInfo.getName());
         depSetupPopup.clickUsers();
         String username = depSetupPopup.selectAnyUser();
-        Assert.assertTrue(departmentPage.isSuccessMessageVisible());
-        Assert.assertEquals(departmentPage.getSuccessMessageText(), "Saved Successfully");
+        departmentPage.assertSuccessMessageVisibleWithText("Saved Successfully");
         depSetupPopup.clickClose();
         depSetupPopup.ensureLoaded();
         depSetupPopup.assertDisappeared();
@@ -251,7 +249,7 @@ public class PrendioTest extends AbstractTest {
         matchPage.fillSlipInfo(slipInfoEntered);
         matchPage.clickNextButton();
         matchPage.ensureLoaded();
-        Assert.assertEquals(matchPage.getSuccessMessageText(), "Entry Added Successfully");
+        matchPage.assertSuccessMessageVisibleWithText("Entry Added Successfully");
         AccountPayablePage accountPayablePage = matchPage.clickAccountsPayable();
         accountPayablePage.assertPageOpened();
         VouchersPage vouchersPage = accountPayablePage.clickVouchers();
@@ -278,10 +276,10 @@ public class PrendioTest extends AbstractTest {
         imageUploadPopup.clickUpload();
         imageUploadPopup.ensureLoaded();
         imageUploadPopup.assertDisappeared();
-        Assert.assertEquals(profilePage.getSuccessMessageText(), "Image Uploaded Successfully");
+        profilePage.assertSuccessMessageVisibleWithText("Image Uploaded Successfully");
         profilePage.clickSave();
         profilePage.ensureLoaded();
-        Assert.assertEquals(profilePage.getSuccessMessageText(), "User Profile Saved.");
+        profilePage.assertSuccessMessageVisibleWithText("User Profile Saved.");
         profilePage.refresh();
         profilePage = new ProfilePage(getDriver());
         profilePage.assertPageOpened();
@@ -301,7 +299,7 @@ public class PrendioTest extends AbstractTest {
         Assert.assertEquals(addSupplierPopup.getHeaderText(), "Supplier Detail");
         Map<String, String> infoEntered = addSupplierPopup.fillInfo();
         addSupplierPopup.clickSave();
-        Assert.assertEquals(suppliersPage.getSuccessMessageText(), "Supplier Added Successfully");
+        suppliersPage.assertSuccessMessageVisibleWithText("Supplier Added Successfully");
         addSupplierPopup.getPopupLeftMenu().clickTabByName("Account Numbers");
         Assert.assertTrue(addSupplierPopup.isAccountsSectionDisplayed());
         AddAccountNumbersPopup addAccountNumbersPopup = addSupplierPopup.clickAdd();
@@ -314,7 +312,7 @@ public class PrendioTest extends AbstractTest {
         infoEntered.put("accountNumber", addAccountNumbersPopup.fillAccountNumber());
         addAccountNumbersPopup.clickSave();
         addAccountNumbersPopup.assertDisappeared();
-        Assert.assertEquals(suppliersPage.getSuccessMessageText(), "Account Added Successfully");
+        suppliersPage.assertSuccessMessageVisibleWithText("Account Added Successfully");
         addSupplierPopup.clickClose();
         addSupplierPopup.assertDisappeared();
         suppliersPage = suppliersPage.search(infoEntered.get("name"));
@@ -338,7 +336,7 @@ public class PrendioTest extends AbstractTest {
         Map<String, String> addressInfo = addressSetupPopup.fillInfo();
         addressSetupPopup.clickSave();
         addressSetupPopup.ensureLoaded();
-        Assert.assertEquals(addressesPage.getSuccessMessageText(), "Saved Successfully");
+        addressesPage.assertSuccessMessageVisibleWithText("Saved Successfully");
         addressSetupPopup.clickUsers();
         addressSetupPopup.ensureLoaded();
         addressSetupPopup.checkAllDefault();
@@ -366,7 +364,7 @@ public class PrendioTest extends AbstractTest {
         Assert.assertEquals(supplierPopup.getHeaderText(), "Supplier Detail");
         supplierPopup.fillRequiredFields();
         supplierPopup.clickSave();
-        Assert.assertEquals(suppliersPage.getSuccessMessageText(), "Supplier Added Successfully");
+        suppliersPage.assertSuccessMessageVisibleWithText("Supplier Added Successfully");
         supplierPopup.ensureLoaded();
         AddSupplierPopup catalogItemsPopup = supplierPopup.clickCatalogItems();
         buyerPage.ensureLoaded();
@@ -380,7 +378,7 @@ public class PrendioTest extends AbstractTest {
         Assert.assertTrue(itemPopup.getSpecNumber() > 1);
         itemPopup.clickSave();
         itemPopup.ensureLoaded();
-        Assert.assertEquals(suppliersPage.getSuccessMessageText(), "Catalog Items Added Successfully");
+        suppliersPage.assertSuccessMessageVisibleWithText("Catalog Items Added Successfully");
         itemPopup.clickClose();
         itemPopup.assertDisappeared();
         supplierPopup = new BuyerSuppliersPage(getDriver()).getAddSupplierPopup();
