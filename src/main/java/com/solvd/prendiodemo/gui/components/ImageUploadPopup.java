@@ -1,15 +1,13 @@
 package com.solvd.prendiodemo.gui.components;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
+import com.solvd.prendiodemo.utils.Util;
 import com.zebrunner.carina.utils.R;
-import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
 import java.io.File;
-import java.io.IOException;
-import java.net.URL;
 
 public class ImageUploadPopup extends BasePopup {
 
@@ -34,12 +32,7 @@ public class ImageUploadPopup extends BasePopup {
     }
 
     public void attachPhoto() {
-        File file = new File("sample_photo.png");
-        try {
-            FileUtils.copyURLToFile(new URL(R.CONFIG.get("sample_photo_url_png")), file);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        File file = Util.loadFile(R.CONFIG.get("sample_photo_url_png"), new File("sample_photo.png"));
         uploadInput.attachFile(file.getAbsolutePath());
     }
 

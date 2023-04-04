@@ -3,17 +3,12 @@ package com.solvd.prendiodemo.gui.pages.receiverpages;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.PageOpeningStrategy;
 import com.solvd.prendiodemo.gui.pages.ReceiverPage;
+import com.solvd.prendiodemo.utils.Util;
 import com.zebrunner.carina.utils.R;
-import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.remote.Augmenter;
-import org.openqa.selenium.remote.LocalFileDetector;
-import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.FindBy;
 
 import java.io.File;
-import java.io.IOException;
-import java.net.URL;
 
 public class ReceiverScanPage extends ReceiverPage {
 
@@ -43,12 +38,7 @@ public class ReceiverScanPage extends ReceiverPage {
     }
 
     public void addUploadFile() {
-        File file = new File("sample_slip.pdf");
-        try {
-            FileUtils.copyURLToFile(new URL(R.CONFIG.get("sample_slip_url")), file);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        File file = Util.loadFile(R.CONFIG.get("sample_slip_url"), new File("sample_slip.pdf"));
         fileInput.attachFile(file.getAbsolutePath());
     }
 

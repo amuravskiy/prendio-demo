@@ -56,7 +56,10 @@ public class BuyerSuppliersPage extends BasePage {
                 .orElseThrow()
                 .getEditIcon()
                 .click();
-        ensureLoaded();
+        return addSupplierPopup;
+    }
+
+    public AddSupplierPopup getAddSupplierPopup() {
         return addSupplierPopup;
     }
 }

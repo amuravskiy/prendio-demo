@@ -348,6 +348,45 @@ public class PrendioTest extends AbstractTest {
         addressesPage = addressesPage.search(addressInfo.get("line1"));
         addressesPage.assertAddressFound(addressInfo.get("line1"));
         addressSetupPopup = addressesPage.editFirstAddress();
+        Assert.assertTrue(addressSetupPopup.isVisible());
+        Assert.assertEquals(addressSetupPopup.getHeaderText(), "Address Setup");
         Assert.assertEquals(addressSetupPopup.getInfo(), addressInfo);
+    }
+
+    @Test(description = "Verifies supplier item creation")
+    public void checkAddSupplierItemTest() {
+        DashboardPage dashboardPage = Util.loginAs(getDriver());
+        dashboardPage.assertPageOpened();
+        BuyerPage buyerPage = dashboardPage.clickBuyer();
+        BuyerSuppliersPage suppliersPage = buyerPage.clickSuppliers();
+        suppliersPage.assertPageOpened();
+        AddSupplierPopup supplierPopup = suppliersPage.clickAddSupplierButton();
+        Assert.assertTrue(supplierPopup.isVisible());
+        Assert.assertEquals(supplierPopup.getHeaderText(), "Supplier Detail");
+        supplierPopup.fillRequiredFields();
+        supplierPopup.clickSave();
+        Assert.assertEquals(suppliersPage.getSuccessMessageText(), "Supplier Added Successfully");
+        supplierPopup.ensureLoaded();
+        AddSupplierPopup catalogItemsPopup = supplierPopup.clickCatalogItems();
+        buyerPage.ensureLoaded();
+        Assert.assertTrue(catalogItemsPopup.isCatalogItemsSectionOpened());
+        AddSupplierItemPopup itemPopup = catalogItemsPopup.clickAddItem();
+        catalogItemsPopup.ensureLoaded();
+        Assert.assertTrue(itemPopup.isVisible());
+        Map<String, String> infoEntered = itemPopup.fillInfo();
+        Assert.assertEquals(infoEntered.get("genericDesc"), infoEntered.get("desc"));
+        itemPopup.clickAddSpec();
+        Assert.assertTrue(itemPopup.getSpecNumber() > 1);
+        itemPopup.clickSave();
+        itemPopup.ensureLoaded();
+        Assert.assertEquals(suppliersPage.getSuccessMessageText(), "Catalog Items Added Successfully");
+        itemPopup.clickClose();
+        itemPopup.assertDisappeared();
+        supplierPopup = new BuyerSuppliersPage(getDriver()).getAddSupplierPopup();
+        itemPopup = supplierPopup.clickOnAddedItemEdit();
+        itemPopup.ensureLoaded();
+        Assert.assertTrue(itemPopup.isVisible());
+        Map<String, String> infoRead = itemPopup.getInfo();
+        Assert.assertEquals(infoRead, infoEntered);
     }
 }

@@ -5,11 +5,15 @@ import com.solvd.prendiodemo.gui.pages.DashboardPage;
 import com.solvd.prendiodemo.gui.pages.LoginPage;
 import com.solvd.prendiodemo.gui.pages.OneLoginPortalPage;
 import com.zebrunner.carina.utils.R;
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.NotFoundException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,5 +53,14 @@ public class Util {
                 .findFirst()
                 .orElseThrow()
                 .getText();
+    }
+
+    public static File loadFile(String url, File file) {
+        try {
+            FileUtils.copyURLToFile(new URL(url), file);
+            return file;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

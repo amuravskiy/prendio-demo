@@ -2,12 +2,14 @@ package com.solvd.prendiodemo.gui.components;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.solvd.prendiodemo.gui.pages.buyerpages.AddAccountNumbersPopup;
+import com.solvd.prendiodemo.gui.pages.buyerpages.AddSupplierItemPopup;
 import com.solvd.prendiodemo.utils.Util;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
 import java.util.HashMap;
 import java.util.List;
@@ -52,9 +54,20 @@ public class AddSupplierPopup extends BasePopup {
     private AddAccountNumbersPopup addAccountNumbersPopup;
     @FindBy(id = "tdaddress")
     private ExtendedWebElement firstShipToAddress;
-
     @FindBy(xpath = "//td[@id='tdaddress']//following::td[1]")
     private ExtendedWebElement firstAccountNumber;
+
+    @FindBy(id = "Inner_Add_Catalog")
+    private ExtendedWebElement addItemButton;
+
+    @FindBy(xpath = "..//div[@id='addsuppliercatelogitem']")
+    private AddSupplierItemPopup addSupplierItemPopup;
+
+    @FindBy(id = "tblsupcataloglist")
+    private ExtendedWebElement catalogItemsSectionActive;
+
+    @FindBy(xpath = "//table[@id='tblsupcataloglist']/tbody/tr")
+    private TableEntry addedItem;
 
     public AddSupplierPopup(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
@@ -128,7 +141,7 @@ public class AddSupplierPopup extends BasePopup {
         info.put("paymentTerms", Util.getSelectedOptionText(paymentTermsSelect));
         info.put("FOB", Util.getSelectedOptionText(FOBSelect));
         info.put("email", emailField.getAttribute("value"));
-        info.put("defaultServicePhone", defaultUserPhoneField.getAttribute("value").replaceAll("\\D",""));
+        info.put("defaultServicePhone", defaultUserPhoneField.getAttribute("value").replaceAll("\\D", ""));
         info.put("remitName", remitNameField.getAttribute("value"));
         for (int i = 1; i < 5; i++) {
             info.put("line" + i, findExtendedWebElement(By.id(partialLineId + i)).getAttribute("value"));
@@ -142,5 +155,26 @@ public class AddSupplierPopup extends BasePopup {
         info.put("shipToLine2", firstShipToAddress.getText().split(",")[0]);
         info.put("accountNumber", firstAccountNumber.getText());
         return info;
+    }
+
+    public AddSupplierPopup clickCatalogItems() {
+        getPopupLeftMenu().clickTabByName("Catalog Items");
+        return this;
+    }
+
+    public AddSupplierItemPopup clickAddItem() {
+        addItemButton.click();
+        //return new BuyerSuppliersPage(driver).getAddSupplierPopup().addSupplierItemPopup;
+        PageFactory.initElements(driver, this);
+        return addSupplierItemPopup;
+    }
+
+    public boolean isCatalogItemsSectionOpened() {
+        return catalogItemsSectionActive.isVisible();
+    }
+
+    public AddSupplierItemPopup clickOnAddedItemEdit() {
+        addedItem.getEditIcon().click();
+        return addSupplierItemPopup;
     }
 }
