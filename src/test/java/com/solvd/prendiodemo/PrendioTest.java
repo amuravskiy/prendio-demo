@@ -41,6 +41,46 @@ public class PrendioTest extends AbstractTest {
         dashboardPage.assertPageOpened();
     }
 
+    @Test(description = "Verifies adding supplier leaves trail")
+    public void checkAddingSupplierTrailTest() {
+        SoftAssert softAssert = new SoftAssert();
+        DateTimeFormatter addSupplierTrailDateFormatter = DateTimeFormatter
+                .ofPattern(R.CONFIG.get("add_supplier_date_format"))
+                .withZone(ZoneOffset.ofHours(hoursOffsetFromUTC));
+        DashboardPage dashboardPage = Util.loginAs(getDriver());
+        String fullName = dashboardPage.getFullname();
+        BuyerPage buyerPage = dashboardPage.clickBuyer();
+        buyerPage.assertPageOpened();
+        BuyerSuppliersPage suppliersPage = buyerPage.clickSuppliers();
+        suppliersPage.assertPageOpened();
+        AddSupplierPopup addSupplierPopup = suppliersPage.clickAddSupplierButton();
+        addSupplierPopup.assertVisibleWithTitle("Supplier Detail");
+        String supplierName = addSupplierPopup.fillRequiredFields();
+        addSupplierPopup.clickSave();
+        suppliersPage.assertSuccessMessageVisibleWithText("Supplier Added Successfully", softAssert);
+        addSupplierPopup.clickClose();
+        addSupplierPopup.assertDisappeared();
+        AccountPayablePage accountPayablePage = suppliersPage.clickAccountsPayable();
+        accountPayablePage.assertPageOpened();
+        AccountsPayableSuppliersPage accountsPayableSuppliersPage = accountPayablePage.clickSuppliers();
+        accountsPayableSuppliersPage.assertPageOpened();
+        accountsPayableSuppliersPage = accountsPayableSuppliersPage.search(supplierName);
+        accountsPayableSuppliersPage.assertPageOpened();
+        BasePopup supplierInfoPopup = accountsPayableSuppliersPage.clickSupplierByName(supplierName);
+        supplierInfoPopup.assertVisible();
+        String trailRecordText = supplierInfoPopup.getCreatedTrailText();
+        String currentDateFormatted = addSupplierTrailDateFormatter.format(Instant.now());
+        Matcher trailFullnameMatcher = Pattern.compile(R.CONFIG.get("trail_fullname_regex")).matcher(trailRecordText);
+        Matcher trailDateMatcher = Pattern.compile(R.CONFIG.get("trail_date_regex")).matcher(trailRecordText);
+        Assert.assertTrue(trailDateMatcher.find(), "Date is not found in trail text");
+        Assert.assertTrue(trailFullnameMatcher.find(), "Full name is not found in trail text");
+        String trailDate = trailDateMatcher.group(1);
+        String trailFullname = trailFullnameMatcher.group(1);
+        Assert.assertEquals(trailDate, currentDateFormatted);
+        Assert.assertEquals(trailFullname, fullName);
+        softAssert.assertAll();
+    }
+
     @Test(description = "Verifies cart remains unchanged after duplication")
     public void checkCartTemplateTest() {
         SoftAssert softAssert = new SoftAssert();
@@ -61,7 +101,7 @@ public class PrendioTest extends AbstractTest {
         CartContents cartContents = cartPage.getCartContents();
         String templateCartId = cartPage.getId();
         BasePopup confirmationPopup = cartPage.clickDuplicateCart();
-        confirmationPopup.assertVisibleWithText("CONFIRMATION");
+        confirmationPopup.assertVisibleWithTitle("CONFIRMATION");
         confirmationPopup.clickConfirmationButton();
         confirmationPopup.assertDisappeared();
         cartPage = new CartPage(getDriver());
@@ -107,7 +147,7 @@ public class PrendioTest extends AbstractTest {
         ItemContents itemContentsInCart = cartPage.getFirstItemContents();
         Assert.assertEquals(itemContentsInCart, itemContents, "Item contents not equal to what was on the results page");
         ShipToPopup shipToPopup = cartPage.clickShipToButton();
-        shipToPopup.assertVisibleWithText("Ship To Address List");
+        shipToPopup.assertVisibleWithTitle("Ship To Address List");
         String line1 = shipToPopup.chooseShipToAddress(0);
         cartPage.ensureLoaded();
         Assert.assertEquals(cartPage.getShipToAddressLine1Text(), line1);
@@ -122,50 +162,10 @@ public class PrendioTest extends AbstractTest {
             BasePopup.assertDisappeared();
             cartPage.ensureLoaded();
         }
-        reqApprovalPopup.assertVisibleWithText("Requisition Approval");
+        reqApprovalPopup.assertVisibleWithTitle("Requisition Approval");
         dashboardPage = cartPage.clickSubmitReqApproval();
         dashboardPage.assertPageOpened();
         Assert.assertTrue(dashboardPage.getOrderPreviewsCartName(0).contains(cartId));
-    }
-
-    @Test(description = "Verifies adding supplier leaves trail")
-    public void checkAddingSupplierTrailTest() {
-        SoftAssert softAssert = new SoftAssert();
-        DateTimeFormatter addSupplierTrailDateFormatter = DateTimeFormatter
-                .ofPattern(R.CONFIG.get("add_supplier_date_format"))
-                .withZone(ZoneOffset.ofHours(hoursOffsetFromUTC));
-        DashboardPage dashboardPage = Util.loginAs(getDriver());
-        String fullName = dashboardPage.getFullname();
-        BuyerPage buyerPage = dashboardPage.clickBuyer();
-        buyerPage.assertPageOpened();
-        BuyerSuppliersPage suppliersPage = buyerPage.clickSuppliers();
-        suppliersPage.assertPageOpened();
-        AddSupplierPopup addSupplierPopup = suppliersPage.clickAddSupplierButton();
-        addSupplierPopup.assertVisibleWithText("Supplier Detail");
-        String supplierName = addSupplierPopup.fillRequiredFields();
-        addSupplierPopup.clickSave();
-        suppliersPage.assertSuccessMessageVisibleWithText("Supplier Added Successfully", softAssert);
-        addSupplierPopup.clickClose();
-        addSupplierPopup.assertDisappeared();
-        AccountPayablePage accountPayablePage = suppliersPage.clickAccountsPayable();
-        accountPayablePage.assertPageOpened();
-        AccountsPayableSuppliersPage accountsPayableSuppliersPage = accountPayablePage.clickSuppliers();
-        accountsPayableSuppliersPage.assertPageOpened();
-        accountsPayableSuppliersPage = accountsPayableSuppliersPage.search(supplierName);
-        accountsPayableSuppliersPage.assertPageOpened();
-        BasePopup supplierInfoPopup = accountsPayableSuppliersPage.clickSupplierByName(supplierName);
-        supplierInfoPopup.assertVisible();
-        String trailRecordText = supplierInfoPopup.getCreatedTrailText();
-        String currentDateFormatted = addSupplierTrailDateFormatter.format(Instant.now());
-        Matcher trailFullnameMatcher = Pattern.compile(R.CONFIG.get("trail_fullname_regex")).matcher(trailRecordText);
-        Matcher trailDateMatcher = Pattern.compile(R.CONFIG.get("trail_date_regex")).matcher(trailRecordText);
-        Assert.assertTrue(trailDateMatcher.find(), "Date is not found in trail text");
-        Assert.assertTrue(trailFullnameMatcher.find(), "Full name is not found in trail text");
-        String trailDate = trailDateMatcher.group(1);
-        String trailFullname = trailFullnameMatcher.group(1);
-        Assert.assertEquals(trailDate, currentDateFormatted);
-        Assert.assertEquals(trailFullname, fullName);
-        softAssert.assertAll();
     }
 
     @Test(description = "Verifies department creation")
@@ -179,8 +179,7 @@ public class PrendioTest extends AbstractTest {
         departmentPage.assertPageOpened();
         Assert.assertTrue(departmentPage.isAddButtonVisible());
         DepSetupPopup depSetupPopup = departmentPage.clickAddDep();
-        depSetupPopup.assertVisible();
-        Assert.assertEquals(depSetupPopup.getHeaderText(), "Department Setup");
+        depSetupPopup.assertVisibleWithTitle("Department Setup");
         DepInfo infoEntered = depSetupPopup.fillFields();
         depSetupPopup.clickSave();
         depSetupPopup.assertDisappeared();
@@ -190,22 +189,20 @@ public class PrendioTest extends AbstractTest {
         depSetupPopup = departmentPage.editDepByName(infoEntered.getName());
         depSetupPopup.assertVisible();
         String expectedName = ("Department Setup - " + infoEntered.getName()).toLowerCase();
-        Assert.assertEquals(depSetupPopup.getHeaderText().toLowerCase(), expectedName);
+        Assert.assertEquals(depSetupPopup.getHeaderText().toLowerCase(), expectedName, "Department Setup popup department name not found");
         depSetupPopup.clickWatchers();
         Assert.assertTrue(depSetupPopup.getWatchersText().contains("0"));
         Assert.assertTrue(depSetupPopup.isWatchersTableEmpty());
         DepWatcherSetupPopup depWatcherSetupPopup = depSetupPopup.clickAddWatcher();
-        depWatcherSetupPopup.assertVisible();
-        Assert.assertEquals(depWatcherSetupPopup.getHeaderText(), "Department Watcher Setup");
+        depWatcherSetupPopup.assertVisibleWithTitle("Department Watcher Setup");
         WatcherInfo watcherInfoEntered = depWatcherSetupPopup.fillWatcher();
         depWatcherSetupPopup.clickSave();
         depWatcherSetupPopup.assertDisappeared();
         departmentPage.assertSuccessMessageVisibleWithText("Department Watcher Added Successfully", softAssert);
-        BasePopup BasePopup = depSetupPopup.close();
-        BasePopup.assertVisible();
-        Assert.assertEquals(BasePopup.getHeaderText(), "CONFIRMATION");
-        BasePopup.clickConfirmationButton();
-        BasePopup.assertDisappeared();
+        BasePopup confirmationPopup = depSetupPopup.close();
+        confirmationPopup.assertVisibleWithTitle("CONFIRMATION");
+        confirmationPopup.clickConfirmationButton();
+        confirmationPopup.assertDisappeared();
         departmentPage = new DepartmentPage(getDriver());
         depSetupPopup = departmentPage.editDepByName(infoEntered.getName());
         depSetupPopup.clickUsers();
@@ -306,8 +303,7 @@ public class PrendioTest extends AbstractTest {
         BuyerSuppliersPage suppliersPage = buyerPage.clickSuppliers();
         suppliersPage.assertPageOpened();
         AddSupplierPopup addSupplierPopup = suppliersPage.clickAddSupplierButton();
-        addSupplierPopup.assertVisible();
-        Assert.assertEquals(addSupplierPopup.getHeaderText(), "Supplier Detail");
+        addSupplierPopup.assertVisibleWithTitle("Supplier Detail");
         Map<String, String> infoEntered = addSupplierPopup.fillInfo();
         addSupplierPopup.clickSave();
         suppliersPage.assertSuccessMessageVisibleWithText("Supplier Added Successfully", softAssert);
@@ -345,8 +341,7 @@ public class PrendioTest extends AbstractTest {
         AddressesPage addressesPage = buyerPage.clickAddresses();
         addressesPage.assertPageOpened();
         AddressSetupPopup addressSetupPopup = addressesPage.clickAddAddress();
-        addressSetupPopup.assertVisible();
-        Assert.assertEquals(addressSetupPopup.getHeaderText(), "Address Setup");
+        addressSetupPopup.assertVisibleWithTitle("Address Setup");
         Map<String, String> addressInfo = addressSetupPopup.fillInfo();
         addressSetupPopup.clickSave();
         addressesPage.assertSuccessMessageVisibleWithText("Saved Successfully", softAssert);
@@ -361,7 +356,7 @@ public class PrendioTest extends AbstractTest {
         addressesPage = addressesPage.search(addressInfo.get("line1"));
         addressesPage.assertAddressFound(addressInfo.get("line1"));
         addressSetupPopup = addressesPage.editFirstAddress();
-        addressSetupPopup.assertVisibleWithText("Address Setup");
+        addressSetupPopup.assertVisibleWithTitle("Address Setup");
         Assert.assertEquals(addressSetupPopup.getInfo(), addressInfo);
     }
 
@@ -374,8 +369,7 @@ public class PrendioTest extends AbstractTest {
         BuyerSuppliersPage suppliersPage = buyerPage.clickSuppliers();
         suppliersPage.assertPageOpened();
         AddSupplierPopup supplierPopup = suppliersPage.clickAddSupplierButton();
-        supplierPopup.assertVisible();
-        Assert.assertEquals(supplierPopup.getHeaderText(), "Supplier Detail");
+        supplierPopup.assertVisibleWithTitle("Supplier Detail");
         supplierPopup.fillRequiredFields();
         supplierPopup.clickSave();
         suppliersPage.assertSuccessMessageVisibleWithText("Supplier Added Successfully", softAssert);

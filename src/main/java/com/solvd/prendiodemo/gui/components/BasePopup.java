@@ -69,7 +69,7 @@ public class BasePopup extends AbstractUIObject {
         Assert.assertTrue(getRootExtendedElement().isVisible(), "Popup \"" + getHeaderText() + "\" is not visible");
     }
 
-    public void assertVisibleWithText(String expected) {
+    public void assertVisibleWithTitle(String expected) {
         Assert.assertTrue(getRootExtendedElement().isVisible(), "Popup \"" + getHeaderText() + "\" is not visible");
         Assert.assertEquals(getHeaderText(), expected);
     }
