@@ -19,11 +19,9 @@ public class ShipToPopup extends BasePopup {
         super(driver, searchContext);
     }
 
-    public void clickAddress(int index) {
+    public String chooseShipToAddress(int index) {
+        String address = line1s.get(index).getText();
         addresses.get(index).click();
-    }
-
-    public String getAddressLine1Text(int index) {
-        return line1s.get(index).getText();
+        return address;
     }
 }

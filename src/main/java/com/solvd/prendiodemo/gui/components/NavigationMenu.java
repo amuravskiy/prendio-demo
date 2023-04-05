@@ -47,9 +47,4 @@ public class NavigationMenu extends AbstractUIObject {
         accountsPayableButton.click();
         return new AccountPayablePage(driver);
     }
-
-    public APManagementPage clickAPManagementButton() {
-        APManagementButton.click();
-        return new APManagementPage(driver);
-    }
 }

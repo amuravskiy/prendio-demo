@@ -3,22 +3,21 @@ package com.solvd.prendiodemo.gui.pages.accountspayablepages;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.PageOpeningStrategy;
 import com.solvd.prendiodemo.gui.pages.AccountPayablePage;
-import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
+
+import java.util.List;
+import java.util.Optional;
 
 public class VouchersPage extends AccountPayablePage {
-
-    private final By invDateSelector = By.xpath(".//td[@id='filterdate']");
-
-    private final By invNumberSelector = By.xpath(".//td[@id='filterinvoice']");
 
     @FindBy(xpath = "//li//a[text()='Vouchers']")
     private ExtendedWebElement vouchersSectionActive;
 
     @FindBy(xpath = "//tr[@ponumber and not(@style='display: none;')]")
-    private ExtendedWebElement firstVoucherEntry;
+    private List<VoucherEntry> vouchers;
 
     @FindBy(id = "voucherfilter")
     private ExtendedWebElement searchField;
@@ -35,11 +34,17 @@ public class VouchersPage extends AccountPayablePage {
         return new VouchersPage(driver);
     }
 
-    public String getFirstVoucherInvDateText() {
-        return firstVoucherEntry.findExtendedWebElement(invDateSelector).getAttribute("innerText");
+    private Optional<VoucherEntry> findVoucherEntryByInvNumber(String invNumber) {
+        return vouchers.stream()
+                .filter(voucher -> voucher.getInvNumberText().equals(invNumber))
+                .findFirst();
     }
 
-    public String getFirstVoucherInvNumberText() {
-        return firstVoucherEntry.findExtendedWebElement(invNumberSelector).getAttribute("innerText");
+    public void assertVoucherFound(String invNumber) {
+        Assert.assertTrue(findVoucherEntryByInvNumber(invNumber).isPresent(), "Voucher with invNumber " + invNumber + " not found");
+    }
+
+    public VoucherEntry getVoucherEntryByInvNumber(String invNumber) {
+        return findVoucherEntryByInvNumber(invNumber).orElseThrow();
     }
 }

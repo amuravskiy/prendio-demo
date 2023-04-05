@@ -16,10 +16,6 @@ public class ReqApprovalPopup extends BasePopup {
 
     public void clickSubmit() {
         LOGGER.info("Clicking submit on requisition approval popup");
-        submitButton.click();
-    }
-
-    public boolean isClickable() {
-        return submitButton.isClickable();
+        submitButton.getElement().click();
     }
 }

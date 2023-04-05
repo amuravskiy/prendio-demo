@@ -20,10 +20,6 @@ public class OrdersTable extends AbstractUIObject {
         super(driver, searchContext);
     }
 
-    public void clickViewAllButton() {
-        viewAllButton.click();
-    }
-
     public String getCartPreviewName(int index) {
         return orderPreviews.get(index).getCartName();
     }

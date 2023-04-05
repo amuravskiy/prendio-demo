@@ -2,12 +2,14 @@ package com.solvd.prendiodemo.gui.components;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.solvd.prendiodemo.gui.pages.buyerpages.AddAccountNumbersPopup;
+import com.solvd.prendiodemo.gui.pages.buyerpages.AddSupplierItemPopup;
 import com.solvd.prendiodemo.utils.Util;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 
 import java.util.HashMap;
 import java.util.List;
@@ -18,43 +20,72 @@ public class AddSupplierPopup extends BasePopup {
     private final String partialLineId = "stxtstreet";
     @FindBy(id = "txtsuppliername")
     private ExtendedWebElement supplierNameField;
+
     @FindBy(id = "shippingmethod")
     private ExtendedWebElement shippingMethodSelect;
+
     @FindBy(id = "prepaidfreight")
     private ExtendedWebElement prepaidFreightSelect;
+
     @FindBy(id = "paymentterms")
     private ExtendedWebElement paymentTermsSelect;
+
     @FindBy(id = "fob")
     private ExtendedWebElement FOBSelect;
+
     @FindBy(id = "txtemail")
     private ExtendedWebElement emailField;
+
     @FindBy(id = "defaultuserphone")
     private ExtendedWebElement defaultUserPhoneField;
+
     @FindBy(id = "stxtstreet1")
     private ExtendedWebElement addressLine1;
+
     @FindBy(id = "Savesupplier")
     private ExtendedWebElement saveButton;
+
     @FindBy(id = "supname1")
     private ExtendedWebElement remitNameField;
+
     @FindBy(id = "stxtcity")
     private ExtendedWebElement cityField;
+
     @FindBy(id = "stxtstate")
     private ExtendedWebElement stateField;
+
     @FindBy(id = "stxtcode")
     private ExtendedWebElement zipCodeField;
+
     @FindBy(id = "textnotes")
     private ExtendedWebElement notesField;
+
     @FindBy(id = "tblaccount")
     private ExtendedWebElement accountNumbersSectionActive;
+
     @FindBy(id = "addaccount")
     private ExtendedWebElement addAccountButton;
+
     @FindBy(xpath = "//div[h2[text()='Add Account Numbers']]")
     private AddAccountNumbersPopup addAccountNumbersPopup;
+
     @FindBy(id = "tdaddress")
     private ExtendedWebElement firstShipToAddress;
 
     @FindBy(xpath = "//td[@id='tdaddress']//following::td[1]")
     private ExtendedWebElement firstAccountNumber;
+
+    @FindBy(id = "Inner_Add_Catalog")
+    private ExtendedWebElement addItemButton;
+
+    @FindBy(xpath = "..//div[@id='addsuppliercatelogitem']")
+    private AddSupplierItemPopup addSupplierItemPopup;
+
+    @FindBy(id = "tblsupcataloglist")
+    private ExtendedWebElement catalogItemsSectionActive;
+
+    @FindBy(xpath = "//table[@id='tblsupcataloglist']/tbody/tr")
+    private TableEntry addedItem;
 
     public AddSupplierPopup(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
@@ -74,37 +105,23 @@ public class AddSupplierPopup extends BasePopup {
     }
 
     public Map<String, String> fillInfo() {
-        Map<String, String> info = new HashMap<>();
-        info.put("name", RandomStringUtils.randomAlphabetic(10));
-        supplierNameField.type(info.get("name"));
+        supplierNameField.type(RandomStringUtils.randomAlphabetic(10));
         List.of(shippingMethodSelect, prepaidFreightSelect, paymentTermsSelect, FOBSelect)
                 .forEach(select -> Util.selectByIndex(select, 1));
-        info.put("shippingMethod", Util.getSelectedOptionText(shippingMethodSelect));
-        info.put("repaidFreight", Util.getSelectedOptionText(prepaidFreightSelect));
-        info.put("paymentTerms", Util.getSelectedOptionText(paymentTermsSelect));
-        info.put("FOB", Util.getSelectedOptionText(FOBSelect));
         String email = RandomStringUtils.randomAlphabetic(5) + "@" +
                 RandomStringUtils.randomAlphabetic(4) + "." +
                 RandomStringUtils.randomAlphabetic(3);
-        info.put("email", email);
         emailField.type(email);
-        info.put("defaultServicePhone", RandomStringUtils.randomNumeric(10));
-        defaultUserPhoneField.type(info.get("defaultServicePhone"));
-        info.put("remitName", RandomStringUtils.randomAlphabetic(20));
-        remitNameField.type(info.get("remitName"));
+        defaultUserPhoneField.type(RandomStringUtils.randomNumeric(10));
+        remitNameField.type(RandomStringUtils.randomAlphabetic(20));
         for (int i = 1; i < 5; i++) {
-            info.put("line" + i, RandomStringUtils.randomAlphabetic(20));
-            findExtendedWebElement(By.id(partialLineId + i)).type(info.get("line" + i));
+            findExtendedWebElement(By.id(partialLineId + i)).type(RandomStringUtils.randomAlphabetic(20));
         }
-        info.put("city", RandomStringUtils.randomAlphabetic(20));
-        cityField.type(info.get("city"));
-        info.put("state", RandomStringUtils.randomAlphabetic(20));
-        stateField.type(info.get("state"));
-        info.put("zip", RandomStringUtils.randomAlphabetic(20));
-        zipCodeField.type(info.get("zip"));
-        info.put("notes", RandomStringUtils.randomAlphabetic(50));
-        notesField.type(info.get("notes"));
-        return info;
+        cityField.type(RandomStringUtils.randomAlphabetic(20));
+        stateField.type(RandomStringUtils.randomAlphabetic(20));
+        zipCodeField.type(RandomStringUtils.randomAlphabetic(20));
+        notesField.type(RandomStringUtils.randomAlphabetic(50));
+        return getGeneralInfo();
     }
 
     public void clickSave() {
@@ -120,7 +137,7 @@ public class AddSupplierPopup extends BasePopup {
         return addAccountNumbersPopup;
     }
 
-    public Map<String, String> getFullInfo() {
+    public Map<String, String> getGeneralInfo() {
         Map<String, String> info = new HashMap<>();
         info.put("name", supplierNameField.getAttribute("value"));
         info.put("shippingMethod", Util.getSelectedOptionText(shippingMethodSelect));
@@ -128,7 +145,7 @@ public class AddSupplierPopup extends BasePopup {
         info.put("paymentTerms", Util.getSelectedOptionText(paymentTermsSelect));
         info.put("FOB", Util.getSelectedOptionText(FOBSelect));
         info.put("email", emailField.getAttribute("value"));
-        info.put("defaultServicePhone", defaultUserPhoneField.getAttribute("value").replaceAll("\\D",""));
+        info.put("defaultServicePhone", defaultUserPhoneField.getAttribute("value").replaceAll("\\D", ""));
         info.put("remitName", remitNameField.getAttribute("value"));
         for (int i = 1; i < 5; i++) {
             info.put("line" + i, findExtendedWebElement(By.id(partialLineId + i)).getAttribute("value"));
@@ -137,10 +154,34 @@ public class AddSupplierPopup extends BasePopup {
         info.put("state", stateField.getAttribute("value"));
         info.put("zip", zipCodeField.getAttribute("value"));
         info.put("notes", notesField.getAttribute("value"));
+        return info;
+    }
+
+    public Map<String, String> getFullInfo() {
+        Map<String, String> info = getGeneralInfo();
         getPopupLeftMenu().clickTabByName("Account Numbers");
         firstShipToAddress.isVisible();
         info.put("shipToLine2", firstShipToAddress.getText().split(",")[0]);
         info.put("accountNumber", firstAccountNumber.getText());
         return info;
+    }
+
+    public AddSupplierPopup clickCatalogItems() {
+        getPopupLeftMenu().clickTabByName("Catalog Items");
+        return this;
+    }
+
+    public AddSupplierItemPopup clickAddItem() {
+        addItemButton.click();
+        return addSupplierItemPopup;
+    }
+
+    public void assertCatalogItemsSectionOpened() {
+        Assert.assertTrue(catalogItemsSectionActive.isVisible(), "Catalog Item section is not opened");
+    }
+
+    public AddSupplierItemPopup clickOnAddedItemEdit() {
+        addedItem.getEditIcon().click();
+        return addSupplierItemPopup;
     }
 }

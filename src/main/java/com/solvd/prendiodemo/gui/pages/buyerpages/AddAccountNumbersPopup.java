@@ -2,7 +2,7 @@ package com.solvd.prendiodemo.gui.pages.buyerpages;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.solvd.prendiodemo.gui.components.BasePopup;
-import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.RandomUtils;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
@@ -31,7 +31,7 @@ public class AddAccountNumbersPopup extends BasePopup {
     }
 
     public String fillAccountNumber() {
-        String accNum = RandomStringUtils.randomNumeric(4);
+        String accNum = String.valueOf(RandomUtils.nextInt(1, 10_000));
         accountNumberField.type(accNum);
         return accNum;
     }

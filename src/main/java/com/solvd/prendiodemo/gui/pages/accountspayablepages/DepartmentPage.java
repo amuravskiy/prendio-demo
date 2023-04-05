@@ -2,9 +2,10 @@ package com.solvd.prendiodemo.gui.pages.accountspayablepages;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.PageOpeningStrategy;
-import com.solvd.prendiodemo.gui.components.TableEntry;
 import com.solvd.prendiodemo.gui.components.DepSetupPopup;
+import com.solvd.prendiodemo.gui.components.TableEntry;
 import com.solvd.prendiodemo.gui.pages.BasePage;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
@@ -23,6 +24,9 @@ public class DepartmentPage extends BasePage {
 
     @FindBy(xpath = "//tbody[@class='ui-sortable']/tr")
     private List<TableEntry> departments;
+
+    @FindBy(xpath = "//div[@id='divdepartmentdepartment']//input[@placeholder='<filter list>']")
+    private ExtendedWebElement searchField;
 
     public DepartmentPage(WebDriver driver) {
         super(driver);
@@ -47,5 +51,11 @@ public class DepartmentPage extends BasePage {
                 .getEditIcon()
                 .click();
         return new DepartmentPage(driver).depSetupPopup;
+    }
+
+    public DepartmentPage searchDepartmentByDesc(String desc) {
+        searchField.type(desc);
+        searchField.sendKeys(Keys.ENTER);
+        return new DepartmentPage(driver);
     }
 }

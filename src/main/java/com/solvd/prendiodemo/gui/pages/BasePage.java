@@ -12,6 +12,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.testng.asserts.SoftAssert;
 
 import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
@@ -71,10 +72,6 @@ public class BasePage extends AbstractPage {
         return navigationMenu.clickAccountsPayableButton();
     }
 
-    public APManagementPage clickAPManagement() {
-        return navigationMenu.clickAPManagementButton();
-    }
-
     public NavigationTabs getNavigationTabs() {
         return navigationTabs;
     }
@@ -88,22 +85,14 @@ public class BasePage extends AbstractPage {
         loadingBlock.waitUntilElementDisappear(EXPLICIT_TIMEOUT);
     }
 
-    public String getFullName() {
-        String fullname = userphotoblock.openProfile().getFullName();
+    public String getFullname() {
+        String fullname = userphotoblock.openProfile().getFullname();
         LOGGER.info("Fullname from user profile: " + fullname);
         return fullname;
     }
 
-    public boolean isSuccessMessageVisible() {
-        return successMessage.isVisible();
-    }
-
     public void waitSuccessMessageVisible() {
         waitUntil(ExpectedConditions.visibilityOf(successMessage.getElement()), EXPLICIT_TIMEOUT);
-    }
-
-    public String getSuccessMessageText() {
-        return successMessage.getText();
     }
 
     public UserPhotoBlock getUserphotoblock() {
@@ -112,5 +101,10 @@ public class BasePage extends AbstractPage {
 
     public boolean isOutLinkVisible() {
         return outLink.isVisible();
+    }
+
+    public void assertSuccessMessageVisibleWithText(String expectedText, SoftAssert softAssert) {
+        softAssert.assertTrue(successMessage.isVisible(), "Success message is not visible");
+        softAssert.assertEquals(successMessage.getText(), expectedText);
     }
 }

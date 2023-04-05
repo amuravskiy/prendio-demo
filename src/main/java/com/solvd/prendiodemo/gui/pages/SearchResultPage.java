@@ -4,8 +4,10 @@ import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebEleme
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.PageOpeningStrategy;
 import com.solvd.prendiodemo.gui.components.Item;
 import com.solvd.prendiodemo.values.ItemContents;
+import com.zebrunner.carina.utils.R;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 
 import java.util.List;
 
@@ -29,8 +31,9 @@ public class SearchResultPage extends BasePage {
         setPageOpeningStrategy(PageOpeningStrategy.BY_ELEMENT);
     }
 
-    public boolean waitRetrieving(int timeout) {
-        return searchLoadingSign.waitUntilElementDisappear(timeout);
+    public void assertRetrieved() {
+        int timeout = R.CONFIG.getInt("retrieving_timeout");
+        Assert.assertTrue(searchLoadingSign.waitUntilElementDisappear(timeout), "Retrieving has not ended in " + timeout + " sec");
     }
 
     public boolean isItemsDisplayed() {

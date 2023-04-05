@@ -2,15 +2,14 @@ package com.solvd.prendiodemo.gui.pages;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.PageOpeningStrategy;
-import com.solvd.prendiodemo.utils.Util;
-import com.solvd.prendiodemo.gui.components.ConfirmationPopup;
-import com.solvd.prendiodemo.gui.components.OKPopup;
-import com.solvd.prendiodemo.gui.components.ReqApprovalPopup;
+import com.solvd.prendiodemo.gui.components.BasePopup;
 import com.solvd.prendiodemo.gui.components.ShipToPopup;
+import com.solvd.prendiodemo.utils.Util;
 import com.solvd.prendiodemo.values.CartContents;
 import com.solvd.prendiodemo.values.ItemContents;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,10 +26,10 @@ public class CartPage extends BasePage {
     private ExtendedWebElement duplicateCartButton;
 
     @FindBy(xpath = "//div[@id='popupform' and //child::input[@value='Ok']]")
-    private OKPopup okPopup;
+    private BasePopup okPopup;
 
     @FindBy(xpath = "//div[@id='popupform' and h2[text()='CONFIRMATION']]")
-    private ConfirmationPopup confirmationPopup;
+    private BasePopup confirmationPopup;
 
     @FindBy(id = "txtPartNo")
     private List<ExtendedWebElement> partNumbers;
@@ -93,7 +92,7 @@ public class CartPage extends BasePage {
     private ExtendedWebElement submitCartButton;
 
     @FindBy(xpath = "//div[@id='popupform' and h2[text()='Requisition  Approval']]")
-    private ReqApprovalPopup requisitionApprovalPopup;
+    private BasePopup requisitionApprovalPopup;
 
     public CartPage(WebDriver driver) {
         super(driver);
@@ -105,10 +104,6 @@ public class CartPage extends BasePage {
         applyToAllButton.click();
     }
 
-    public void clickOkOnInfoPopup() {
-        okPopup.clickOk();
-    }
-
     public String getId() {
         return cartId.getText();
     }
@@ -117,28 +112,9 @@ public class CartPage extends BasePage {
         return okPopup.isVisible();
     }
 
-    public boolean isInfoPopupDisappeared() {
-        return okPopup.getRootExtendedElement().waitUntilElementDisappear(EXPLICIT_TIMEOUT);
-    }
-
-    public void clickOkOnConfirmPopup() {
-        confirmationPopup.clickOK();
-    }
-
-    public boolean isConfirmPopupVisible() {
-        return confirmationPopup.isVisible();
-    }
-
-    public boolean isConfirmPopupDisappeared() {
-        return confirmationPopup.getRootExtendedElement().waitUntilElementDisappear(EXPLICIT_TIMEOUT);
-    }
-
-    public ConfirmationPopup getConfirmationPopup() {
-        return confirmationPopup;
-    }
-
-    public void clickDuplicateCart() {
+    public BasePopup clickDuplicateCart() {
         duplicateCartButton.click();
+        return confirmationPopup;
     }
 
     public String getCartName() {
@@ -167,30 +143,14 @@ public class CartPage extends BasePage {
         cartId.click();
     }
 
-    public void clickShipToButton() {
+    public ShipToPopup clickShipToButton() {
         shipToButton.click();
         ensureLoaded();
+        return shipToPopup;
     }
 
-    public boolean isShipToPopupVisible() {
-        return shipToPopup.isVisible();
-    }
-
-    public String getShipToPopupTitle() {
-        return shipToPopup.getHeaderText();
-    }
-
-    public String getAddressLine1(int index) {
-        return shipToPopup.getAddressLine1Text(index);
-    }
-
-    public void chooseShipToAddress(int index) {
-        shipToPopup.clickAddress(index);
-        ensureLoaded();
-    }
-
-    public String getshipToAddressText() {
-        return shipToAddressText.getText();
+    public String getShipToAddressLine1Text() {
+        return shipToAddressText.getText().split("\n")[0];
     }
 
     public void setSelects() {
@@ -205,32 +165,29 @@ public class CartPage extends BasePage {
         projectToSelect.click();
     }
 
-    public boolean isReqApprovalPopupVisible() {
-        return requisitionApprovalPopup.isVisible();
-    }
-
-    public String getReqApprovalPopupTitle() {
-        return requisitionApprovalPopup.getHeaderText();
-    }
-
     public boolean isItemSelectsAsCartSelects(int itemIndex) {
         return departmentSelect.getText().equals(itemsDepartment.get(itemIndex).getSelectedValue())
                 && GLAccountSelect.getText().equals(itemsGlAccount.get(itemIndex).getSelectedValue())
                 && projectSelect.getText().equals(itemsProject.get(itemIndex).getSelectedValue());
     }
 
-    public void clickSubmitCartButton() {
+    public BasePopup clickSubmitCartButton() {
         submitCartButton.click();
         ensureLoaded();
+        return requisitionApprovalPopup;
     }
 
     public DashboardPage clickSubmitReqApproval() {
-        requisitionApprovalPopup.clickSubmit();
+        requisitionApprovalPopup.clickConfirmationButton();
         ensureLoaded();
         return new DashboardPage(driver);
     }
 
-    public boolean isSubmitReqApprovalClickable() {
-        return requisitionApprovalPopup.isClickable();
+    public BasePopup getConfirmationPopup() {
+        return okPopup;
+    }
+
+    public void assertCartNameEquals(String name) {
+        Assert.assertEquals(getCartName(), name, "Cart name does not match");
     }
 }

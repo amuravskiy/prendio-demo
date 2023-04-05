@@ -59,4 +59,13 @@ public class CartContents {
                 .setTitle(descriptions.get(index))
                 .setPrice(totals.get(index)).build();
     }
+
+    @Override
+    public String toString() {
+        return "CartContents{" +
+                "partNumbers=" + partNumbers +
+                ", descriptions=" + descriptions +
+                ", totals=" + totals +
+                '}';
+    }
 }

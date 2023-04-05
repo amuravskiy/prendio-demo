@@ -8,7 +8,7 @@ import org.openqa.selenium.support.FindBy;
 
 public class OrderPreview extends AbstractUIObject {
 
-    @FindBy(xpath = "//tr[@cartid]//td[1]")
+    @FindBy(xpath = "./td[1]//span[@class='cartnametxt']")
     private ExtendedWebElement cartName;
 
     public OrderPreview(WebDriver driver, SearchContext searchContext) {
