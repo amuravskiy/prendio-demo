@@ -337,8 +337,8 @@ public class PrendioTest extends AbstractTest {
         Assert.assertEquals(addressSetupPopup.getHeaderText(), "Address Setup");
         Map<String, String> addressInfo = addressSetupPopup.fillInfo();
         addressSetupPopup.clickSave();
-        addressSetupPopup.ensureLoaded();
         addressesPage.assertSuccessMessageVisibleWithText("Saved Successfully");
+        addressSetupPopup.ensureLoaded();
         addressSetupPopup.clickUsers();
         addressSetupPopup.ensureLoaded();
         addressSetupPopup.checkAllDefault();
