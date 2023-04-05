@@ -276,9 +276,9 @@ public class PrendioTest extends AbstractTest {
         profilePage.hoverUploadButton();
         Assert.assertTrue(profilePage.isUploadButtonVisible());
         ImageUploadPopup imageUploadPopup = profilePage.clickUploadButton();
-        imageUploadPopup.assertVisible();
+        imageUploadPopup.assertVisibleWithTitle("Edit Profile Photo");
         imageUploadPopup.attachPhoto();
-        Assert.assertTrue(imageUploadPopup.imageAppeared());
+        imageUploadPopup.imageAppeared();
         imageUploadPopup.clickUpload();
         imageUploadPopup.ensureLoaded();
         imageUploadPopup.assertDisappeared();
@@ -310,7 +310,7 @@ public class PrendioTest extends AbstractTest {
         addSupplierPopup.getPopupLeftMenu().clickTabByName("Account Numbers");
         Assert.assertTrue(addSupplierPopup.isAccountsSectionDisplayed());
         AddAccountNumbersPopup addAccountNumbersPopup = addSupplierPopup.clickAdd();
-        addAccountNumbersPopup.assertVisible();
+        addAccountNumbersPopup.assertVisibleWithTitle("Add Account Numbers");
         AddressPopup addressPopup = addAccountNumbersPopup.clickSelectShipToAddress();
         addressPopup.assertVisible();
         infoEntered.put("shipToLine2", addressPopup.getAddressLine2Text(0));
@@ -322,8 +322,10 @@ public class PrendioTest extends AbstractTest {
         suppliersPage.assertSuccessMessageVisibleWithText("Account Added Successfully", softAssert);
         addSupplierPopup.clickClose();
         addSupplierPopup.assertDisappeared();
-        suppliersPage = suppliersPage.search(infoEntered.get("name"));
-        addSupplierPopup = suppliersPage.editSupplierByName(infoEntered.get("name"));
+        String name = infoEntered.get("name");
+        suppliersPage = suppliersPage.search(name);
+        suppliersPage.assertSupplierFound(name);
+        addSupplierPopup = suppliersPage.editSupplierByName(name);
         suppliersPage.ensureLoaded();
         addSupplierPopup.assertVisible();
         Map<String, String> infoRead = addSupplierPopup.getFullInfo();

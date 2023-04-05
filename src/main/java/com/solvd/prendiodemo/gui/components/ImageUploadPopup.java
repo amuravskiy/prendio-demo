@@ -6,6 +6,7 @@ import com.zebrunner.carina.utils.R;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 
 import java.io.File;
 
@@ -20,15 +21,12 @@ public class ImageUploadPopup extends BasePopup {
     @FindBy(id = "btnCrop")
     private ExtendedWebElement setPhoto;
 
-    @FindBy(id = "btnZoomIn")
-    private ExtendedWebElement zoomIn;
-
     public ImageUploadPopup(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
     }
 
-    public boolean imageAppeared() {
-        return imageBox.isVisible();
+    public void imageAppeared() {
+        Assert.assertTrue(imageBox.isVisible(),"Image didn't appear");
     }
 
     public void attachPhoto() {

@@ -8,8 +8,10 @@ import com.solvd.prendiodemo.gui.pages.BasePage;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 
 import java.util.List;
+import java.util.Optional;
 
 public class BuyerSuppliersPage extends BasePage {
 
@@ -39,20 +41,24 @@ public class BuyerSuppliersPage extends BasePage {
         return addSupplierPopup;
     }
 
-    public void fillRequiredFields() {
-        addSupplierPopup.fillRequiredFields();
-    }
-
     public BuyerSuppliersPage search(String query) {
         searchField.type(query);
         searchField.sendKeys(Keys.ENTER);
         return new BuyerSuppliersPage(driver);
     }
 
-    public AddSupplierPopup editSupplierByName(String name) {
-        suppliers.stream()
+    private Optional<TableEntry> findSupplierEntryByName(String name) {
+        return suppliers.stream()
                 .filter(supp -> supp.getNameContainer().getText().equals(name))
-                .findFirst()
+                .findFirst();
+    }
+
+    public void assertSupplierFound(String name) {
+        Assert.assertTrue(findSupplierEntryByName(name).isPresent(), "Supplier with name " + name + " not found");
+    }
+
+    public AddSupplierPopup editSupplierByName(String name) {
+        findSupplierEntryByName(name)
                 .orElseThrow()
                 .getEditIcon()
                 .click();
