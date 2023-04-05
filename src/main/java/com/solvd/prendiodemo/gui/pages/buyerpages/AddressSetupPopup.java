@@ -4,6 +4,7 @@ import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebEleme
 import com.solvd.prendiodemo.gui.components.BasePopup;
 import com.solvd.prendiodemo.utils.Util;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.RandomUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
@@ -72,7 +73,7 @@ public class AddressSetupPopup extends BasePopup {
         zipCodeField.type(RandomStringUtils.randomAlphabetic(10));
         Util.selectByIndex(countrySelect, 1);
         phoneField.type(RandomStringUtils.randomNumeric(10));
-        addressCode.type(RandomStringUtils.randomNumeric(4));
+        addressCode.type(String.valueOf(RandomUtils.nextInt(1, 10_000)));
         defaultAddressContainer.click();
         return getInfo();
     }

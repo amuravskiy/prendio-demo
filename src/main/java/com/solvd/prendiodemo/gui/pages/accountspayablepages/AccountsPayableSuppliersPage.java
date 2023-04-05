@@ -2,9 +2,10 @@ package com.solvd.prendiodemo.gui.pages.accountspayablepages;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.PageOpeningStrategy;
-import com.solvd.prendiodemo.utils.Util;
 import com.solvd.prendiodemo.gui.components.BasePopup;
 import com.solvd.prendiodemo.gui.pages.BasePage;
+import com.solvd.prendiodemo.utils.Util;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
@@ -21,6 +22,9 @@ public class AccountsPayableSuppliersPage extends BasePage {
     @FindBy(xpath = "//li[a[text()='Suppliers'] and @class='selected']")
     private ExtendedWebElement suppliersTabActive;
 
+    @FindBy(xpath = "//div[@id='synsupplier']//input[@placeholder='<filter list>']")
+    private ExtendedWebElement searchField;
+
     public AccountsPayableSuppliersPage(WebDriver driver) {
         super(driver);
         setUiLoadedMarker(suppliersTabActive);
@@ -32,7 +36,9 @@ public class AccountsPayableSuppliersPage extends BasePage {
         return supplierInfoPopup;
     }
 
-    public String getCreatedTrailText() {
-        return supplierInfoPopup.getCreatedTrailText();
+    public AccountsPayableSuppliersPage search(String query) {
+        searchField.type(query);
+        searchField.sendKeys(Keys.ENTER);
+        return new AccountsPayableSuppliersPage(driver);
     }
 }

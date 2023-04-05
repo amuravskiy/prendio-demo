@@ -91,7 +91,7 @@ public class AddSupplierItemPopup extends BasePopup {
                 .forEach(ExtendedWebElement::click);
         casNumberField.type(RandomStringUtils.randomAlphabetic(15));
         Util.selectByIndex(unitSelect, 1);
-        qtyEachField.type(RandomStringUtils.randomNumeric(2));
+        qtyEachField.type(String.valueOf(RandomUtils.nextInt(1, 10_000 + 1)));
         firstMaterialNameField.type(RandomStringUtils.randomAlphabetic(30));
         fistMaterialValue.type(RandomStringUtils.randomAlphabetic(30));
         return getInfo();

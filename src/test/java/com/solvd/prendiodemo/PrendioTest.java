@@ -13,6 +13,7 @@ import com.solvd.prendiodemo.utils.Util;
 import com.solvd.prendiodemo.values.*;
 import com.zebrunner.carina.utils.R;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.RandomUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -61,6 +62,8 @@ public class PrendioTest extends AbstractTest {
         AccountPayablePage accountPayablePage = suppliersPage.clickAccountsPayable();
         accountPayablePage.assertPageOpened();
         AccountsPayableSuppliersPage accountsPayableSuppliersPage = accountPayablePage.clickSuppliers();
+        accountsPayableSuppliersPage.assertPageOpened();
+        accountsPayableSuppliersPage = accountsPayableSuppliersPage.search(supplierName);
         accountsPayableSuppliersPage.assertPageOpened();
         BasePopup supplierInfoPopup = accountsPayableSuppliersPage.clickSupplierByName(supplierName);
         supplierInfoPopup.assertVisible();
@@ -237,9 +240,9 @@ public class PrendioTest extends AbstractTest {
         String currentDateFormatted = formatterShort.format(Instant.now());
         SlipInfo slipInfoEntered = new SlipInfo.SlipInfoBuilder()
                 .setRecDate(currentDateFormatted)
-                .setInvoiceNumber(RandomStringUtils.randomNumeric(4))
+                .setInvoiceNumber(String.valueOf(RandomUtils.nextInt(1, 10_000)))
                 .setInvDate(currentDateFormatted)
-                .setInvoiceAmount(RandomStringUtils.randomNumeric(4))
+                .setInvoiceAmount(String.valueOf(RandomUtils.nextInt(1, 10_000)))
                 .setDay(String.valueOf(Instant.now().atOffset(ZoneOffset.ofHours(hoursOffsetFromUTC)).getDayOfMonth()))
                 .build();
         matchPage.fillSlipInfo(slipInfoEntered);
