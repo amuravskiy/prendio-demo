@@ -11,6 +11,7 @@ import org.testng.Assert;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class AllCartsPage extends BasePage {
 
@@ -62,7 +63,7 @@ public class AllCartsPage extends BasePage {
     }
 
     public void assertCartPresent(String id) {
-        Assert.assertTrue(findCartEntryById(id).isPresent(), "Cart with id" + id + " not found");
+        Assert.assertTrue(findCartEntryById(id).isPresent(), "Cart with id " + id + " not found");
     }
 
     public String getCartNameById(String id) {

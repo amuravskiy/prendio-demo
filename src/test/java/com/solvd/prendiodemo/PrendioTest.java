@@ -80,11 +80,52 @@ public class PrendioTest extends AbstractTest {
         allCartsPage.assertPageOpened();
         allCartsPage.assertCartPresent(newCartId);
         Assert.assertEquals(allCartsPage.getCartNameById(newCartId), newCartName, "Cart id does not match");
-        allCartsPage = allCartsPage.search(templateCartName);
+        allCartsPage = allCartsPage.search(newCartName);
         Assert.assertEquals(templateCartName, allCartsPage.getCartNameById(templateCartId), "Cart name does not match");
         cartPage = allCartsPage.clickById(templateCartId);
         Assert.assertEquals(cartPage.getCartContents(), cartContents);
         softAssert.assertAll();
+    }
+
+    @Test(description = "Verifies cart order creation")
+    public void checkCartUsingCatalogTest() {
+        final int index = 0;
+        String query = R.CONFIG.get("catalog_query");
+        DashboardPage dashboardPage = Util.loginAs(getDriver());
+        dashboardPage.assertPageOpened();
+        SearchResultPage searchResultPage = dashboardPage.searchCatalog(query);
+        searchResultPage.assertPageOpened();
+        searchResultPage.assertRetrieved();
+        Assert.assertTrue(searchResultPage.isItemsDisplayed());
+        Assert.assertTrue(searchResultPage.isAllItemTitlesContainQuery(query), "Not all items contain query string in their title");
+        ItemContents itemContents = searchResultPage.getItemContents(index);
+        searchResultPage.clickAddToCart(index);
+        Assert.assertTrue(searchResultPage.isCreateNewCartButtonDisplayed(index), "Create new cart button is not displayed");
+        Assert.assertTrue(searchResultPage.isAddInExistingCartButtonDisplayed(index), "Add in existing cart button is not displayed");
+        CartPage cartPage = searchResultPage.clickCreateNewCart(index);
+        cartPage.assertPageOpened();
+        ItemContents itemContentsInCart = cartPage.getFirstItemContents();
+        Assert.assertEquals(itemContentsInCart, itemContents, "Item contents not equal to what was on the results page");
+        ShipToPopup shipToPopup = cartPage.clickShipToButton();
+        shipToPopup.assertVisibleWithText("Ship To Address List");
+        String line1 = shipToPopup.chooseShipToAddress(0);
+        cartPage.ensureLoaded();
+        Assert.assertEquals(cartPage.getShipToAddressLine1Text(), line1);
+        cartPage.setSelects();
+        cartPage.clickApplyToAll();
+        String cartId = cartPage.getId();
+        Assert.assertTrue(cartPage.isItemSelectsAsCartSelects(0), "Selects aren't set as per cart for an item");
+        BasePopup reqApprovalPopup = cartPage.clickSubmitCartButton();
+        if (cartPage.isInfoPopupVisible()) {
+            BasePopup BasePopup = cartPage.getConfirmationPopup();
+            BasePopup.clickConfirmationButton();
+            BasePopup.assertDisappeared();
+            cartPage.ensureLoaded();
+        }
+        reqApprovalPopup.assertVisibleWithText("Requisition Approval");
+        dashboardPage = cartPage.clickSubmitReqApproval();
+        dashboardPage.assertPageOpened();
+        Assert.assertTrue(dashboardPage.getOrderPreviewsCartName(0).contains(cartId));
     }
 
     @Test(description = "Verifies adding supplier leaves trail")
@@ -125,47 +166,6 @@ public class PrendioTest extends AbstractTest {
         Assert.assertEquals(trailDate, currentDateFormatted);
         Assert.assertEquals(trailFullname, fullName);
         softAssert.assertAll();
-    }
-
-    @Test(description = "Verifies cart order creation")
-    public void checkCartUsingCatalogTest() {
-        final int index = 0;
-        String query = R.CONFIG.get("catalog_query");
-        DashboardPage dashboardPage = Util.loginAs(getDriver());
-        dashboardPage.assertPageOpened();
-        SearchResultPage searchResultPage = dashboardPage.searchCatalog(query);
-        searchResultPage.assertPageOpened();
-        searchResultPage.assertRetrieved();
-        Assert.assertTrue(searchResultPage.isItemsDisplayed());
-        Assert.assertTrue(searchResultPage.isAllItemTitlesContainQuery(query), "Not all items contain query string in their title");
-        ItemContents itemContents = searchResultPage.getItemContents(index);
-        searchResultPage.clickAddToCart(index);
-        Assert.assertTrue(searchResultPage.isCreateNewCartButtonDisplayed(index));
-        Assert.assertTrue(searchResultPage.isAddInExistingCartButtonDisplayed(index));
-        CartPage cartPage = searchResultPage.clickCreateNewCart(index);
-        cartPage.assertPageOpened();
-        ItemContents itemContentsInCart = cartPage.getFirstItemContents();
-        Assert.assertEquals(itemContentsInCart, itemContents);
-        ShipToPopup shipToPopup = cartPage.clickShipToButton();
-        shipToPopup.assertVisibleWithText("Ship To Address List");
-        String line1 = shipToPopup.chooseShipToAddress(0);
-        cartPage.ensureLoaded();
-        Assert.assertEquals(cartPage.getShipToAddressLine1Text(), line1);
-        cartPage.setSelects();
-        cartPage.clickApplyToAll();
-        String cartId = cartPage.getId();
-        Assert.assertTrue(cartPage.isItemSelectsAsCartSelects(0));
-        BasePopup reqApprovalPopup = cartPage.clickSubmitCartButton();
-        if (cartPage.isInfoPopupVisible()) {
-            BasePopup BasePopup = cartPage.getConfirmationPopup();
-            BasePopup.clickConfirmationButton();
-            BasePopup.assertDisappeared();
-            cartPage.ensureLoaded();
-        }
-        reqApprovalPopup.assertVisibleWithText("Requisition Approval");
-        dashboardPage = cartPage.clickSubmitReqApproval();
-        dashboardPage.assertPageOpened();
-        Assert.assertTrue(dashboardPage.getOrderPreviewsCartName(0).contains(cartId));
     }
 
     @Test(description = "Verifies department creation")

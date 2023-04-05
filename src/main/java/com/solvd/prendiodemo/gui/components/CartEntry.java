@@ -9,10 +9,10 @@ import org.openqa.selenium.support.FindBy;
 
 public class CartEntry extends AbstractUIObject {
 
-    @FindBy(xpath = "..//a[@type='cart']")
+    @FindBy(xpath = ".//a[@type='cart']")
     private ExtendedWebElement idLink;
 
-    @FindBy(xpath = "..//td[2]")
+    @FindBy(xpath = ".//td[2]")
     private ExtendedWebElement name;
 
     public CartEntry(WebDriver driver, SearchContext searchContext) {
