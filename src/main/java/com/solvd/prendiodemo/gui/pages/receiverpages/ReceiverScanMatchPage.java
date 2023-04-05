@@ -49,7 +49,7 @@ public class ReceiverScanMatchPage extends ReceiverPage {
     }
 
     public void assertFirstScanItemVisible() {
-        Assert.assertTrue(firstScanItemContainer.isVisible());
+        Assert.assertTrue(firstScanItemContainer.isVisible(), "First scan item is not visible");
     }
 
     public void checkFirstItem() {

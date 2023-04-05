@@ -121,6 +121,7 @@ public class AddressSetupPopup extends BasePopup {
     public void assertAllDefaultActive() {
         Assert.assertTrue(tableCheckboxes.stream()
                 .filter(checkbox -> checkbox.getElement().isDisplayed())
-                .allMatch(ExtendedWebElement::isChecked));
+                .allMatch(ExtendedWebElement::isChecked),
+                "Not all checkboxes checked");
     }
 }

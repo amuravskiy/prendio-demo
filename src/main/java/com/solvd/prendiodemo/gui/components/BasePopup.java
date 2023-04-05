@@ -79,7 +79,7 @@ public class BasePopup extends AbstractUIObject {
     }
 
     public void assertDisappeared() {
-        Assert.assertTrue(this.getRootExtendedElement().waitUntilElementDisappear(EXPLICIT_TIMEOUT));
+        Assert.assertTrue(this.getRootExtendedElement().waitUntilElementDisappear(EXPLICIT_TIMEOUT), "Popup didn't disappear");
     }
 
     public void clickConfirmationButton() {

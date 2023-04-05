@@ -11,7 +11,6 @@ import org.testng.Assert;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class AllCartsPage extends BasePage {
 
@@ -53,7 +52,8 @@ public class AllCartsPage extends BasePage {
 
     public void assertCartWithNameFound(String name) {
         Assert.assertTrue(cartEntries.stream()
-                .anyMatch(cart -> cart.getName().equals(name)), "Cart with name " + name + " is not found");
+                        .anyMatch(cart -> cart.getName().equals(name)),
+                "Cart with name " + name + " is not found");
     }
 
     private Optional<CartEntry> findCartEntryById(String id) {

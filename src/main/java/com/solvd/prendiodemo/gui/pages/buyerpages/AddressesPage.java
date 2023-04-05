@@ -44,7 +44,7 @@ public class AddressesPage extends BasePage {
     }
 
     public void assertAddressFound(String line1) {
-        Assert.assertEquals(firstAddress.getNameContainer().getText().split(",")[0], line1);
+        Assert.assertEquals(firstAddress.getNameContainer().getText().split(",")[0], line1, "Address not found");
     }
 
     public AddressSetupPopup editFirstAddress() {
