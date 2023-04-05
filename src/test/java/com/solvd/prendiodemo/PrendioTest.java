@@ -84,7 +84,7 @@ public class PrendioTest extends AbstractTest {
     @Test(description = "Verifies cart remains unchanged after duplication")
     public void checkCartTemplateTest() {
         SoftAssert softAssert = new SoftAssert();
-        String templateCartName = R.CONFIG.get("template_cart_name");
+        final String templateCartName = R.CONFIG.get("template_cart_name");
         DashboardPage dashboardPage = Util.loginAs(getDriver());
         AllCartsPage allCartsPage = dashboardPage.clickViewAllCarts();
         allCartsPage.assertPageOpened();
@@ -233,14 +233,14 @@ public class PrendioTest extends AbstractTest {
         ReceiverScanPage scanPage = receiverPage.clickScan();
         scanPage.assertPageOpened();
         scanPage.addUploadFile();
-        Assert.assertTrue(scanPage.isIconVisible());
+        scanPage.assertIconVisible();
         scanPage.clickUpload();
         Assert.assertTrue(scanPage.isProgressBarVisible());
         Assert.assertTrue(scanPage.isProgressBarDisappeared());
         Assert.assertEquals(scanPage.getUploadStatusText(), "100%");
         ReceiverScanMatchPage matchPage = receiverPage.clickScanMatch();
         matchPage.assertPageOpened();
-        Assert.assertTrue(matchPage.isScanItemVisible());
+        matchPage.assertFirstScanItemVisible();
         matchPage.checkFirstItem();
         String currentDateFormatted = formatterShort.format(Instant.now());
         SlipInfo infoEntered = new SlipInfo.SlipInfoBuilder()
@@ -251,7 +251,7 @@ public class PrendioTest extends AbstractTest {
                 .setDay(String.valueOf(Instant.now().atOffset(ZoneOffset.ofHours(hoursOffsetFromUTC)).getDayOfMonth()))
                 .build();
         matchPage.fillSlipInfo(infoEntered);
-        matchPage.clickNextButton();
+        matchPage.clickNext();
         matchPage.ensureLoaded();
         matchPage.assertSuccessMessageVisibleWithText("Entry Added Successfully", softAssert);
         AccountPayablePage accountPayablePage = matchPage.clickAccountsPayable();

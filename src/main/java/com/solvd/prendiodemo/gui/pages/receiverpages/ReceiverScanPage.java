@@ -7,6 +7,7 @@ import com.solvd.prendiodemo.utils.Util;
 import com.zebrunner.carina.utils.R;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 
 import java.io.File;
 
@@ -45,8 +46,8 @@ public class ReceiverScanPage extends ReceiverPage {
         uploadButton.click();
     }
 
-    public boolean isIconVisible() {
-        return uploadedIcon.isVisible();
+    public void assertIconVisible() {
+        Assert.assertTrue(uploadedIcon.isVisible(), "Icon of the uploaded file is not visible");
     }
 
     public boolean isProgressBarVisible() {

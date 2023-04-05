@@ -8,6 +8,7 @@ import com.solvd.prendiodemo.values.SlipInfo;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 
 public class ReceiverScanMatchPage extends ReceiverPage {
 
@@ -41,17 +42,14 @@ public class ReceiverScanMatchPage extends ReceiverPage {
     @FindBy(id = "INVOICENext")
     private ExtendedWebElement nextButton;
 
-    @FindBy(xpath = "//div[h2[text()='CONFIRMATION']]")
-    private SupplierSelectPopup supplierSelectPopup;
-
     public ReceiverScanMatchPage(WebDriver driver) {
         super(driver);
         setUiLoadedMarker(scanMatchActive);
         setPageOpeningStrategy(PageOpeningStrategy.BY_ELEMENT);
     }
 
-    public boolean isScanItemVisible() {
-        return firstScanItemContainer.isVisible();
+    public void assertFirstScanItemVisible() {
+        Assert.assertTrue(firstScanItemContainer.isVisible());
     }
 
     public void checkFirstItem() {
@@ -75,8 +73,7 @@ public class ReceiverScanMatchPage extends ReceiverPage {
         Util.selectByIndex(chooseUserSelect, 1);
     }
 
-    public SupplierSelectPopup clickNextButton() {
+    public void clickNext() {
         nextButton.click();
-        return supplierSelectPopup;
     }
 }
