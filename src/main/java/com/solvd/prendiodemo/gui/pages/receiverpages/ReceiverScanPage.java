@@ -30,7 +30,6 @@ public class ReceiverScanPage extends ReceiverPage {
     @FindBy(className = "plupload_total_status")
     private ExtendedWebElement uploadStatus;
 
-
     public ReceiverScanPage(WebDriver driver) {
         super(driver);
         setUiLoadedMarker(scanSectionActive);

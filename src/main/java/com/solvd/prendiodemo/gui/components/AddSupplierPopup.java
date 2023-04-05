@@ -9,7 +9,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 
 import java.util.HashMap;
 import java.util.List;
@@ -20,40 +19,58 @@ public class AddSupplierPopup extends BasePopup {
     private final String partialLineId = "stxtstreet";
     @FindBy(id = "txtsuppliername")
     private ExtendedWebElement supplierNameField;
+
     @FindBy(id = "shippingmethod")
     private ExtendedWebElement shippingMethodSelect;
+
     @FindBy(id = "prepaidfreight")
     private ExtendedWebElement prepaidFreightSelect;
+
     @FindBy(id = "paymentterms")
     private ExtendedWebElement paymentTermsSelect;
+
     @FindBy(id = "fob")
     private ExtendedWebElement FOBSelect;
+
     @FindBy(id = "txtemail")
     private ExtendedWebElement emailField;
+
     @FindBy(id = "defaultuserphone")
     private ExtendedWebElement defaultUserPhoneField;
+
     @FindBy(id = "stxtstreet1")
     private ExtendedWebElement addressLine1;
+
     @FindBy(id = "Savesupplier")
     private ExtendedWebElement saveButton;
+
     @FindBy(id = "supname1")
     private ExtendedWebElement remitNameField;
+
     @FindBy(id = "stxtcity")
     private ExtendedWebElement cityField;
+
     @FindBy(id = "stxtstate")
     private ExtendedWebElement stateField;
+
     @FindBy(id = "stxtcode")
     private ExtendedWebElement zipCodeField;
+
     @FindBy(id = "textnotes")
     private ExtendedWebElement notesField;
+
     @FindBy(id = "tblaccount")
     private ExtendedWebElement accountNumbersSectionActive;
+
     @FindBy(id = "addaccount")
     private ExtendedWebElement addAccountButton;
+
     @FindBy(xpath = "//div[h2[text()='Add Account Numbers']]")
     private AddAccountNumbersPopup addAccountNumbersPopup;
+
     @FindBy(id = "tdaddress")
     private ExtendedWebElement firstShipToAddress;
+
     @FindBy(xpath = "//td[@id='tdaddress']//following::td[1]")
     private ExtendedWebElement firstAccountNumber;
 

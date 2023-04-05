@@ -20,8 +20,4 @@ public class UserStatusWindow extends AbstractUIObject {
         viewProfileButton.click();
         return new ProfilePage(driver);
     }
-
-    public boolean isVisible() {
-        return getRootExtendedElement().isVisible();
-    }
 }

@@ -10,29 +10,11 @@ public class LoginPage extends AbstractPage {
     @FindBy(id = "username")
     private ExtendedWebElement usernameField;
 
-    @FindBy(xpath = "//button[*[contains(text(),'Not you?')]]")
-    private ExtendedWebElement notYouButton;
-
     @FindBy(id = "password")
     private ExtendedWebElement passwordField;
 
-    @FindBy(id = "rememberUsername")
-    private ExtendedWebElement rememberUsernameCheckbox;
-
     @FindBy(xpath = "//button[*[contains(text(),'Continue')]]")
     private ExtendedWebElement continueButton;
-
-    @FindBy(xpath = "//button[*[contains(text(),'Forgot Password')]]")
-    private ExtendedWebElement forgotPasswordButton;
-
-    @FindBy(linkText = "Powered by OneLogin")
-    private ExtendedWebElement poweredByOneLoginLink;
-
-    @FindBy(linkText = "Terms")
-    private ExtendedWebElement TermsLink;
-
-    @FindBy(linkText = "Privacy Policy")
-    private ExtendedWebElement PrivacyPolicyLink;
 
     public LoginPage(WebDriver driver) {
         super(driver);

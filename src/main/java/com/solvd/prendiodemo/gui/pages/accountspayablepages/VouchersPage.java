@@ -13,7 +13,6 @@ import java.util.Optional;
 
 public class VouchersPage extends AccountPayablePage {
 
-
     @FindBy(xpath = "//li//a[text()='Vouchers']")
     private ExtendedWebElement vouchersSectionActive;
 

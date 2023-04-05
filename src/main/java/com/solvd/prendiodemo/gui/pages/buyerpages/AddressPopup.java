@@ -13,8 +13,10 @@ import java.util.List;
 public class AddressPopup extends BasePopup {
 
     private final By tableElementsLocator = By.xpath("//table[@id='tblbilllist']//tbody//tr");
+
     @FindBy(xpath = "//table[@id='tblbilllist']//tbody//tr//td[2]")
     private List<ExtendedWebElement> line2s;
+
     @FindBy(xpath = "//table[@id='tblbilllist']//tbody//tr")
     private List<ExtendedWebElement> addresses;
 

@@ -99,7 +99,6 @@ public class SlipInfo {
         private String invDate;
         private String invoiceAmount;
 
-
         public String getDay() {
             return day;
         }
