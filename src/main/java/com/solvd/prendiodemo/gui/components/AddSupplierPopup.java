@@ -9,6 +9,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 
 import java.util.HashMap;
 import java.util.List;
@@ -175,8 +176,8 @@ public class AddSupplierPopup extends BasePopup {
         return addSupplierItemPopup;
     }
 
-    public boolean isCatalogItemsSectionOpened() {
-        return catalogItemsSectionActive.isVisible();
+    public void assertCatalogItemsSectionOpened() {
+        Assert.assertTrue(catalogItemsSectionActive.isVisible(), "Catalog Item section is not opened");
     }
 
     public AddSupplierItemPopup clickOnAddedItemEdit() {

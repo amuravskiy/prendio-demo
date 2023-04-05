@@ -349,6 +349,7 @@ public class PrendioTest extends AbstractTest {
         addressesPage.assertSuccessMessageVisibleWithText("Saved Successfully", softAssert);
         addressSetupPopup.ensureLoaded();
         addressSetupPopup.clickUsers();
+        addressSetupPopup.assertUserSectionVisible();
         addressSetupPopup.ensureLoaded();
         addressSetupPopup.checkAllDefault();
         addressSetupPopup.assertAllDefaultActive();
@@ -378,12 +379,12 @@ public class PrendioTest extends AbstractTest {
         supplierPopup.ensureLoaded();
         AddSupplierPopup catalogItemsPopup = supplierPopup.clickCatalogItems();
         buyerPage.ensureLoaded();
-        Assert.assertTrue(catalogItemsPopup.isCatalogItemsSectionOpened());
+        catalogItemsPopup.assertCatalogItemsSectionOpened();
         AddSupplierItemPopup itemPopup = catalogItemsPopup.clickAddItem();
         catalogItemsPopup.ensureLoaded();
         itemPopup.assertVisible();
         Map<String, String> infoEntered = itemPopup.fillInfo();
-        Assert.assertEquals(infoEntered.get("genericDesc"), infoEntered.get("desc"));
+        Assert.assertEquals(infoEntered.get("genericDesc"), infoEntered.get("desc"), "Description is not copied");
         itemPopup.clickAddSpec();
         Assert.assertTrue(itemPopup.getSpecNumber() > 1, "Spec number has not increased");
         itemPopup.clickSave();

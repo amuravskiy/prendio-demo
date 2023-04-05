@@ -56,6 +56,9 @@ public class AddressSetupPopup extends BasePopup {
     @FindBy(xpath = "..//table//input[@type='checkbox']")
     private List<ExtendedWebElement> tableCheckboxes;
 
+    @FindBy(id = "tbladdressuser")
+    private ExtendedWebElement userTable;
+
     public AddressSetupPopup(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
     }
@@ -105,6 +108,10 @@ public class AddressSetupPopup extends BasePopup {
 
     public void clickUsers() {
         getPopupLeftMenu().clickTabByName("Users");
+    }
+
+    public void assertUserSectionVisible() {
+        Assert.assertTrue(userTable.isVisible(), "User section is not visible");
     }
 
     public void checkAllDefault() {
