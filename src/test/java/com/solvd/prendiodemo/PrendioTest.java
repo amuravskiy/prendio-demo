@@ -329,7 +329,7 @@ public class PrendioTest extends AbstractTest {
         suppliersPage.ensureLoaded();
         addSupplierPopup.assertVisible();
         Map<String, String> infoRead = addSupplierPopup.getFullInfo();
-        Assert.assertEquals(infoRead, infoEntered, "Supplier info does not match entered");
+        Assert.assertEquals(infoRead, infoEntered);
         softAssert.assertAll();
     }
 
@@ -397,7 +397,7 @@ public class PrendioTest extends AbstractTest {
         itemPopup.ensureLoaded();
         itemPopup.assertVisible();
         Map<String, String> infoRead = itemPopup.getInfo();
-        Assert.assertEquals(infoRead, infoEntered, "Supplier Item info does not match entered");
+        Assert.assertEquals(infoRead, infoEntered);
         softAssert.assertAll();
     }
 }
