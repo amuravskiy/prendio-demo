@@ -41,7 +41,7 @@ public class VouchersPage extends AccountPayablePage {
     }
 
     public void assertVoucherFound(String invNumber) {
-        Assert.assertTrue(findVoucherEntryByInvNumber(invNumber).isPresent(), "Voucher with " + invNumber + " not found");
+        Assert.assertTrue(findVoucherEntryByInvNumber(invNumber).isPresent(), "Voucher with invNumber " + invNumber + " not found");
     }
 
     public VoucherEntry getVoucherEntryByInvNumber(String invNumber) {

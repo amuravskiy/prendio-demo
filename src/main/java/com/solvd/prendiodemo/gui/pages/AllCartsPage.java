@@ -7,8 +7,10 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.NotFoundException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 
 import java.util.List;
+import java.util.Optional;
 
 public class AllCartsPage extends BasePage {
 
@@ -53,18 +55,18 @@ public class AllCartsPage extends BasePage {
                 .anyMatch(cart -> cart.getName().equals(name));
     }
 
-    public String getTopCartName() {
-        return cartEntries.get(0).getName();
+    private Optional<CartEntry> findCartEntryById(String id) {
+        return cartEntries.stream()
+                .filter(cart -> cart.getId().equals(id))
+                .findFirst();
     }
 
-    public String getTopCartId() {
-        return cartEntries.get(0).getId();
+    public void assertCartPresent(String id) {
+        Assert.assertTrue(findCartEntryById(id).isPresent(), "Cart with id" + id + " not found");
     }
 
     public String getCartNameById(String id) {
-        return cartEntries.stream()
-                .filter(cartEntry -> cartEntry.getId().equals(id))
-                .findFirst()
+        return findCartEntryById(id)
                 .orElseThrow(() -> new NotFoundException("Cart with id " + id + " not found"))
                 .getName();
     }

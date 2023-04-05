@@ -115,8 +115,8 @@ public class PrendioTest extends AbstractTest {
         dashboardPage.assertPageOpened();
         allCartsPage = dashboardPage.clickViewAllCarts();
         allCartsPage.assertPageOpened();
-        Assert.assertEquals(allCartsPage.getTopCartId(), newOrderId);
-        Assert.assertEquals(allCartsPage.getTopCartName(), newOrderName);
+        allCartsPage.assertCartPresent(newOrderId);
+        Assert.assertEquals(allCartsPage.getCartNameById(newOrderId), newOrderName);
         allCartsPage = allCartsPage.search(templateCartName);
         Assert.assertEquals(templateCartName, allCartsPage.getCartNameById(templateCartId));
         cartPage = allCartsPage.clickById(templateCartId);
