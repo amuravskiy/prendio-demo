@@ -12,7 +12,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testng.Assert;
+import org.testng.asserts.SoftAssert;
 
 import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
@@ -103,8 +103,8 @@ public class BasePage extends AbstractPage {
         return outLink.isVisible();
     }
 
-    public void assertSuccessMessageVisibleWithText(String expectedText) {
-        Assert.assertTrue(successMessage.isVisible(), "Success message is not visible");
-        Assert.assertEquals(successMessage.getText(), expectedText);
+    public void assertSuccessMessageVisibleWithText(String expectedText, SoftAssert softAssert) {
+        softAssert.assertTrue(successMessage.isVisible(), "Success message is not visible");
+        softAssert.assertEquals(successMessage.getText(), expectedText);
     }
 }
