@@ -12,7 +12,6 @@ import com.solvd.prendiodemo.gui.pages.receiverpages.ReceiverScanPage;
 import com.solvd.prendiodemo.utils.Util;
 import com.solvd.prendiodemo.values.*;
 import com.zebrunner.carina.utils.R;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -30,8 +29,8 @@ public class PrendioTest extends AbstractTest {
 
     @Test(description = "Verifies login works properly")
     public void checkLoginTest() {
-        final String username = R.CONFIG.get("username");
-        final String password = R.CONFIG.get("password");
+        String username = R.CONFIG.get("username");
+        String password = R.CONFIG.get("password");
         LoginPage loginPage = new LoginPage(getDriver());
         loginPage.open();
         loginPage.assertPageOpened();
@@ -43,7 +42,7 @@ public class PrendioTest extends AbstractTest {
 
     @Test(description = "Verifies adding supplier leaves trail")
     public void checkAddingSupplierTrailTest() {
-        final DateTimeFormatter addSupplierTrailDateFormatter = DateTimeFormatter
+        DateTimeFormatter addSupplierTrailDateFormatter = DateTimeFormatter
                 .ofPattern(R.CONFIG.get("add_supplier_date_format"))
                 .withZone(ZoneOffset.ofHours(hoursOffsetFromUTC));
         DashboardPage dashboardPage = Util.loginAs(getDriver());
@@ -81,7 +80,7 @@ public class PrendioTest extends AbstractTest {
 
     @Test(description = "Verifies cart remains unchanged after duplication")
     public void checkCartTemplateTest() {
-        final String templateCartName = "Toner Order Template";
+        String templateCartName = R.CONFIG.get("template_cart_name");
         DashboardPage dashboardPage = Util.loginAs(getDriver());
         AllCartsPage allCartsPage = dashboardPage.clickViewAllCarts();
         allCartsPage.assertPageOpened();
@@ -126,13 +125,13 @@ public class PrendioTest extends AbstractTest {
 
     @Test(description = "Verifies cart order creation")
     public void checkCartUsingCatalogTest() {
-        final String query = R.CONFIG.get("catalog_query");
         final int index = 0;
+        String query = R.CONFIG.get("catalog_query");
         DashboardPage dashboardPage = Util.loginAs(getDriver());
         dashboardPage.assertPageOpened();
         SearchResultPage searchResultPage = dashboardPage.searchCatalog(query);
         searchResultPage.assertPageOpened();
-        Assert.assertTrue(searchResultPage.waitRetrieving(R.CONFIG.getInt("retrieving_timeout")));
+        searchResultPage.assertRetrieved();
         Assert.assertTrue(searchResultPage.isItemsDisplayed());
         Assert.assertTrue(searchResultPage.isAllItemTitlesContainQuery(query), "Not all items contain query string in their title");
         ItemContents itemContents = searchResultPage.getItemContents(index);
@@ -220,7 +219,7 @@ public class PrendioTest extends AbstractTest {
 
     @Test(description = "Verifies receiver voucher creation")
     public void checkReceiverVoucherCreationTest() {
-        final DateTimeFormatter formatterShort = DateTimeFormatter.ofPattern("M/d/yyyy").withZone(ZoneOffset.ofHours(hoursOffsetFromUTC));
+        DateTimeFormatter formatterShort = DateTimeFormatter.ofPattern("M/d/yyyy").withZone(ZoneOffset.ofHours(hoursOffsetFromUTC));
         DashboardPage dashboardPage = Util.loginAs(getDriver());
         dashboardPage.assertPageOpened();
         ReceiverPage receiverPage = dashboardPage.clickReceiver();
@@ -238,23 +237,24 @@ public class PrendioTest extends AbstractTest {
         Assert.assertTrue(matchPage.isScanItemVisible());
         matchPage.checkFirstItem();
         String currentDateFormatted = formatterShort.format(Instant.now());
-        SlipInfo slipInfoEntered = new SlipInfo.SlipInfoBuilder()
+        SlipInfo infoEntered = new SlipInfo.SlipInfoBuilder()
                 .setRecDate(currentDateFormatted)
                 .setInvoiceNumber(String.valueOf(RandomUtils.nextInt(1, 10_000)))
                 .setInvDate(currentDateFormatted)
                 .setInvoiceAmount(String.valueOf(RandomUtils.nextInt(1, 10_000)))
                 .setDay(String.valueOf(Instant.now().atOffset(ZoneOffset.ofHours(hoursOffsetFromUTC)).getDayOfMonth()))
                 .build();
-        matchPage.fillSlipInfo(slipInfoEntered);
+        matchPage.fillSlipInfo(infoEntered);
         matchPage.clickNextButton();
         matchPage.ensureLoaded();
         matchPage.assertSuccessMessageVisibleWithText("Entry Added Successfully");
         AccountPayablePage accountPayablePage = matchPage.clickAccountsPayable();
         accountPayablePage.assertPageOpened();
         VouchersPage vouchersPage = accountPayablePage.clickVouchers();
-        vouchersPage = vouchersPage.search(slipInfoEntered.getInvoiceNumber());
-        Assert.assertEquals(vouchersPage.getFirstVoucherInvDateText(), slipInfoEntered.getInvDate());
-        Assert.assertEquals(vouchersPage.getFirstVoucherInvNumberText(), slipInfoEntered.getInvoiceNumber());
+        String invNumber = infoEntered.getInvoiceNumber();
+        vouchersPage = vouchersPage.search(invNumber);
+        vouchersPage.assertVoucherFound(invNumber);
+        Assert.assertEquals(vouchersPage.getVoucherEntryByInvNumber(invNumber).getInvNumberText(), invNumber);
     }
 
     @Test(description = "Verifies user profile update")
