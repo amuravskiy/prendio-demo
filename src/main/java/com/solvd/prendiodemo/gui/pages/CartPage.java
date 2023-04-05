@@ -9,6 +9,7 @@ import com.solvd.prendiodemo.values.CartContents;
 import com.solvd.prendiodemo.values.ItemContents;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -184,5 +185,9 @@ public class CartPage extends BasePage {
 
     public BasePopup getConfirmationPopup() {
         return okPopup;
+    }
+
+    public void assertCartNameEquals(String name) {
+        Assert.assertEquals(getCartName(), name, "Cart name does not match");
     }
 }

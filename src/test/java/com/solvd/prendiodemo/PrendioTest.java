@@ -41,6 +41,52 @@ public class PrendioTest extends AbstractTest {
         dashboardPage.assertPageOpened();
     }
 
+    @Test(description = "Verifies cart remains unchanged after duplication")
+    public void checkCartTemplateTest() {
+        SoftAssert softAssert = new SoftAssert();
+        String templateCartName = R.CONFIG.get("template_cart_name");
+        DashboardPage dashboardPage = Util.loginAs(getDriver());
+        AllCartsPage allCartsPage = dashboardPage.clickViewAllCarts();
+        allCartsPage.assertPageOpened();
+        allCartsPage = allCartsPage.search(templateCartName);
+        allCartsPage.assertPageOpened();
+        allCartsPage.assertCartWithNameFound(templateCartName);
+        CartPage cartPage = allCartsPage.clickFirstCart();
+        cartPage.assertPageOpened();
+        if (cartPage.isInfoPopupVisible()) {
+            BasePopup okPopup = cartPage.getConfirmationPopup();
+            okPopup.clickConfirmationButton();
+            okPopup.assertDisappeared();
+        }
+        CartContents cartContents = cartPage.getCartContents();
+        String templateCartId = cartPage.getId();
+        BasePopup confirmationPopup = cartPage.clickDuplicateCart();
+        confirmationPopup.assertVisibleWithText("CONFIRMATION");
+        confirmationPopup.clickConfirmationButton();
+        confirmationPopup.assertDisappeared();
+        cartPage = new CartPage(getDriver());
+        cartPage.assertPageOpened();
+        CartContents duplicatedContents = cartPage.getCartContents();
+        Assert.assertEquals(duplicatedContents, cartContents, "Cart contents does not match");
+        cartPage.assertCartNameEquals(templateCartName);
+        cartPage.removeTemplateWord();
+        cartPage.assertSuccessMessageVisibleWithText("Cart items saved", softAssert);
+        String newCartName = cartPage.getCartName();
+        String newCartId = cartPage.getId();
+        cartPage.assertCartNameEquals(templateCartName.replace(" Template", ""));
+        dashboardPage = cartPage.clickDashboard();
+        dashboardPage.assertPageOpened();
+        allCartsPage = dashboardPage.clickViewAllCarts();
+        allCartsPage.assertPageOpened();
+        allCartsPage.assertCartPresent(newCartId);
+        Assert.assertEquals(allCartsPage.getCartNameById(newCartId), newCartName, "Cart id does not match");
+        allCartsPage = allCartsPage.search(templateCartName);
+        Assert.assertEquals(templateCartName, allCartsPage.getCartNameById(templateCartId), "Cart name does not match");
+        cartPage = allCartsPage.clickById(templateCartId);
+        Assert.assertEquals(cartPage.getCartContents(), cartContents);
+        softAssert.assertAll();
+    }
+
     @Test(description = "Verifies adding supplier leaves trail")
     public void checkAddingSupplierTrailTest() {
         SoftAssert softAssert = new SoftAssert();
@@ -78,53 +124,6 @@ public class PrendioTest extends AbstractTest {
         String trailFullname = trailFullnameMatcher.group(1);
         Assert.assertEquals(trailDate, currentDateFormatted);
         Assert.assertEquals(trailFullname, fullName);
-        softAssert.assertAll();
-    }
-
-    @Test(description = "Verifies cart remains unchanged after duplication")
-    public void checkCartTemplateTest() {
-        SoftAssert softAssert = new SoftAssert();
-        String templateCartName = R.CONFIG.get("template_cart_name");
-        DashboardPage dashboardPage = Util.loginAs(getDriver());
-        AllCartsPage allCartsPage = dashboardPage.clickViewAllCarts();
-        allCartsPage.assertPageOpened();
-        allCartsPage = allCartsPage.search(templateCartName);
-        allCartsPage.assertPageOpened();
-        Assert.assertTrue(allCartsPage.isCartWithNameFound(templateCartName));
-        CartPage cartPage = allCartsPage.clickFirstCart();
-        cartPage.assertPageOpened();
-        if (cartPage.isInfoPopupVisible()) {
-            BasePopup okPopup = cartPage.getConfirmationPopup();
-            okPopup.clickConfirmationButton();
-            okPopup.assertDisappeared();
-        }
-        CartContents cartContents = cartPage.getCartContents();
-        String templateCartId = cartPage.getId();
-        BasePopup confirmationPopup = cartPage.clickDuplicateCart();
-        confirmationPopup.assertVisibleWithText("CONFIRMATION");
-        confirmationPopup.clickConfirmationButton();
-        confirmationPopup.assertDisappeared();
-        cartPage = new CartPage(getDriver());
-        CartContents duplicatedContents = cartPage.getCartContents();
-        Assert.assertEquals(duplicatedContents.getPartNumbers(), cartContents.getPartNumbers());
-        Assert.assertEquals(duplicatedContents.getDescriptions(), cartContents.getDescriptions());
-        Assert.assertEquals(duplicatedContents.getTotals(), cartContents.getTotals());
-        Assert.assertEquals(templateCartName, cartPage.getCartName());
-        cartPage.removeTemplateWord();
-        cartPage.assertSuccessMessageVisibleWithText("Cart items saved", softAssert);
-        String newOrderName = cartPage.getCartName();
-        String newOrderId = cartPage.getId();
-        Assert.assertEquals(cartPage.getCartName(), templateCartName.replace(" Template", ""));
-        dashboardPage = cartPage.clickDashboard();
-        dashboardPage.assertPageOpened();
-        allCartsPage = dashboardPage.clickViewAllCarts();
-        allCartsPage.assertPageOpened();
-        allCartsPage.assertCartPresent(newOrderId);
-        Assert.assertEquals(allCartsPage.getCartNameById(newOrderId), newOrderName);
-        allCartsPage = allCartsPage.search(templateCartName);
-        Assert.assertEquals(templateCartName, allCartsPage.getCartNameById(templateCartId));
-        cartPage = allCartsPage.clickById(templateCartId);
-        Assert.assertEquals(cartPage.getCartContents(), cartContents);
         softAssert.assertAll();
     }
 

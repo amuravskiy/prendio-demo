@@ -50,9 +50,9 @@ public class AllCartsPage extends BasePage {
                 .clickId();
     }
 
-    public boolean isCartWithNameFound(String name) {
-        return cartEntries.stream()
-                .anyMatch(cart -> cart.getName().equals(name));
+    public void assertCartWithNameFound(String name) {
+        Assert.assertTrue(cartEntries.stream()
+                .anyMatch(cart -> cart.getName().equals(name)), "Cart with name " + name + " is not found");
     }
 
     private Optional<CartEntry> findCartEntryById(String id) {
