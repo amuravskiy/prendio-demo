@@ -8,11 +8,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
 public class CartsTable extends AbstractUIObject {
-
-    @FindBy(xpath = "..//a[contains(text(),'+ CART')]")
-    private ExtendedWebElement addCartButton;
-
-    @FindBy(xpath = "..//a[contains(text(),'View All')]")
+    @FindBy(xpath = "./a[contains(text(),'View All')]")
     private ExtendedWebElement viewAllButton;
 
     public CartsTable(WebDriver driver, SearchContext searchContext) {
@@ -22,9 +18,5 @@ public class CartsTable extends AbstractUIObject {
     public AllCartsPage clickViewAllButton() {
         viewAllButton.click();
         return new AllCartsPage(driver);
-    }
-
-    public void addCartButton() {
-        addCartButton.click();
     }
 }
