@@ -85,6 +85,8 @@ public class ProfilePage extends BasePage {
         dayToClickOn.isClickable();
         dayToClickOn.click();
         endDateInput.click();
+        nextMonthButton.isClickable();
+        nextMonthButton.click();
         dayToClickOn = findExtendedWebElement(firstAvaibleDayLocator);
         dayToClickOn.isClickable();
         dayToClickOn.click();

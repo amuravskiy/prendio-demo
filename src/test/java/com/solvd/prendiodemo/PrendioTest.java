@@ -76,8 +76,8 @@ public class PrendioTest extends AbstractTest {
         Assert.assertTrue(trailFullnameMatcher.find(), "Full name is not found in trail text");
         String trailDate = trailDateMatcher.group(1);
         String trailFullname = trailFullnameMatcher.group(1);
-        Assert.assertEquals(trailDate, currentDateFormatted);
-        Assert.assertEquals(trailFullname, fullName);
+        Assert.assertEquals(trailDate, currentDateFormatted, "Trail date is not equal to current date");
+        Assert.assertEquals(trailFullname, fullName, "Trail full name is not equal to current user full name");
         softAssert.assertAll();
     }
 
@@ -123,7 +123,7 @@ public class PrendioTest extends AbstractTest {
         allCartsPage = allCartsPage.search(newCartName);
         Assert.assertEquals(templateCartName, allCartsPage.getCartNameById(templateCartId), "Cart name does not match");
         cartPage = allCartsPage.clickById(templateCartId);
-        Assert.assertEquals(cartPage.getCartContents(), cartContents);
+        Assert.assertEquals(cartPage.getCartContents(), cartContents, "Cart contents does not match");
         softAssert.assertAll();
     }
 
@@ -136,7 +136,7 @@ public class PrendioTest extends AbstractTest {
         SearchResultPage searchResultPage = dashboardPage.searchCatalog(query);
         searchResultPage.assertPageOpened();
         searchResultPage.assertRetrieved();
-        Assert.assertTrue(searchResultPage.isItemsDisplayed());
+        Assert.assertTrue(searchResultPage.isItemsDisplayed(), "Items not found");
         Assert.assertTrue(searchResultPage.isAllItemTitlesContainQuery(query), "Not all items contain query string in their title");
         ItemContents itemContents = searchResultPage.getItemContents(index);
         searchResultPage.clickAddToCart(index);
@@ -150,7 +150,7 @@ public class PrendioTest extends AbstractTest {
         shipToPopup.assertVisibleWithTitle("Ship To Address List");
         String line1 = shipToPopup.chooseShipToAddress(0);
         cartPage.ensureLoaded();
-        Assert.assertEquals(cartPage.getShipToAddressLine1Text(), line1);
+        Assert.assertEquals(cartPage.getShipToAddressLine1Text(), line1, "Selected address Line1 does not match");
         cartPage.setSelects();
         cartPage.clickApplyToAll();
         String cartId = cartPage.getId();
@@ -165,7 +165,7 @@ public class PrendioTest extends AbstractTest {
         reqApprovalPopup.assertVisibleWithTitle("Requisition Approval");
         dashboardPage = cartPage.clickSubmitReqApproval();
         dashboardPage.assertPageOpened();
-        Assert.assertTrue(dashboardPage.getOrderPreviewsCartName(0).contains(cartId));
+        Assert.assertTrue(dashboardPage.getOrderPreviewsCartName(0).contains(cartId), "Cart id is not found in first order");
     }
 
     @Test(description = "Verifies department creation")
@@ -177,7 +177,7 @@ public class PrendioTest extends AbstractTest {
         accountPayablePage.assertPageOpened();
         DepartmentPage departmentPage = accountPayablePage.clickDepartment();
         departmentPage.assertPageOpened();
-        Assert.assertTrue(departmentPage.isAddButtonVisible());
+        Assert.assertTrue(departmentPage.isAddButtonVisible(), "Add department page is not visible");
         DepSetupPopup depSetupPopup = departmentPage.clickAddDep();
         depSetupPopup.assertVisibleWithTitle("Department Setup");
         DepInfo infoEntered = depSetupPopup.fillFields();
@@ -192,7 +192,7 @@ public class PrendioTest extends AbstractTest {
         Assert.assertEquals(depSetupPopup.getHeaderText().toLowerCase(), expectedName, "Department Setup popup department name not found");
         depSetupPopup.clickWatchers();
         Assert.assertTrue(depSetupPopup.getWatchersText().contains("0"));
-        Assert.assertTrue(depSetupPopup.isWatchersTableEmpty());
+        Assert.assertTrue(depSetupPopup.isWatchersTableEmpty(), "Watcher table is not empty");
         DepWatcherSetupPopup depWatcherSetupPopup = depSetupPopup.clickAddWatcher();
         depWatcherSetupPopup.assertVisibleWithTitle("Department Watcher Setup");
         WatcherInfo watcherInfoEntered = depWatcherSetupPopup.fillWatcher();
@@ -214,11 +214,11 @@ public class PrendioTest extends AbstractTest {
         departmentPage = new DepartmentPage(getDriver());
         depSetupPopup = departmentPage.editDepByName(infoEntered.getName());
         DepInfo loadedInfo = depSetupPopup.getInfo();
-        Assert.assertEquals(loadedInfo, infoEntered);
+        Assert.assertEquals(loadedInfo, infoEntered, "Department info does not match entered");
         depSetupPopup.clickWatchers();
-        Assert.assertEquals(depSetupPopup.getWatcherInfo(), watcherInfoEntered);
+        Assert.assertEquals(depSetupPopup.getWatcherInfo(), watcherInfoEntered, "Watcher info does not match entered");
         depSetupPopup.clickUsers();
-        Assert.assertEquals(depSetupPopup.getSelectedUserName(), username);
+        Assert.assertEquals(depSetupPopup.getSelectedUserName(), username, "Selected user does not match");
         softAssert.assertAll();
     }
 
@@ -235,8 +235,8 @@ public class PrendioTest extends AbstractTest {
         scanPage.addUploadFile();
         scanPage.assertIconVisible();
         scanPage.clickUpload();
-        Assert.assertTrue(scanPage.isProgressBarVisible());
-        Assert.assertTrue(scanPage.isProgressBarDisappeared());
+        Assert.assertTrue(scanPage.isProgressBarVisible(), "Progress bar is not visible");
+        Assert.assertTrue(scanPage.isProgressBarDisappeared(), "Progress did not disappear");
         Assert.assertEquals(scanPage.getUploadStatusText(), "100%");
         ReceiverScanMatchPage matchPage = receiverPage.clickScanMatch();
         matchPage.assertPageOpened();
@@ -274,7 +274,7 @@ public class PrendioTest extends AbstractTest {
         profilePage.assertPageOpened();
         UserProfileInfo filledInfo = profilePage.fillProfileInfo();
         profilePage.hoverUploadButton();
-        Assert.assertTrue(profilePage.isUploadButtonVisible());
+        Assert.assertTrue(profilePage.isUploadButtonVisible(), "Upload button is not visible");
         ImageUploadPopup imageUploadPopup = profilePage.clickUploadButton();
         imageUploadPopup.assertVisibleWithTitle("Edit Profile Photo");
         imageUploadPopup.attachPhoto();
@@ -290,7 +290,7 @@ public class PrendioTest extends AbstractTest {
         profilePage = new ProfilePage(getDriver());
         profilePage.assertPageOpened();
         Assert.assertEquals(profilePage.getProfileInfo(), filledInfo);
-        Assert.assertTrue(profilePage.isOutLinkVisible());
+        Assert.assertTrue(profilePage.isOutLinkVisible(), "Out of office sign is not visible");
         softAssert.assertAll();
     }
 
@@ -308,7 +308,7 @@ public class PrendioTest extends AbstractTest {
         addSupplierPopup.clickSave();
         suppliersPage.assertSuccessMessageVisibleWithText("Supplier Added Successfully", softAssert);
         addSupplierPopup.getPopupLeftMenu().clickTabByName("Account Numbers");
-        Assert.assertTrue(addSupplierPopup.isAccountsSectionDisplayed());
+        Assert.assertTrue(addSupplierPopup.isAccountsSectionDisplayed(), "Account section is not displayed");
         AddAccountNumbersPopup addAccountNumbersPopup = addSupplierPopup.clickAdd();
         addAccountNumbersPopup.assertVisibleWithTitle("Add Account Numbers");
         AddressPopup addressPopup = addAccountNumbersPopup.clickSelectShipToAddress();
@@ -329,7 +329,7 @@ public class PrendioTest extends AbstractTest {
         suppliersPage.ensureLoaded();
         addSupplierPopup.assertVisible();
         Map<String, String> infoRead = addSupplierPopup.getFullInfo();
-        Assert.assertEquals(infoRead, infoEntered);
+        Assert.assertEquals(infoRead, infoEntered, "Supplier info does not match entered");
         softAssert.assertAll();
     }
 
@@ -397,7 +397,7 @@ public class PrendioTest extends AbstractTest {
         itemPopup.ensureLoaded();
         itemPopup.assertVisible();
         Map<String, String> infoRead = itemPopup.getInfo();
-        Assert.assertEquals(infoRead, infoEntered);
+        Assert.assertEquals(infoRead, infoEntered, "Supplier Item info does not match entered");
         softAssert.assertAll();
     }
 }

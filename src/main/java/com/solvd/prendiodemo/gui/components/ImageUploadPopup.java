@@ -26,7 +26,7 @@ public class ImageUploadPopup extends BasePopup {
     }
 
     public void imageAppeared() {
-        Assert.assertTrue(imageBox.isVisible(),"Image didn't appear");
+        Assert.assertTrue(imageBox.isVisible(), "Image didn't appear");
     }
 
     public void attachPhoto() {
