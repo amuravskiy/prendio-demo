@@ -49,7 +49,7 @@ public class AddressesPage extends BasePage {
 
     public AddressSetupPopup editFirstAddress() {
         firstAddress.getEditIcon().click();
-        ensureLoaded();
+        assertLoaded();
         return addressSetupPopup;
     }
 }

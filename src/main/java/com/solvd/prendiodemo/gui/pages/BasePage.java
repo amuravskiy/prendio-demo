@@ -12,6 +12,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.testng.Assert;
 import org.testng.asserts.SoftAssert;
 
 import java.lang.invoke.MethodHandles;
@@ -48,7 +49,7 @@ public class BasePage extends AbstractPage {
 
     public BasePage(WebDriver driver) {
         super(driver);
-        ensureLoaded();
+        assertLoaded();
     }
 
     public void switchToTab(int index) {
@@ -80,9 +81,9 @@ public class BasePage extends AbstractPage {
         return searchBlock.search(query);
     }
 
-    public void ensureLoaded() {
+    public void assertLoaded() {
         loadingBlock.isVisible(R.CONFIG.getLong("loading_block_appear_timeout"));
-        loadingBlock.waitUntilElementDisappear(EXPLICIT_TIMEOUT);
+        Assert.assertTrue(loadingBlock.waitUntilElementDisappear(EXPLICIT_TIMEOUT), "Loading block did not disappear");
     }
 
     public String getFullname() {

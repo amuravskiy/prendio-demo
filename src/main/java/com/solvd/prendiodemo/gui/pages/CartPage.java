@@ -145,7 +145,7 @@ public class CartPage extends BasePage {
 
     public ShipToPopup clickShipToButton() {
         shipToButton.click();
-        ensureLoaded();
+        assertLoaded();
         return shipToPopup;
     }
 
@@ -173,13 +173,13 @@ public class CartPage extends BasePage {
 
     public BasePopup clickSubmitCartButton() {
         submitCartButton.click();
-        ensureLoaded();
+        assertLoaded();
         return requisitionApprovalPopup;
     }
 
     public DashboardPage clickSubmitReqApproval() {
         requisitionApprovalPopup.clickConfirmationButton();
-        ensureLoaded();
+        assertLoaded();
         return new DashboardPage(driver);
     }
 

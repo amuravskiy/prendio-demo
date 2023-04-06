@@ -134,7 +134,7 @@ public class ProfilePage extends BasePage {
 
     public void clickSave() {
         saveButton.click();
-        ensureLoaded();
+        assertLoaded();
     }
 
     public void hoverUploadButton() {
