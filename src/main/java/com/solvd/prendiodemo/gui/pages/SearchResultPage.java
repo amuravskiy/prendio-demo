@@ -47,7 +47,7 @@ public class SearchResultPage extends BasePage {
 
     public void clickAddToCart(int index) {
         items.get(index).clickAddToCart();
-        assertLoaded();
+        ensureLoaded();
     }
 
     public boolean isCreateNewCartButtonDisplayed(int index) {
@@ -60,7 +60,7 @@ public class SearchResultPage extends BasePage {
 
     public CartPage clickCreateNewCart(int index) {
         items.get(index).clickAddToANewCart();
-        assertLoaded();
+        ensureLoaded();
         return new CartPage(driver);
     }
 
