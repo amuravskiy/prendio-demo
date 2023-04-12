@@ -1,9 +1,9 @@
 package com.solvd.prendiodemo.utils;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
-import com.solvd.prendiodemo.gui.pages.DashboardPage;
-import com.solvd.prendiodemo.gui.pages.LoginPage;
-import com.solvd.prendiodemo.gui.pages.OneLoginPortalPage;
+import com.solvd.prendiodemo.web.pages.DashboardPage;
+import com.solvd.prendiodemo.web.pages.LoginPage;
+import com.solvd.prendiodemo.web.pages.OneLoginPortalPage;
 import com.zebrunner.carina.utils.R;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.NotFoundException;
@@ -17,6 +17,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.zebrunner.agent.core.webdriver.RemoteWebDriverFactory.getDriver;
+
 public class Util {
 
     public static void switchToTabOne(WebDriver driver) {
@@ -25,7 +27,7 @@ public class Util {
     }
 
     public static DashboardPage loginAs(WebDriver driver) {
-        LoginPage loginPage = new LoginPage(driver);
+        LoginPage loginPage = new LoginPage(getDriver());
         loginPage.open();
         loginPage.assertPageOpened();
         OneLoginPortalPage oneLoginPortalPage = loginPage.login(R.CONFIG.get("username"), R.CONFIG.get("password"));
