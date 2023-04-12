@@ -40,6 +40,6 @@ public class SearchBlock extends AbstractUIObject {
     }
 
     public enum OrderType {
-        ORDER, CATALOG;
+        ORDER, CATALOG
     }
 }

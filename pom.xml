@@ -12,6 +12,12 @@
         <carina-core.version>8.0.7</carina-core.version>
         <java.version>11</java.version>
         <zebrunner-agent.version>1.9.3</zebrunner-agent.version>
+        <byte-buddy.version>1.14.4</byte-buddy.version>
+        <mybatis.version>3.5.13</mybatis.version>
+        <postgresql.version>42.6.0</postgresql.version>
+        <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
+        <maven-dependency-plugin.version>3.3.0</maven-dependency-plugin.version>
+        <maven-surefire-plugin.version>3.0.0-M6</maven-surefire-plugin.version>
     </properties>
 
     <repositories>
@@ -37,17 +43,17 @@
         <dependency>
             <groupId>net.bytebuddy</groupId>
             <artifactId>byte-buddy</artifactId>
-            <version>1.12.10</version>
+            <version>${byte-buddy.version}</version>
         </dependency>
         <dependency>
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis</artifactId>
-            <version>3.5.6</version>
+            <version>${mybatis.version}</version>
         </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>42.5.3</version>
+            <version>${postgresql.version}</version>
         </dependency>
     </dependencies>
 
@@ -56,7 +62,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.10.1</version>
+                <version>${maven-compiler-plugin.version}</version>
                 <configuration>
                     <release>${java.version}</release>
                     <source>${java.version}</source>
@@ -66,7 +72,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
-                <version>3.3.0</version>
+                <version>${maven-dependency-plugin.version}</version>
                 <executions>
                     <execution>
                         <id>copy</id>
@@ -91,7 +97,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M6</version>
+                <version>${maven-surefire-plugin.version}</version>
                 <configuration>
                     <argLine>-javaagent:${project.build.directory}/agent/zebrunner-agent.jar</argLine>
                     <useSystemClassLoader>false</useSystemClassLoader>

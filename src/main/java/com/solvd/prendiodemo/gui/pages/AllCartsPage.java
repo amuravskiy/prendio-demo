@@ -32,7 +32,7 @@ public class AllCartsPage extends BasePage {
     public AllCartsPage search(String name) {
         searchField.type(name);
         searchField.sendKeys(Keys.ENTER);
-        if (cartEntries.size() > 0) {
+        if (!cartEntries.isEmpty()) {
             cartEntries.get(0).getRootExtendedElement().waitUntilElementDisappear(EXPLICIT_TIMEOUT);
         }
         return new AllCartsPage(driver);

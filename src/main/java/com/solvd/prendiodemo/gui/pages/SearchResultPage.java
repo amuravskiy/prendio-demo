@@ -37,7 +37,7 @@ public class SearchResultPage extends BasePage {
     }
 
     public boolean isItemsDisplayed() {
-        return items.size() > 0;
+        return !items.isEmpty();
     }
 
     public boolean isAllItemTitlesContainQuery(String query) {
