@@ -149,7 +149,7 @@ public class PrendioTest extends AbstractTest {
         ShipToPopup shipToPopup = cartPage.clickShipToButton();
         shipToPopup.assertVisibleWithTitle("Ship To Address List");
         String line1 = shipToPopup.chooseShipToAddress(0);
-        cartPage.assertLoaded();
+        cartPage.ensureLoaded();
         Assert.assertEquals(cartPage.getShipToAddressLine1Text(), line1, "Selected address Line1 does not match");
         cartPage.setSelects();
         cartPage.clickApplyToAll();
@@ -160,7 +160,7 @@ public class PrendioTest extends AbstractTest {
             BasePopup BasePopup = cartPage.getConfirmationPopup();
             BasePopup.clickConfirmationButton();
             BasePopup.assertDisappeared();
-            cartPage.assertLoaded();
+            cartPage.ensureLoaded();
         }
         reqApprovalPopup.assertVisibleWithTitle("Requisition Approval");
         dashboardPage = cartPage.clickSubmitReqApproval();
@@ -252,7 +252,7 @@ public class PrendioTest extends AbstractTest {
                 .build();
         matchPage.fillSlipInfo(infoEntered);
         matchPage.clickNext();
-        matchPage.assertLoaded();
+        matchPage.ensureLoaded();
         matchPage.assertSuccessMessageVisibleWithText("Entry Added Successfully", softAssert);
         AccountPayablePage accountPayablePage = matchPage.clickAccountsPayable();
         accountPayablePage.assertPageOpened();
@@ -284,7 +284,7 @@ public class PrendioTest extends AbstractTest {
         imageUploadPopup.assertDisappeared();
         profilePage.assertSuccessMessageVisibleWithText("Image Uploaded Successfully", softAssert);
         profilePage.clickSave();
-        profilePage.assertLoaded();
+        profilePage.ensureLoaded();
         profilePage.assertSuccessMessageVisibleWithText("User Profile Saved.", softAssert);
         profilePage.refresh();
         profilePage = new ProfilePage(getDriver());
@@ -326,7 +326,7 @@ public class PrendioTest extends AbstractTest {
         suppliersPage = suppliersPage.search(name);
         suppliersPage.assertSupplierFound(name);
         addSupplierPopup = suppliersPage.editSupplierByName(name);
-        suppliersPage.assertLoaded();
+        suppliersPage.ensureLoaded();
         addSupplierPopup.assertVisible();
         Map<String, String> infoRead = addSupplierPopup.getFullInfo();
         Assert.assertEquals(infoRead, infoEntered);
@@ -378,7 +378,7 @@ public class PrendioTest extends AbstractTest {
         suppliersPage.assertSuccessMessageVisibleWithText("Supplier Added Successfully", softAssert);
         supplierPopup.ensureLoaded();
         AddSupplierPopup catalogItemsPopup = supplierPopup.clickCatalogItems();
-        buyerPage.assertLoaded();
+        buyerPage.ensureLoaded();
         catalogItemsPopup.assertCatalogItemsSectionOpened();
         AddSupplierItemPopup itemPopup = catalogItemsPopup.clickAddItem();
         catalogItemsPopup.ensureLoaded();

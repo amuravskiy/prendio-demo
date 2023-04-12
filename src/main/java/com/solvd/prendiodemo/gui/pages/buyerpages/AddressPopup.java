@@ -7,12 +7,14 @@ import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.testng.Assert;
 
 import java.util.List;
 
 public class AddressPopup extends BasePopup {
 
-    private final By tableElementsLocator = By.xpath("//table[@id='tblbilllist']//tbody//tr");
+    @FindBy(xpath = "//table[@id='tblbilllist']//tbody//tr")
+    private ExtendedWebElement firstAddressesTableLine;
 
     @FindBy(xpath = "//table[@id='tblbilllist']//tbody//tr//td[2]")
     private List<ExtendedWebElement> line2s;
@@ -33,7 +35,7 @@ public class AddressPopup extends BasePopup {
     }
 
     @Override
-    public boolean isVisible() {
-        return waitUntil(ExpectedConditions.visibilityOfAllElementsLocatedBy(tableElementsLocator), EXPLICIT_TIMEOUT);
+    public void assertVisible() {
+        Assert.assertTrue(firstAddressesTableLine.isVisible(), "Addresses not found in address popup");
     }
 }
