@@ -1,18 +1,28 @@
 package com.solvd.prendiodemo;
 
 import com.qaprosoft.carina.core.foundation.AbstractTest;
-import com.solvd.prendiodemo.gui.components.*;
-import com.solvd.prendiodemo.gui.pages.*;
-import com.solvd.prendiodemo.gui.pages.accountspayablepages.AccountsPayableSuppliersPage;
-import com.solvd.prendiodemo.gui.pages.accountspayablepages.DepartmentPage;
-import com.solvd.prendiodemo.gui.pages.accountspayablepages.VouchersPage;
-import com.solvd.prendiodemo.gui.pages.buyerpages.*;
-import com.solvd.prendiodemo.gui.pages.receiverpages.ReceiverScanMatchPage;
-import com.solvd.prendiodemo.gui.pages.receiverpages.ReceiverScanPage;
-import com.solvd.prendiodemo.utils.Util;
-import com.solvd.prendiodemo.values.*;
+import com.solvd.prendiodemo.domain.*;
+import com.solvd.prendiodemo.service.LoginService;
+import com.solvd.prendiodemo.validation.SuccessMessageValidation;
+import com.solvd.prendiodemo.web.components.BasePopup;
+import com.solvd.prendiodemo.web.components.accountspayable.DepartmentSetupPopup;
+import com.solvd.prendiodemo.web.components.accountspayable.DepartmentUserPopup;
+import com.solvd.prendiodemo.web.components.accountspayable.DepartmentWatcherSetupPopup;
+import com.solvd.prendiodemo.web.components.buyer.*;
+import com.solvd.prendiodemo.web.components.cart.ShipToPopup;
+import com.solvd.prendiodemo.web.components.common.UserStatusWindow;
+import com.solvd.prendiodemo.web.components.profile.ImageUploadPopup;
+import com.solvd.prendiodemo.web.components.receiver.SupplierSelectPopup;
+import com.solvd.prendiodemo.web.pages.*;
+import com.solvd.prendiodemo.web.pages.accountspayable.AccountsPayableSuppliersPage;
+import com.solvd.prendiodemo.web.pages.accountspayable.DepartmentPage;
+import com.solvd.prendiodemo.web.pages.accountspayable.VouchersPage;
+import com.solvd.prendiodemo.web.pages.buyer.AddressesPage;
+import com.solvd.prendiodemo.web.pages.buyer.BuyerSuppliersPage;
+import com.solvd.prendiodemo.web.pages.receiver.ReceiverScanMatchPage;
+import com.solvd.prendiodemo.web.pages.receiver.ReceiverScanPage;
+import com.zebrunner.carina.core.registrar.ownership.MethodOwner;
 import com.zebrunner.carina.utils.R;
-import org.apache.commons.lang3.RandomUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -20,384 +30,462 @@ import org.testng.asserts.SoftAssert;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.solvd.prendiodemo.constants.Constants.HOURS_OFFSET_FROM_UTC;
+
 public class PrendioTest extends AbstractTest {
 
-    private static final int hoursOffsetFromUTC = R.CONFIG.getInt("hours_offset_from_utc");
+    public static final String USERNAME = R.TESTDATA.get("username");
+    public static final String PASSWORD = R.TESTDATA.get("password");
+    private static final DateTimeFormatter ADD_SUPPLIER_DATE_FORMAT = DateTimeFormatter
+            .ofPattern("MM/d/yyyy")
+            .withZone(ZoneOffset.ofHours(HOURS_OFFSET_FROM_UTC));
+    private static final String TEMPLATE_CART_NAME = R.TESTDATA.get("template_cart_name");
+    private static final String CATALOG_QUERY = R.TESTDATA.get("catalog_query");
 
-    @Test(description = "Verifies login works properly")
+    @MethodOwner(owner = "anazarenko")
+    @Test(description = "Verifies login works properly", testName = "Login Test")
     public void checkLoginTest() {
-        String username = R.CONFIG.get("username");
-        String password = R.CONFIG.get("password");
         LoginPage loginPage = new LoginPage(getDriver());
         loginPage.open();
-        loginPage.assertPageOpened();
-        OneLoginPortalPage oneLoginPortalPage = loginPage.login(username, password);
+        Assert.assertTrue(loginPage.isPageOpened(), "Login page is not opened");
+        OneLoginPortalPage oneLoginPortalPage = loginPage.login(USERNAME, PASSWORD);
         DashboardPage dashboardPage = oneLoginPortalPage.goToPrendio();
-        Util.switchToTabOne(getDriver());
-        dashboardPage.assertPageOpened();
+        dashboardPage.switchToTab(1);
+        Assert.assertTrue(dashboardPage.isPageOpened(), "Dashboard page is not opened");
     }
 
-    @Test(description = "Verifies adding supplier leaves trail")
+    @MethodOwner(owner = "anazarenko")
+    @Test(description = "Verifies adding supplier leaves trail", testName = "Add Supplier Trail Test")
     public void checkAddingSupplierTrailTest() {
         SoftAssert softAssert = new SoftAssert();
-        DateTimeFormatter addSupplierTrailDateFormatter = DateTimeFormatter
-                .ofPattern(R.CONFIG.get("add_supplier_date_format"))
-                .withZone(ZoneOffset.ofHours(hoursOffsetFromUTC));
-        DashboardPage dashboardPage = Util.loginAs(getDriver());
-        String fullName = dashboardPage.getFullname();
-        BuyerPage buyerPage = dashboardPage.clickBuyer();
-        buyerPage.assertPageOpened();
-        BuyerSuppliersPage suppliersPage = buyerPage.clickSuppliers();
-        suppliersPage.assertPageOpened();
-        AddSupplierPopup addSupplierPopup = suppliersPage.clickAddSupplierButton();
-        addSupplierPopup.assertVisibleWithTitle("Supplier Detail");
-        String supplierName = addSupplierPopup.fillRequiredFields();
-        addSupplierPopup.clickSave();
-        suppliersPage.assertSuccessMessageVisibleWithText("Supplier Added Successfully", softAssert);
-        addSupplierPopup.clickClose();
-        addSupplierPopup.assertDisappeared();
-        AccountPayablePage accountPayablePage = suppliersPage.clickAccountsPayable();
-        accountPayablePage.assertPageOpened();
-        AccountsPayableSuppliersPage accountsPayableSuppliersPage = accountPayablePage.clickSuppliers();
-        accountsPayableSuppliersPage.assertPageOpened();
-        accountsPayableSuppliersPage = accountsPayableSuppliersPage.search(supplierName);
-        accountsPayableSuppliersPage.assertPageOpened();
-        BasePopup supplierInfoPopup = accountsPayableSuppliersPage.clickSupplierByName(supplierName);
-        supplierInfoPopup.assertVisible();
+        DashboardPage dashboardPage = new LoginService(getDriver()).login(USERNAME, PASSWORD);
+
+        String fullName = dashboardPage.getCurrentUserFullName();
+        BuyerPage buyerPage = dashboardPage.clickBuyerTab();
+        Assert.assertTrue(buyerPage.isPageOpened(), "Buyer page is not opened");
+
+        BuyerSuppliersPage buyerSuppliersPage = buyerPage.clickSuppliers();
+        Assert.assertTrue(buyerSuppliersPage.isPageOpened(), "Suppliers page is not opened");
+        AddSupplierPopup addSupplierPopup = buyerSuppliersPage.clickAddSupplierButton();
+        Assert.assertTrue(addSupplierPopup.isVisible(), "Add Supplier popup is not visible");
+        String supplierName = addSupplierPopup.fillRequiredFieldsRandomly();
+        addSupplierPopup.clickSaveButton();
+        SuccessMessageValidation successMessageValidation = new SuccessMessageValidation(softAssert, buyerSuppliersPage);
+        String expectedMessage = "Supplier Added Successfully";
+        successMessageValidation.validateSuccessMessageVisibleWithText(expectedMessage);
+        addSupplierPopup.clickCloseButton();
+        Assert.assertTrue(addSupplierPopup.isDisappeared(), "Popup didn't disappear");
+
+        AccountsPayablePage accountsPayablePage = buyerSuppliersPage.clickAccountsPayableTab();
+        Assert.assertTrue(accountsPayablePage.isPageOpened(), "Accounts Payable page is not opened");
+        AccountsPayableSuppliersPage apSuppliersPage = accountsPayablePage.clickSuppliersSection();
+        Assert.assertTrue(apSuppliersPage.isPageOpened(), "Accounts Payable Suppliers page is not opened");
+        apSuppliersPage = apSuppliersPage.searchSupplierByName(supplierName);
+        Assert.assertTrue(apSuppliersPage.isPageOpened(), "Accounts Payable Suppliers page is not opened");
+        BasePopup supplierInfoPopup = apSuppliersPage.clickSupplierByName(supplierName);
+        Assert.assertTrue(supplierInfoPopup.isVisible(), "Supplier Info popup is not visible");
+
         String trailRecordText = supplierInfoPopup.getCreatedTrailText();
-        String currentDateFormatted = addSupplierTrailDateFormatter.format(Instant.now());
-        Matcher trailFullnameMatcher = Pattern.compile(R.CONFIG.get("trail_fullname_regex")).matcher(trailRecordText);
-        Matcher trailDateMatcher = Pattern.compile(R.CONFIG.get("trail_date_regex")).matcher(trailRecordText);
-        Assert.assertTrue(trailDateMatcher.find(), "Date is not found in trail text");
-        Assert.assertTrue(trailFullnameMatcher.find(), "Full name is not found in trail text");
+        String currentDateFormatted = ADD_SUPPLIER_DATE_FORMAT.format(Instant.now());
+        Matcher trailFullNameMatcher = Pattern.compile("by ([\\w ]+) as").matcher(trailRecordText);
+        Matcher trailDateMatcher = Pattern.compile(" ([0-9/]+) by").matcher(trailRecordText);
+        softAssert.assertTrue(trailDateMatcher.find(), "Date is not found in trail text");
+        softAssert.assertTrue(trailFullNameMatcher.find(), "Full name is not found in trail text");
         String trailDate = trailDateMatcher.group(1);
-        String trailFullname = trailFullnameMatcher.group(1);
-        Assert.assertEquals(trailDate, currentDateFormatted, "Trail date is not equal to current date");
-        Assert.assertEquals(trailFullname, fullName, "Trail full name is not equal to current user full name");
+        String trailFullName = trailFullNameMatcher.group(1);
+        softAssert.assertEquals(trailDate, currentDateFormatted, "Trail date is not equal to current date");
+        softAssert.assertEquals(trailFullName, fullName, "Trail full name is not equal to current user full name");
         softAssert.assertAll();
     }
 
-    @Test(description = "Verifies cart remains unchanged after duplication")
+    @MethodOwner(owner = "anazarenko")
+    @Test(description = "Verifies cart remains unchanged after duplication", testName = "Cart Template Test")
     public void checkCartTemplateTest() {
         SoftAssert softAssert = new SoftAssert();
-        final String templateCartName = R.CONFIG.get("template_cart_name");
-        DashboardPage dashboardPage = Util.loginAs(getDriver());
-        AllCartsPage allCartsPage = dashboardPage.clickViewAllCarts();
-        allCartsPage.assertPageOpened();
-        allCartsPage = allCartsPage.search(templateCartName);
-        allCartsPage.assertPageOpened();
-        allCartsPage.assertCartWithNameFound(templateCartName);
+        DashboardPage dashboardPage = new LoginService(getDriver()).login(USERNAME, PASSWORD);
+
+        AllCartsPage allCartsPage = dashboardPage.clickViewAllCartsButton();
+        Assert.assertTrue(allCartsPage.isPageOpened(), "All Carts page is not opened");
+        allCartsPage = allCartsPage.searchCartByName(TEMPLATE_CART_NAME);
+        Assert.assertTrue(allCartsPage.isPageOpened(), "All Carts page is not opened");
+        Assert.assertTrue(allCartsPage.isCartFound(TEMPLATE_CART_NAME), "Cart with name " + TEMPLATE_CART_NAME + " is not found");
+
         CartPage cartPage = allCartsPage.clickFirstCart();
-        cartPage.assertPageOpened();
+        Assert.assertTrue(cartPage.isPageOpened(), "Cart page is not opened");
         if (cartPage.isInfoPopupVisible()) {
             BasePopup okPopup = cartPage.getConfirmationPopup();
             okPopup.clickConfirmationButton();
-            okPopup.assertDisappeared();
+            Assert.assertTrue(okPopup.isDisappeared(), "Popup didn't disappear");
         }
         CartContents cartContents = cartPage.getCartContents();
-        String templateCartId = cartPage.getId();
-        BasePopup confirmationPopup = cartPage.clickDuplicateCart();
-        confirmationPopup.assertVisibleWithTitle("CONFIRMATION");
+        String templateCartId = cartPage.getCartId();
+        BasePopup confirmationPopup = cartPage.clickDuplicateCartButton();
+        Assert.assertTrue(confirmationPopup.isVisible(), "Confirmation popup is not visible");
         confirmationPopup.clickConfirmationButton();
-        confirmationPopup.assertDisappeared();
+        Assert.assertTrue(confirmationPopup.isDisappeared(), "Popup didn't disappear");
+
         cartPage = new CartPage(getDriver());
-        cartPage.assertPageOpened();
+        Assert.assertTrue(cartPage.isPageOpened(), "Cart page is not opened");
         CartContents duplicatedContents = cartPage.getCartContents();
         Assert.assertEquals(duplicatedContents, cartContents, "Cart contents does not match");
-        cartPage.assertCartNameEquals(templateCartName);
+        Assert.assertEquals(cartPage.getCartName(), TEMPLATE_CART_NAME, "Cart name does not match");
         cartPage.removeTemplateWord();
-        cartPage.assertSuccessMessageVisibleWithText("Cart items saved", softAssert);
+        SuccessMessageValidation successMessageValidation = new SuccessMessageValidation(softAssert, cartPage);
+        String expectedMessage = "Cart items saved";
+        successMessageValidation.validateSuccessMessageVisibleWithText(expectedMessage);
         String newCartName = cartPage.getCartName();
-        String newCartId = cartPage.getId();
-        cartPage.assertCartNameEquals(templateCartName.replace(" Template", ""));
-        dashboardPage = cartPage.clickDashboard();
-        dashboardPage.assertPageOpened();
-        allCartsPage = dashboardPage.clickViewAllCarts();
-        allCartsPage.assertPageOpened();
-        allCartsPage.assertCartPresent(newCartId);
+        String newCartId = cartPage.getCartId();
+        Assert.assertEquals(cartPage.getCartName(), TEMPLATE_CART_NAME.replace(" Template", ""), "Cart name does not match");
+
+        dashboardPage = cartPage.clickDashboardTab();
+
+        allCartsPage = dashboardPage.clickViewAllCartsButton();
+        Assert.assertTrue(allCartsPage.isPageOpened(), "All Carts page is not opened");
+
+        Assert.assertTrue(allCartsPage.isCartPresent(newCartId), "Cart with id " + newCartId + " not found");
         Assert.assertEquals(allCartsPage.getCartNameById(newCartId), newCartName, "Cart id does not match");
-        allCartsPage = allCartsPage.search(newCartName);
-        Assert.assertEquals(templateCartName, allCartsPage.getCartNameById(templateCartId), "Cart name does not match");
-        cartPage = allCartsPage.clickById(templateCartId);
-        Assert.assertEquals(cartPage.getCartContents(), cartContents, "Cart contents does not match");
+
+        allCartsPage = allCartsPage.searchCartByName(TEMPLATE_CART_NAME);
+        Assert.assertEquals(allCartsPage.getCartNameById(templateCartId), TEMPLATE_CART_NAME, "Cart name does not match");
+        CartPage duplicatedCartPage = allCartsPage.clickById(templateCartId);
+        Assert.assertEquals(duplicatedCartPage.getCartContents(), cartContents, "Cart contents does not match");
         softAssert.assertAll();
     }
 
-    @Test(description = "Verifies cart order creation")
+    @MethodOwner(owner = "anazarenko")
+    @Test(description = "Verifies cart order creation", testName = "Cart Using Catalog Test")
     public void checkCartUsingCatalogTest() {
         final int index = 0;
-        String query = R.CONFIG.get("catalog_query");
-        DashboardPage dashboardPage = Util.loginAs(getDriver());
-        dashboardPage.assertPageOpened();
-        SearchResultPage searchResultPage = dashboardPage.searchCatalog(query);
-        searchResultPage.assertPageOpened();
-        searchResultPage.assertRetrieved();
+        SoftAssert softAssert = new SoftAssert();
+        DashboardPage dashboardPage = new LoginService(getDriver()).login(USERNAME, PASSWORD);
+
+        SearchResultPage searchResultPage = dashboardPage.searchCatalog(CATALOG_QUERY);
+        Assert.assertTrue(searchResultPage.isPageOpened(), "Search Result page is not opened");
+        Assert.assertTrue(searchResultPage.isRetrieved(), "Retrieving has not ended in retrieving timeout");
         Assert.assertTrue(searchResultPage.isItemsDisplayed(), "Items not found");
-        Assert.assertTrue(searchResultPage.isAllItemTitlesContainQuery(query), "Not all items contain query string in their title");
+        softAssert.assertTrue(searchResultPage.isAllItemTitlesContainQuery(CATALOG_QUERY), "Not all items contain query string in their title");
+
         ItemContents itemContents = searchResultPage.getItemContents(index);
-        searchResultPage.clickAddToCart(index);
+        searchResultPage.clickAddToCartButton(index);
         Assert.assertTrue(searchResultPage.isCreateNewCartButtonDisplayed(index), "Create new cart button is not displayed");
         Assert.assertTrue(searchResultPage.isAddInExistingCartButtonDisplayed(index), "Add in existing cart button is not displayed");
+
         CartPage cartPage = searchResultPage.clickCreateNewCart(index);
-        cartPage.assertPageOpened();
+        Assert.assertTrue(cartPage.isPageOpened(), "Cart page is not opened");
         ItemContents itemContentsInCart = cartPage.getFirstItemContents();
-        Assert.assertEquals(itemContentsInCart, itemContents, "Item contents not equal to what was on the results page");
+        softAssert.assertEquals(itemContentsInCart, itemContents, "Item contents not equal to what was on the results page");
         ShipToPopup shipToPopup = cartPage.clickShipToButton();
-        shipToPopup.assertVisibleWithTitle("Ship To Address List");
-        String line1 = shipToPopup.chooseShipToAddress(0);
+        Assert.assertTrue(shipToPopup.isVisible(), "Ship To popup is not visible");
+        String lineOne = shipToPopup.chooseShipToAddress(0);
         cartPage.ensureLoaded();
-        Assert.assertEquals(cartPage.getShipToAddressLine1Text(), line1, "Selected address Line1 does not match");
-        cartPage.setSelects();
-        cartPage.clickApplyToAll();
-        String cartId = cartPage.getId();
+        Assert.assertEquals(cartPage.getShipToAddressLineOneText(), lineOne, "Selected address Line1 does not match");
+        cartPage.setCartSelects();
+        cartPage.clickApplyToAllButton();
+        String cartId = cartPage.getCartId();
         Assert.assertTrue(cartPage.isItemSelectsAsCartSelects(0), "Selects aren't set as per cart for an item");
-        BasePopup reqApprovalPopup = cartPage.clickSubmitCartButton();
+
+        BasePopup requisitionApprovalPopup = cartPage.clickSubmitCartButton();
         if (cartPage.isInfoPopupVisible()) {
-            BasePopup BasePopup = cartPage.getConfirmationPopup();
-            BasePopup.clickConfirmationButton();
-            BasePopup.assertDisappeared();
+            BasePopup basePopup = cartPage.getConfirmationPopup();
+            basePopup.clickConfirmationButton();
+            Assert.assertTrue(basePopup.isDisappeared(), "Popup didn't disappear");
             cartPage.ensureLoaded();
         }
-        reqApprovalPopup.assertVisibleWithTitle("Requisition Approval");
+        Assert.assertTrue(requisitionApprovalPopup.isVisible(), "Requisition Approval popup is not visible");
         dashboardPage = cartPage.clickSubmitReqApproval();
-        dashboardPage.assertPageOpened();
-        Assert.assertTrue(dashboardPage.getOrderPreviewsCartName(0).contains(cartId), "Cart id is not found in first order");
-    }
 
-    @Test(description = "Verifies department creation")
-    public void checkCreateAndEditDepartmentTest() {
-        SoftAssert softAssert = new SoftAssert();
-        DashboardPage dashboardPage = Util.loginAs(getDriver());
-        dashboardPage.assertPageOpened();
-        AccountPayablePage accountPayablePage = dashboardPage.clickAccountsPayable();
-        accountPayablePage.assertPageOpened();
-        DepartmentPage departmentPage = accountPayablePage.clickDepartment();
-        departmentPage.assertPageOpened();
-        Assert.assertTrue(departmentPage.isAddButtonVisible(), "Add department page is not visible");
-        DepSetupPopup depSetupPopup = departmentPage.clickAddDep();
-        depSetupPopup.assertVisibleWithTitle("Department Setup");
-        DepInfo infoEntered = depSetupPopup.fillFields();
-        depSetupPopup.clickSave();
-        depSetupPopup.assertDisappeared();
-        departmentPage.assertSuccessMessageVisibleWithText("Department Added Successfully", softAssert);
-        departmentPage = departmentPage.searchDepartmentByDesc(infoEntered.getDesc());
-        departmentPage.assertPageOpened();
-        depSetupPopup = departmentPage.editDepByName(infoEntered.getName());
-        depSetupPopup.assertVisible();
-        String expectedName = ("Department Setup - " + infoEntered.getName()).toLowerCase();
-        Assert.assertEquals(depSetupPopup.getHeaderText().toLowerCase(), expectedName, "Department Setup popup department name not found");
-        depSetupPopup.clickWatchers();
-        Assert.assertTrue(depSetupPopup.getWatchersText().contains("0"));
-        Assert.assertTrue(depSetupPopup.isWatchersTableEmpty(), "Watcher table is not empty");
-        DepWatcherSetupPopup depWatcherSetupPopup = depSetupPopup.clickAddWatcher();
-        depWatcherSetupPopup.assertVisibleWithTitle("Department Watcher Setup");
-        WatcherInfo watcherInfoEntered = depWatcherSetupPopup.fillWatcher();
-        depWatcherSetupPopup.clickSave();
-        depWatcherSetupPopup.assertDisappeared();
-        departmentPage.assertSuccessMessageVisibleWithText("Department Watcher Added Successfully", softAssert);
-        BasePopup confirmationPopup = depSetupPopup.close();
-        confirmationPopup.assertVisibleWithTitle("CONFIRMATION");
-        confirmationPopup.clickConfirmationButton();
-        confirmationPopup.assertDisappeared();
-        departmentPage = new DepartmentPage(getDriver());
-        depSetupPopup = departmentPage.editDepByName(infoEntered.getName());
-        depSetupPopup.clickUsers();
-        String username = depSetupPopup.selectAnyUser();
-        departmentPage.assertSuccessMessageVisibleWithText("Saved Successfully", softAssert);
-        depSetupPopup.clickClose();
-        depSetupPopup.ensureLoaded();
-        depSetupPopup.assertDisappeared();
-        departmentPage = new DepartmentPage(getDriver());
-        depSetupPopup = departmentPage.editDepByName(infoEntered.getName());
-        DepInfo loadedInfo = depSetupPopup.getInfo();
-        Assert.assertEquals(loadedInfo, infoEntered, "Department info does not match entered");
-        depSetupPopup.clickWatchers();
-        Assert.assertEquals(depSetupPopup.getWatcherInfo(), watcherInfoEntered, "Watcher info does not match entered");
-        depSetupPopup.clickUsers();
-        Assert.assertEquals(depSetupPopup.getSelectedUserName(), username, "Selected user does not match");
+        Assert.assertTrue(dashboardPage.getOrderPreviewsCartName(0).contains(cartId), "Cart id is not found in first order");
         softAssert.assertAll();
     }
 
-    @Test(description = "Verifies receiver voucher creation")
-    public void checkReceiverVoucherCreationTest() {
+    @MethodOwner(owner = "anazarenko")
+    @Test(description = "Verifies department creation", testName = "Create and Edit Department Test")
+    public void checkCreateAndEditDepartmentTest() {
         SoftAssert softAssert = new SoftAssert();
-        DateTimeFormatter formatterShort = DateTimeFormatter.ofPattern("M/d/yyyy").withZone(ZoneOffset.ofHours(hoursOffsetFromUTC));
-        DashboardPage dashboardPage = Util.loginAs(getDriver());
-        dashboardPage.assertPageOpened();
-        ReceiverPage receiverPage = dashboardPage.clickReceiver();
-        receiverPage.assertPageOpened();
-        ReceiverScanPage scanPage = receiverPage.clickScan();
-        scanPage.assertPageOpened();
-        scanPage.addUploadFile();
-        scanPage.assertIconVisible();
-        scanPage.clickUpload();
-        Assert.assertTrue(scanPage.isProgressBarVisible(), "Progress bar is not visible");
-        Assert.assertTrue(scanPage.isProgressBarDisappeared(), "Progress did not disappear");
-        Assert.assertEquals(scanPage.getUploadStatusText(), "100%");
-        ReceiverScanMatchPage matchPage = receiverPage.clickScanMatch();
-        matchPage.assertPageOpened();
-        matchPage.assertFirstScanItemVisible();
-        matchPage.checkFirstItem();
-        String currentDateFormatted = formatterShort.format(Instant.now());
-        SlipInfo infoEntered = new SlipInfo.SlipInfoBuilder()
-                .setRecDate(currentDateFormatted)
-                .setInvoiceNumber(String.valueOf(RandomUtils.nextInt(1, 10_000)))
-                .setInvDate(currentDateFormatted)
-                .setInvoiceAmount(String.valueOf(RandomUtils.nextInt(1, 10_000)))
-                .setDay(String.valueOf(Instant.now().atOffset(ZoneOffset.ofHours(hoursOffsetFromUTC)).getDayOfMonth()))
-                .build();
-        matchPage.fillSlipInfo(infoEntered);
-        matchPage.clickNext();
-        matchPage.ensureLoaded();
-        matchPage.assertSuccessMessageVisibleWithText("Entry Added Successfully", softAssert);
-        AccountPayablePage accountPayablePage = matchPage.clickAccountsPayable();
-        accountPayablePage.assertPageOpened();
-        VouchersPage vouchersPage = accountPayablePage.clickVouchers();
-        String invNumber = infoEntered.getInvoiceNumber();
-        vouchersPage = vouchersPage.search(invNumber);
-        vouchersPage.assertVoucherFound(invNumber);
-        Assert.assertEquals(vouchersPage.getVoucherEntryByInvNumber(invNumber).getInvNumberText(), invNumber);
+        DashboardPage dashboardPage = new LoginService(getDriver()).login(USERNAME, PASSWORD);
+
+        AccountsPayablePage accountsPayablePage = dashboardPage.clickAccountsPayableTab();
+        Assert.assertTrue(accountsPayablePage.isPageOpened(), "Account Payable page is not opened");
+        DepartmentPage departmentPage = accountsPayablePage.clickDepartmentSection();
+        Assert.assertTrue(departmentPage.isPageOpened(), "Department page is not opened");
+
+        DepartmentSetupPopup departmentSetupPopup = departmentPage.clickAddDepartment();
+        Assert.assertTrue(departmentSetupPopup.isVisible(), "Department Setup popup is not visible");
+        DepartmentInfo infoEntered = departmentSetupPopup.fillFieldsRandomly();
+        departmentSetupPopup.clickSaveButton();
+        Assert.assertTrue(departmentSetupPopup.isDisappeared(), "Popup didn't disappear");
+        SuccessMessageValidation successMessageValidation = new SuccessMessageValidation(softAssert, departmentPage);
+        String expectedMessage = "Department Added Successfully";
+        successMessageValidation.validateSuccessMessageVisibleWithText(expectedMessage);
+
+        departmentPage = departmentPage.searchDepartmentByDesc(infoEntered.getDescription());
+        Assert.assertTrue(departmentPage.isPageOpened(), "Department page is not opened");
+
+        departmentSetupPopup = departmentPage.editDepartmentByName(infoEntered.getName());
+        Assert.assertTrue(departmentSetupPopup.isVisible(), "Department Setup popup is not visible");
+        String expectedName = ("Department Setup - " + infoEntered.getName()).toLowerCase();
+        Assert.assertEquals(departmentSetupPopup.getHeaderText().toLowerCase(), expectedName, "Department Setup popup department name not found");
+        departmentSetupPopup.clickWatchersSection();
+        softAssert.assertTrue(departmentSetupPopup.getWatchersText().contains("0"), "Watchers info doesn't show 0 watchers");
+        softAssert.assertTrue(departmentSetupPopup.isWatchersTableEmpty(), "Watcher table is not empty");
+
+        DepartmentWatcherSetupPopup departmentWatcherSetupPopup = departmentSetupPopup.clickAddWatcherButton();
+        Assert.assertTrue(departmentWatcherSetupPopup.isVisible(), "Department Watcher Setup popup is not visible");
+        WatcherInfo watcherInfoEntered = departmentWatcherSetupPopup.selectFirstWatcher();
+        departmentWatcherSetupPopup.clickSaveButton();
+        Assert.assertTrue(departmentWatcherSetupPopup.isDisappeared(), "Popup didn't disappear");
+        expectedMessage = "Department Watcher Added Successfully";
+        successMessageValidation.validateSuccessMessageVisibleWithText(expectedMessage);
+        BasePopup confirmationPopup = departmentSetupPopup.close();
+        Assert.assertTrue(confirmationPopup.isVisible(), "Confirmation popup is not visible");
+        confirmationPopup.clickConfirmationButton();
+        Assert.assertTrue(departmentSetupPopup.isDisappeared(), "Popup didn't disappear");
+        Assert.assertTrue(confirmationPopup.isDisappeared(), "Popup didn't disappear");
+
+        departmentPage = new DepartmentPage(getDriver());
+        departmentPage = departmentPage.searchDepartmentByDesc(infoEntered.getDescription());
+        Assert.assertTrue(departmentPage.isPageOpened(), "Department page is not opened");
+
+        departmentSetupPopup = departmentPage.editDepartmentByName(infoEntered.getName());
+        DepartmentUserPopup departmentUserPopup = departmentSetupPopup.clickUsersButton();
+        String username = departmentUserPopup.selectAnyUser();
+        expectedMessage = "Saved Successfully";
+        successMessageValidation.validateSuccessMessageVisibleWithText(expectedMessage);
+        departmentUserPopup.clickCloseButton();
+        departmentSetupPopup.ensureLoaded();
+        Assert.assertTrue(departmentUserPopup.isDisappeared(), "Popup didn't disappear");
+
+        departmentPage = new DepartmentPage(getDriver());
+        departmentPage = departmentPage.searchDepartmentByDesc(infoEntered.getDescription());
+        departmentSetupPopup = departmentPage.editDepartmentByName(infoEntered.getName());
+        DepartmentInfo loadedInfo = departmentSetupPopup.getInfo();
+        Assert.assertEquals(loadedInfo, infoEntered, "Department info does not match entered");
+        departmentSetupPopup.clickWatchersSection();
+        Assert.assertEquals(departmentSetupPopup.getWatcherInfo(), watcherInfoEntered, "Watcher info does not match entered");
+        departmentUserPopup = departmentSetupPopup.clickUsersButton();
+        Assert.assertEquals(departmentUserPopup.getSelectedUserName(), username, "Selected user does not match");
+        softAssert.assertAll();
     }
 
-    @Test(description = "Verifies user profile update")
+    @MethodOwner(owner = "anazarenko")
+    @Test(description = "Verifies receiver voucher creation", testName = "PDF File Upload and Invoice Creation Test")
+    public void checkReceiverVoucherCreationTest() {
+        SoftAssert softAssert = new SoftAssert();
+        DashboardPage dashboardPage = new LoginService(getDriver()).login(USERNAME, PASSWORD);
+
+        ReceiverPage receiverPage = dashboardPage.clickReceiverTab();
+        Assert.assertTrue(receiverPage.isPageOpened(), "Receiver page is not opened");
+
+        ReceiverScanPage scanPage = receiverPage.clickScanSection();
+        Assert.assertTrue(scanPage.isPageOpened(), "Scan page is not opened");
+        scanPage.addUploadFile();
+        softAssert.assertTrue(scanPage.isIconVisible(), "Icon of the uploaded file is not visible");
+        scanPage.clickUploadButton();
+        softAssert.assertTrue(scanPage.isProgressBarVisible(), "Progress bar is not visible");
+        softAssert.assertTrue(scanPage.isProgressBarDisappeared(), "Progress did not disappear");
+        softAssert.assertEquals(scanPage.getUploadStatusText(), "100%", "Upload status text doesn't show 100%");
+
+        ReceiverScanMatchPage matchPage = receiverPage.clickScanMatchSection();
+        Assert.assertTrue(matchPage.isPageOpened(), "Match page is not opened");
+        Assert.assertTrue(matchPage.isFirstScanItemVisible(), "First Scan item is not visible");
+        matchPage.checkFirstItem();
+        SlipInfo infoEntered = matchPage.fillSlipInfoRandomly();
+        matchPage.clickNextButton();
+        matchPage.ensureLoaded();
+        if (matchPage.isSupplierSelectPopupVisible()) {
+            SupplierSelectPopup supplierSelectPopup = matchPage.getSupplierSelectPopup();
+            supplierSelectPopup.selectFirstAvailableSupplier();
+            Assert.assertTrue(supplierSelectPopup.isDisappeared(), "Popup didn't disappear");
+        }
+        matchPage.ensureLoaded();
+
+        AccountsPayablePage accountsPayablePage = matchPage.clickAccountsPayableTab();
+        Assert.assertTrue(accountsPayablePage.isPageOpened(), "Account Payable page is not opened");
+
+        VouchersPage vouchersPage = accountsPayablePage.clickVouchersSection();
+        String invoiceNumber = infoEntered.getInvoiceNumber();
+        vouchersPage = vouchersPage.searchVoucher(invoiceNumber);
+        Assert.assertTrue(vouchersPage.isVoucherFound(invoiceNumber), "Voucher with invoice number " + invoiceNumber + " not found");
+        softAssert.assertAll();
+    }
+
+    @MethodOwner(owner = "anazarenko")
+    @Test(description = "Verifies user profile update", testName = "User Profile Update Test")
     public void checkUserProfileUpdateTest() {
         SoftAssert softAssert = new SoftAssert();
-        DashboardPage dashboardPage = Util.loginAs(getDriver());
-        dashboardPage.assertPageOpened();
-        UserStatusWindow statusWindow = dashboardPage.getUserphotoblock().openUserStatus();
+        DashboardPage dashboardPage = new LoginService(getDriver()).login(USERNAME, PASSWORD);
+
+        UserStatusWindow statusWindow = dashboardPage.getUserPhotoBlock().openUserStatus();
         statusWindow.assertUIObjectPresent();
+
         ProfilePage profilePage = statusWindow.clickViewProfileButton();
-        profilePage.assertPageOpened();
-        UserProfileInfo filledInfo = profilePage.fillProfileInfo();
+        Assert.assertTrue(profilePage.isPageOpened(), "Profile page is not opened");
+        UserProfileInfo filledInfo = profilePage.fillProfileInfoRandomly();
+
         profilePage.hoverUploadButton();
         Assert.assertTrue(profilePage.isUploadButtonVisible(), "Upload button is not visible");
         ImageUploadPopup imageUploadPopup = profilePage.clickUploadButton();
-        imageUploadPopup.assertVisibleWithTitle("Edit Profile Photo");
-        imageUploadPopup.attachPhoto();
-        imageUploadPopup.imageAppeared();
-        imageUploadPopup.clickUpload();
+        Assert.assertTrue(imageUploadPopup.isVisible(), "Image Upload popup is not visible");
+        imageUploadPopup.attachSamplePhoto();
+        softAssert.assertTrue(imageUploadPopup.isImageAppeared(), "Image didn't appear");
+        imageUploadPopup.clickUploadButton();
         imageUploadPopup.ensureLoaded();
-        imageUploadPopup.assertDisappeared();
-        profilePage.assertSuccessMessageVisibleWithText("Image Uploaded Successfully", softAssert);
-        profilePage.clickSave();
-        profilePage.ensureLoaded();
-        profilePage.assertSuccessMessageVisibleWithText("User Profile Saved.", softAssert);
-        profilePage.refresh();
+        Assert.assertTrue(imageUploadPopup.isDisappeared(), "Popup didn't disappear");
+        SuccessMessageValidation successMessageValidation = new SuccessMessageValidation(softAssert, profilePage);
+        String expectedMessage = "Image Uploaded Successfully";
+        successMessageValidation.validateSuccessMessageVisibleWithText(expectedMessage);
+        profilePage.clickSaveButton();
+        profilePage.waitForJSToLoad();
+        expectedMessage = "User Profile Saved.";
+        successMessageValidation.validateSuccessMessageVisibleWithText(expectedMessage);
+
+        getDriver().navigate().refresh();
         profilePage = new ProfilePage(getDriver());
-        profilePage.assertPageOpened();
-        Assert.assertEquals(profilePage.getProfileInfo(), filledInfo);
+        Assert.assertTrue(profilePage.isPageOpened(), "Profile page is not opened");
+        Assert.assertEquals(profilePage.getProfileInfo(), filledInfo, "Profile info not as entered");
         Assert.assertTrue(profilePage.isOutLinkVisible(), "Out of office sign is not visible");
         softAssert.assertAll();
     }
 
-    @Test(description = "Verifies supplier creation")
+    @MethodOwner(owner = "anazarenko")
+    @Test(description = "Verifies supplier creation", testName = "Creating and Editing Supplier Test")
     public void checkCreateSupplierTest() {
         SoftAssert softAssert = new SoftAssert();
-        DashboardPage dashboardPage = Util.loginAs(getDriver());
-        dashboardPage.assertPageOpened();
-        BuyerPage buyerPage = dashboardPage.clickBuyer();
+        DashboardPage dashboardPage = new LoginService(getDriver()).login(USERNAME, PASSWORD);
+
+        BuyerPage buyerPage = dashboardPage.clickBuyerTab();
+
         BuyerSuppliersPage suppliersPage = buyerPage.clickSuppliers();
-        suppliersPage.assertPageOpened();
+        Assert.assertTrue(suppliersPage.isPageOpened(), "Suppliers page is not opened");
+
         AddSupplierPopup addSupplierPopup = suppliersPage.clickAddSupplierButton();
-        addSupplierPopup.assertVisibleWithTitle("Supplier Detail");
-        Map<String, String> infoEntered = addSupplierPopup.fillInfo();
-        addSupplierPopup.clickSave();
-        suppliersPage.assertSuccessMessageVisibleWithText("Supplier Added Successfully", softAssert);
-        addSupplierPopup.getPopupLeftMenu().clickTabByName("Account Numbers");
+        Assert.assertTrue(addSupplierPopup.isVisible(), "Add Supplier popup is not visible");
+        SupplierInfo infoEntered = addSupplierPopup.fillInfoRandomly();
+        addSupplierPopup.clickSaveButton();
+        SuccessMessageValidation successMessageValidation = new SuccessMessageValidation(softAssert, suppliersPage);
+        String expectedMessage = "Supplier Added Successfully";
+        successMessageValidation.validateSuccessMessageVisibleWithText(expectedMessage);
+        addSupplierPopup.getPopupLeftMenu().clickPopupSection(PopupSections.ACCOUNT_NUMBERS);
         Assert.assertTrue(addSupplierPopup.isAccountsSectionDisplayed(), "Account section is not displayed");
-        AddAccountNumbersPopup addAccountNumbersPopup = addSupplierPopup.clickAdd();
-        addAccountNumbersPopup.assertVisibleWithTitle("Add Account Numbers");
+        AddAccountNumbersPopup addAccountNumbersPopup = addSupplierPopup.clickAddButton();
+        Assert.assertTrue(addAccountNumbersPopup.isVisible(), "Add Account Numbers popup is not visible");
+
         AddressPopup addressPopup = addAccountNumbersPopup.clickSelectShipToAddress();
-        addressPopup.assertVisible();
-        infoEntered.put("shipToLine2", addressPopup.getAddressLine2Text(0));
-        addressPopup.clickAddress(0);
-        addressPopup.assertDisappeared();
-        infoEntered.put("accountNumber", addAccountNumbersPopup.fillAccountNumber());
-        addAccountNumbersPopup.clickSave();
-        addAccountNumbersPopup.assertDisappeared();
-        suppliersPage.assertSuccessMessageVisibleWithText("Account Added Successfully", softAssert);
-        addSupplierPopup.clickClose();
-        addSupplierPopup.assertDisappeared();
-        String name = infoEntered.get("name");
-        suppliersPage = suppliersPage.search(name);
-        suppliersPage.assertSupplierFound(name);
+        Assert.assertTrue(addressPopup.isVisible(), "Account Numbers Address popup is not visible");
+        infoEntered.setShipToLineTwo(addressPopup.getAddressLineTwoText(0));
+        addressPopup.clickFirstAddress();
+        Assert.assertTrue(addressPopup.isDisappeared(), "Popup didn't disappear");
+        infoEntered.setAccountNumber(addAccountNumbersPopup.fillAccountNumberRandomly());
+        addAccountNumbersPopup.clickSaveButton();
+        Assert.assertTrue(addAccountNumbersPopup.isDisappeared(), "Popup didn't disappear");
+        expectedMessage = "Account Added Successfully";
+        successMessageValidation.validateSuccessMessageVisibleWithText(expectedMessage);
+        addSupplierPopup.clickCloseButton();
+        Assert.assertTrue(addSupplierPopup.isDisappeared(), "Popup didn't disappear");
+
+        String name = infoEntered.getName();
+        suppliersPage = suppliersPage.searchSupplierByName(name);
+        Assert.assertTrue(suppliersPage.isSupplierFound(name), "Supplier with name " + name + " not found");
+
         addSupplierPopup = suppliersPage.editSupplierByName(name);
         suppliersPage.ensureLoaded();
-        addSupplierPopup.assertVisible();
-        Map<String, String> infoRead = addSupplierPopup.getFullInfo();
-        Assert.assertEquals(infoRead, infoEntered);
+        Assert.assertTrue(addSupplierPopup.isVisible(), "Edit Supplier popup is not visible");
+        SupplierInfo infoRead = addSupplierPopup.getFullInfo();
+        Assert.assertEquals(infoRead, infoEntered, "Supplier info not as entered");
         softAssert.assertAll();
     }
 
-    @Test(description = "Verifies shipping address creation")
+    @MethodOwner(owner = "anazarenko")
+    @Test(description = "Verifies shipping address creation", testName = "Creating and Editing Shipping Address Test")
     public void checkCreateShippingAddressTest() {
         SoftAssert softAssert = new SoftAssert();
-        DashboardPage dashboardPage = Util.loginAs(getDriver());
-        dashboardPage.assertPageOpened();
-        BuyerPage buyerPage = dashboardPage.clickBuyer();
-        buyerPage.assertPageOpened();
+        DashboardPage dashboardPage = new LoginService(getDriver()).login(USERNAME, PASSWORD);
+
+        BuyerPage buyerPage = dashboardPage.clickBuyerTab();
+        Assert.assertTrue(buyerPage.isPageOpened(), "Buyer page is not opened");
+
         AddressesPage addressesPage = buyerPage.clickAddresses();
-        addressesPage.assertPageOpened();
-        AddressSetupPopup addressSetupPopup = addressesPage.clickAddAddress();
-        addressSetupPopup.assertVisibleWithTitle("Address Setup");
-        Map<String, String> addressInfo = addressSetupPopup.fillInfo();
-        addressSetupPopup.clickSave();
-        addressesPage.assertSuccessMessageVisibleWithText("Saved Successfully", softAssert);
+        Assert.assertTrue(addressesPage.isPageOpened(), "Addresses page is not opened");
+
+        AddressSetupPopup addressSetupPopup = addressesPage.clickAddAddressButton();
+        Assert.assertTrue(addressSetupPopup.isVisible(), "Address Setup popup is not visible");
+        AddressInfo addressInfo;
+        do {
+            addressInfo = addressSetupPopup.fillInfoRandomly();
+            addressSetupPopup.clickSaveButton();
+        }
+        while (addressesPage.isErrorMessagePresent());
+
+        SuccessMessageValidation successMessageValidation = new SuccessMessageValidation(softAssert, addressesPage);
+        String expectedMessage = "Saved Successfully";
+        successMessageValidation.validateSuccessMessageVisibleWithText(expectedMessage);
         addressSetupPopup.ensureLoaded();
-        addressSetupPopup.clickUsers();
-        addressSetupPopup.assertUserSectionVisible();
+
+        addressSetupPopup.clickUsersSection();
+        Assert.assertTrue(addressSetupPopup.isUserSectionVisible(), "User section is not visible");
         addressSetupPopup.ensureLoaded();
         addressSetupPopup.checkAllDefault();
-        addressSetupPopup.assertAllDefaultActive();
-        addressSetupPopup.clickClose();
+        softAssert.assertTrue(addressSetupPopup.isAllDefaultActive(), "Not all checkboxes checked");
+        addressSetupPopup.clickCloseButton();
         addressSetupPopup.ensureLoaded();
-        addressSetupPopup.assertDisappeared();
-        addressesPage = addressesPage.search(addressInfo.get("line1"));
-        addressesPage.assertAddressFound(addressInfo.get("line1"));
+        Assert.assertTrue(addressSetupPopup.isDisappeared(), "Popup didn't disappear");
+
+        String addressLineOne = addressInfo.getAddressLines().get(0);
+        addressesPage = addressesPage.searchAddressByAddressLine(addressLineOne);
+        Assert.assertTrue(addressesPage.isAddressFound(addressLineOne), "Address not found");
+
         addressSetupPopup = addressesPage.editFirstAddress();
-        addressSetupPopup.assertVisibleWithTitle("Address Setup");
-        Assert.assertEquals(addressSetupPopup.getInfo(), addressInfo);
+        Assert.assertTrue(addressSetupPopup.isVisible(), "Address Setup popup is not visible");
+        Assert.assertEquals(addressSetupPopup.getInfo(), addressInfo, "Addresses aren't identical");
+        softAssert.assertAll();
     }
 
-    @Test(description = "Verifies supplier item creation")
+    @MethodOwner(owner = "anazarenko")
+    @Test(description = "Verifies supplier item creation", testName = "Adding Supplier Item Test")
     public void checkAddSupplierItemTest() {
         SoftAssert softAssert = new SoftAssert();
-        DashboardPage dashboardPage = Util.loginAs(getDriver());
-        dashboardPage.assertPageOpened();
-        BuyerPage buyerPage = dashboardPage.clickBuyer();
+        DashboardPage dashboardPage = new LoginService(getDriver()).login(USERNAME, PASSWORD);
+
+        BuyerPage buyerPage = dashboardPage.clickBuyerTab();
         BuyerSuppliersPage suppliersPage = buyerPage.clickSuppliers();
-        suppliersPage.assertPageOpened();
+        Assert.assertTrue(suppliersPage.isPageOpened(), "Suppliers page is not opened");
+
         AddSupplierPopup supplierPopup = suppliersPage.clickAddSupplierButton();
-        supplierPopup.assertVisibleWithTitle("Supplier Detail");
-        supplierPopup.fillRequiredFields();
-        supplierPopup.clickSave();
-        suppliersPage.assertSuccessMessageVisibleWithText("Supplier Added Successfully", softAssert);
+        Assert.assertTrue(supplierPopup.isVisible(), "Supplier popup is not visible");
+        supplierPopup.fillRequiredFieldsRandomly();
+        supplierPopup.clickSaveButton();
+        SuccessMessageValidation successMessageValidation = new SuccessMessageValidation(softAssert, suppliersPage);
+        String expectedMessage = "Supplier Added Successfully";
+        successMessageValidation.validateSuccessMessageVisibleWithText(expectedMessage);
         supplierPopup.ensureLoaded();
+
         AddSupplierPopup catalogItemsPopup = supplierPopup.clickCatalogItems();
         buyerPage.ensureLoaded();
-        catalogItemsPopup.assertCatalogItemsSectionOpened();
-        AddSupplierItemPopup itemPopup = catalogItemsPopup.clickAddItem();
+        Assert.assertTrue(catalogItemsPopup.isCatalogItemsSectionOpened(), "Catalog Item section is not opened");
+
+        AddSupplierItemPopup itemPopup = catalogItemsPopup.clickAddItemButton();
         catalogItemsPopup.ensureLoaded();
-        itemPopup.assertVisible();
-        Map<String, String> infoEntered = itemPopup.fillInfo();
-        Assert.assertEquals(infoEntered.get("genericDesc"), infoEntered.get("desc"), "Description is not copied");
-        itemPopup.clickAddSpec();
-        Assert.assertTrue(itemPopup.getSpecNumber() > 1, "Spec number has not increased");
-        itemPopup.clickSave();
+        Assert.assertTrue(itemPopup.isVisible(), "Add Supplier Item popup is not visible");
+        SupplierItemInfo infoEntered = itemPopup.fillInfoRandomly();
+        softAssert.assertEquals(infoEntered.getGenericDesc(), infoEntered.getDesc(), "Description is not copied");
+        itemPopup.addSpecification();
+        Assert.assertTrue(itemPopup.getSize() > 1, "Spec number has not increased");
+        itemPopup.clickSaveButton();
         itemPopup.ensureLoaded();
-        suppliersPage.assertSuccessMessageVisibleWithText("Catalog Items Added Successfully", softAssert);
-        itemPopup.clickClose();
-        itemPopup.assertDisappeared();
+        expectedMessage = "Catalog Items Added Successfully";
+        successMessageValidation.validateSuccessMessageVisibleWithText(expectedMessage);
+        itemPopup.clickCloseButton();
+        Assert.assertTrue(itemPopup.isDisappeared(), "Popup didn't disappear");
+
         supplierPopup = new BuyerSuppliersPage(getDriver()).getAddSupplierPopup();
-        itemPopup = supplierPopup.clickOnAddedItemEdit();
+        itemPopup = supplierPopup.clickEditItemButton();
         itemPopup.ensureLoaded();
-        itemPopup.assertVisible();
-        Map<String, String> infoRead = itemPopup.getInfo();
-        Assert.assertEquals(infoRead, infoEntered);
+        Assert.assertTrue(itemPopup.isVisible(), "Edit Supplier Item popup is not visible");
+        SupplierItemInfo infoRead = itemPopup.getInfo();
+        Assert.assertEquals(infoRead, infoEntered, "Items information is not identical");
         softAssert.assertAll();
     }
 }
