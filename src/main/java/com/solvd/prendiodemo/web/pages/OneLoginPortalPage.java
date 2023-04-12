@@ -20,6 +20,6 @@ public class OneLoginPortalPage extends AbstractPage {
     public DashboardPage goToPrendio() {
         skipExtensionButton.click();
         prendioCompanyButton.click();
-         return new DashboardPage(driver);
+        return new DashboardPage(getDriver());
     }
 }

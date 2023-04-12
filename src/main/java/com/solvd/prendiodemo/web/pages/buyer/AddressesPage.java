@@ -2,8 +2,8 @@ package com.solvd.prendiodemo.web.pages.buyer;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.PageOpeningStrategy;
-import com.solvd.prendiodemo.web.components.buyer.AddressSetupPopup;
 import com.solvd.prendiodemo.web.components.TableEntry;
+import com.solvd.prendiodemo.web.components.buyer.AddressSetupPopup;
 import com.solvd.prendiodemo.web.pages.BasePage;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -41,7 +41,7 @@ public class AddressesPage extends BasePage {
     public AddressesPage search(String query) {
         searchField.type(query);
         searchField.sendKeys(Keys.ENTER);
-         return new AddressesPage(driver);
+        return new AddressesPage(getDriver());
     }
 
     public void assertAddressFound(String line1) {

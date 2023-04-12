@@ -32,7 +32,7 @@ public class VouchersPage extends AccountPayablePage {
     public VouchersPage search(String query) {
         searchField.type(query);
         searchField.sendKeys(Keys.ENTER);
-         return new VouchersPage(driver);
+        return new VouchersPage(getDriver());
     }
 
     private Optional<VoucherEntry> findVoucherEntryByInvNumber(String invNumber) {

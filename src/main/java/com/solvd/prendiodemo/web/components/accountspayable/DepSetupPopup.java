@@ -67,11 +67,11 @@ public class DepSetupPopup extends BasePopup {
     }
 
     public void clickWatchers() {
-        getPopupLeftMenu().clickTabByName("Watchers");
+        getPopupLeftMenu().clickWatchers();
     }
 
     public void clickUsers() {
-        getPopupLeftMenu().clickTabByName("Users");
+        getPopupLeftMenu().clickUsers();
         ensureLoaded();
     }
 

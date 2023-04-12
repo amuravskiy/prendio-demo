@@ -25,6 +25,6 @@ public class LoginPage extends AbstractPage {
         continueButton.click();
         passwordField.type(password);
         continueButton.click();
-         return new OneLoginPortalPage(driver);
+        return new OneLoginPortalPage(getDriver());
     }
 }

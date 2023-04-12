@@ -1,8 +1,8 @@
 package com.solvd.prendiodemo.web.components.buyer;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
-import com.solvd.prendiodemo.web.components.BasePopup;
 import com.solvd.prendiodemo.utils.Util;
+import com.solvd.prendiodemo.web.components.BasePopup;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.openqa.selenium.By;

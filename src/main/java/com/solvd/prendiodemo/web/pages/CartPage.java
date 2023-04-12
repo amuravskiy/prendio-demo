@@ -2,11 +2,11 @@ package com.solvd.prendiodemo.web.pages;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.PageOpeningStrategy;
-import com.solvd.prendiodemo.web.components.BasePopup;
-import com.solvd.prendiodemo.web.components.cart.ShipToPopup;
-import com.solvd.prendiodemo.utils.Util;
 import com.solvd.prendiodemo.domain.CartContents;
 import com.solvd.prendiodemo.domain.ItemContents;
+import com.solvd.prendiodemo.utils.Util;
+import com.solvd.prendiodemo.web.components.BasePopup;
+import com.solvd.prendiodemo.web.components.cart.ShipToPopup;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
@@ -180,7 +180,7 @@ public class CartPage extends BasePage {
     public DashboardPage clickSubmitReqApproval() {
         requisitionApprovalPopup.clickConfirmationButton();
         ensureLoaded();
-         return new DashboardPage(driver);
+        return new DashboardPage(getDriver());
     }
 
     public BasePopup getConfirmationPopup() {

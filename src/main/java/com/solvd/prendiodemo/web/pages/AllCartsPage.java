@@ -35,7 +35,7 @@ public class AllCartsPage extends BasePage {
         if (!cartEntries.isEmpty()) {
             cartEntries.get(0).getRootExtendedElement().waitUntilElementDisappear(EXPLICIT_TIMEOUT);
         }
-         return new AllCartsPage(driver);
+        return new AllCartsPage(getDriver());
     }
 
     public CartPage clickFirstCart() {

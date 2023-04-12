@@ -272,7 +272,7 @@ public class PrendioTest extends AbstractTest {
         statusWindow.assertUIObjectPresent();
         ProfilePage profilePage = statusWindow.clickViewProfileButton();
         profilePage.assertPageOpened();
-        UserProfileInfo filledInfo = profilePage.fillProfileInfo();
+        UserProfileInfo filledInfo = profilePage.fillProfileInfoRandomly();
         profilePage.hoverUploadButton();
         Assert.assertTrue(profilePage.isUploadButtonVisible(), "Upload button is not visible");
         ImageUploadPopup imageUploadPopup = profilePage.clickUploadButton();
@@ -307,7 +307,7 @@ public class PrendioTest extends AbstractTest {
         Map<String, String> infoEntered = addSupplierPopup.fillInfoRandomly();
         addSupplierPopup.clickSave();
         suppliersPage.assertSuccessMessageVisibleWithText("Supplier Added Successfully", softAssert);
-        addSupplierPopup.getPopupLeftMenu().clickTabByName("Account Numbers");
+        addSupplierPopup.getPopupLeftMenu().clickAccountNumbers();
         Assert.assertTrue(addSupplierPopup.isAccountsSectionDisplayed(), "Account section is not displayed");
         AddAccountNumbersPopup addAccountNumbersPopup = addSupplierPopup.clickAdd();
         addAccountNumbersPopup.assertVisibleWithTitle("Add Account Numbers");
@@ -344,7 +344,7 @@ public class PrendioTest extends AbstractTest {
         addressesPage.assertPageOpened();
         AddressSetupPopup addressSetupPopup = addressesPage.clickAddAddress();
         addressSetupPopup.assertVisibleWithTitle("Address Setup");
-        Map<String, String> addressInfo = addressSetupPopup.fillInfo();
+        Map<String, String> addressInfo = addressSetupPopup.fillInfoRandomly();
         addressSetupPopup.clickSave();
         addressesPage.assertSuccessMessageVisibleWithText("Saved Successfully", softAssert);
         addressSetupPopup.ensureLoaded();

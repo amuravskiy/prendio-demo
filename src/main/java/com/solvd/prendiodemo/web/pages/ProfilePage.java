@@ -2,9 +2,9 @@ package com.solvd.prendiodemo.web.pages;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.PageOpeningStrategy;
-import com.solvd.prendiodemo.web.components.profile.ImageUploadPopup;
-import com.solvd.prendiodemo.utils.Util;
 import com.solvd.prendiodemo.domain.UserProfileInfo;
+import com.solvd.prendiodemo.utils.Util;
+import com.solvd.prendiodemo.web.components.profile.ImageUploadPopup;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
@@ -99,23 +99,23 @@ public class ProfilePage extends BasePage {
                 .replace("/0", "/");
     }
 
-    public String fillPhoneNumber() {
+    public String fillPhoneNumberRandomly() {
         String phoneNumber = RandomStringUtils.randomNumeric(15);
         phoneNumberField.type(phoneNumber);
         return phoneNumber;
     }
 
-    public String fillTitle() {
+    public String fillTitleRandomly() {
         String title = RandomStringUtils.randomAlphabetic(10);
         titleField.type(title);
         return title;
     }
 
-    public UserProfileInfo fillProfileInfo() {
+    public UserProfileInfo fillProfileInfoRandomly() {
         Pair<String, String> dates = fillOutOfOffice();
         return new UserProfileInfo.Builder()
-                .setTitle(fillTitle())
-                .setPhoneNumber(fillPhoneNumber())
+                .setTitle(fillTitleRandomly())
+                .setPhoneNumber(fillPhoneNumberRandomly())
                 .setCarrier(selectOtherCarrier())
                 .setStartDate(dates.getLeft())
                 .setEndDate(dates.getRight())

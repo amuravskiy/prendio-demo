@@ -1,9 +1,9 @@
 package com.solvd.prendiodemo.web.components.buyer;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
+import com.solvd.prendiodemo.utils.Util;
 import com.solvd.prendiodemo.web.components.BasePopup;
 import com.solvd.prendiodemo.web.components.TableEntry;
-import com.solvd.prendiodemo.utils.Util;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
@@ -159,7 +159,7 @@ public class AddSupplierPopup extends BasePopup {
 
     public Map<String, String> getFullInfo() {
         Map<String, String> info = getGeneralInfo();
-        getPopupLeftMenu().clickTabByName("Account Numbers");
+        getPopupLeftMenu().clickAccountNumbers();
         firstShipToAddress.isVisible();
         info.put("shipToLine2", firstShipToAddress.getText().split(",")[0]);
         info.put("accountNumber", firstAccountNumber.getText());
@@ -167,7 +167,7 @@ public class AddSupplierPopup extends BasePopup {
     }
 
     public AddSupplierPopup clickCatalogItems() {
-        getPopupLeftMenu().clickTabByName("Catalog Items");
+        getPopupLeftMenu().clickCatalogItems();
         return this;
     }
 

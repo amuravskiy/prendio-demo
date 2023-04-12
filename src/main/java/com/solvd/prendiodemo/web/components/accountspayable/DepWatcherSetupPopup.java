@@ -1,9 +1,9 @@
 package com.solvd.prendiodemo.web.components.accountspayable;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
-import com.solvd.prendiodemo.web.components.BasePopup;
-import com.solvd.prendiodemo.utils.Util;
 import com.solvd.prendiodemo.domain.WatcherInfo;
+import com.solvd.prendiodemo.utils.Util;
+import com.solvd.prendiodemo.web.components.BasePopup;
 import org.apache.commons.lang3.RandomUtils;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;

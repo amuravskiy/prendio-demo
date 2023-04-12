@@ -2,8 +2,8 @@ package com.solvd.prendiodemo.web.pages.receiver;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.PageOpeningStrategy;
-import com.solvd.prendiodemo.web.pages.ReceiverPage;
 import com.solvd.prendiodemo.utils.Util;
+import com.solvd.prendiodemo.web.pages.ReceiverPage;
 import com.zebrunner.carina.utils.R;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;

@@ -17,8 +17,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.zebrunner.agent.core.webdriver.RemoteWebDriverFactory.getDriver;
-
 public class Util {
 
     public static void switchToTabOne(WebDriver driver) {

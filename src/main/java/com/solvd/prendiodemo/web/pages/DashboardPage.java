@@ -25,7 +25,7 @@ public class DashboardPage extends BasePage {
 
     public AllCartsPage clickViewAllCarts() {
         viewAllCarts.click();
-         return new AllCartsPage(driver);
+        return new AllCartsPage(getDriver());
     }
 
     public String getOrderPreviewsCartName(int index) {
