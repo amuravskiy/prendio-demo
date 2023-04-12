@@ -12,16 +12,16 @@ import org.openqa.selenium.support.FindBy;
 
 public class NavigationMenu extends AbstractUIObject {
 
-    @FindBy(xpath = "//a[text()='Dashboard']")
+    @FindBy(xpath = "..//a[text()='Dashboard']")
     private ExtendedWebElement dashboardButton;
 
-    @FindBy(xpath = "//a[text()='Buyer']")
+    @FindBy(xpath = "..//a[text()='Buyer']")
     private ExtendedWebElement buyerButton;
 
-    @FindBy(xpath = "//a[text()='Receiver']")
+    @FindBy(xpath = "..//a[text()='Receiver']")
     private ExtendedWebElement receiverButton;
 
-    @FindBy(xpath = "//a[text()='Accounts Payable']")
+    @FindBy(xpath = "..//a[text()='Accounts Payable']")
     private ExtendedWebElement accountsPayableButton;
 
     public NavigationMenu(WebDriver driver, SearchContext searchContext) {

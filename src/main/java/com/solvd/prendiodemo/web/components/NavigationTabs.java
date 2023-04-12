@@ -8,17 +8,16 @@ import org.openqa.selenium.support.FindBy;
 
 public class NavigationTabs extends AbstractUIObject {
 
-
-    @FindBy(xpath = "//li[@type='suppliers']")
+    @FindBy(xpath = "..//li[@type='suppliers']")
     private ExtendedWebElement suppliersButton;
 
-    @FindBy(xpath = "//li[@type='vouchers']")
+    @FindBy(xpath = "..//li[@type='vouchers']")
     private ExtendedWebElement vouchersButton;
 
-    @FindBy(xpath = "//li[@type='scan']")
+    @FindBy(xpath = "..//li[@type='scan']")
     private ExtendedWebElement scanButton;
 
-    @FindBy(xpath = "//li[@type='addresses']")
+    @FindBy(xpath = "..//li[@type='addresses']")
     private ExtendedWebElement addressesButton;
 
 
