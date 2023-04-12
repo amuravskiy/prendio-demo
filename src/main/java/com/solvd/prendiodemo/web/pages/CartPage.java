@@ -118,7 +118,7 @@ public class CartPage extends BasePage {
     }
 
     public String getCartName() {
-        return cartName.getAttribute("value");
+        return getValue(cartName);
     }
 
     public CartContents getCartContents() {

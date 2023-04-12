@@ -109,9 +109,9 @@ public class DepSetupPopup extends BasePopup {
     }
 
     public DepInfo getInfo() {
-        return new DepInfo(depNameField.getAttribute("value"),
-                depDescField.getAttribute("value"),
-                depNotesField.getAttribute("value"));
+        return new DepInfo(getValue(depNameField),
+                getValue(depDescField),
+                getValue(depNotesField));
     }
 
     public WatcherInfo getWatcherInfo() {

@@ -3,6 +3,7 @@ package com.solvd.prendiodemo.web.components;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ElementLoadingStrategy;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractUIObject;
+import com.solvd.prendiodemo.utils.ValueService;
 import com.zebrunner.carina.utils.R;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
@@ -13,7 +14,7 @@ import org.testng.Assert;
 
 import java.lang.invoke.MethodHandles;
 
-public class BasePopup extends AbstractUIObject {
+public class BasePopup extends AbstractUIObject implements ValueService {
 
     protected static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private static final long LOADING_BLOCK_APPEAR_TIMEOUT = R.CONFIG.getLong("loading_block_appear_timeout");

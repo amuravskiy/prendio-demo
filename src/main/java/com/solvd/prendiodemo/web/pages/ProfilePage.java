@@ -62,7 +62,7 @@ public class ProfilePage extends BasePage {
     }
 
     public String getFullName() {
-        return firstNameField.getAttribute("value") + " " + lastNameField.getAttribute("value");
+        return getValue(firstNameField) + " " + getValue(lastNameField);
     }
 
     public String selectOtherCarrier() {
@@ -82,16 +82,16 @@ public class ProfilePage extends BasePage {
     public Pair<String, String> fillOutOfOffice() {
         startDateInput.click();
         ExtendedWebElement dayToClickOn = findExtendedWebElement(firstAvaibleDayLocator);
-        dayToClickOn.isClickable();
+        waitToBeClickable(dayToClickOn);
         dayToClickOn.click();
         endDateInput.click();
-        nextMonthButton.isClickable();
+        waitToBeClickable(nextMonthButton);
         nextMonthButton.click();
         dayToClickOn = findExtendedWebElement(firstAvaibleDayLocator);
-        dayToClickOn.isClickable();
+        waitToBeClickable(dayToClickOn);
         dayToClickOn.click();
-        return new ImmutablePair<>(formatDate(startDateInput.getAttribute("value")),
-                formatDate(endDateInput.getAttribute("value")));
+        return new ImmutablePair<>(formatDate(getValue(startDateInput)),
+                formatDate(getValue(endDateInput)));
     }
 
     private String formatDate(String date) {
@@ -124,11 +124,11 @@ public class ProfilePage extends BasePage {
 
     public UserProfileInfo getProfileInfo() {
         return new UserProfileInfo.Builder()
-                .setTitle(titleField.getAttribute("value"))
-                .setPhoneNumber(phoneNumberField.getAttribute("value"))
+                .setTitle(getValue(titleField))
+                .setPhoneNumber(getValue(phoneNumberField))
                 .setCarrier(Util.getSelectedOptionText(carrierSelect))
-                .setStartDate(formatDate(startDateInput.getAttribute("value")))
-                .setEndDate(formatDate(endDateInput.getAttribute("value")))
+                .setStartDate(formatDate(getValue(startDateInput)))
+                .setEndDate(formatDate(getValue(endDateInput)))
                 .build();
     }
 

@@ -10,6 +10,7 @@ import org.apache.commons.lang3.RandomUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 
 import java.time.Instant;
@@ -79,12 +80,13 @@ public class ReceiverScanMatchPage extends ReceiverPage {
         By dayLocator = By.xpath("//a[text()='" + info.getDay() + "']");
         receivedDateIcon.click();
         ExtendedWebElement dayToClickOn = findExtendedWebElement(dayLocator);
-        dayToClickOn.isClickable();
+        waitUntil(ExpectedConditions.elementToBeClickable(dayToClickOn.getElement()), EXPLICIT_TIMEOUT);
+        waitToBeClickable(dayToClickOn);
         dayToClickOn.click();
         invNumverInput.type(info.getInvoiceNumber());
         indDateIcon.click();
         dayToClickOn = findExtendedWebElement(dayLocator);
-        dayToClickOn.isClickable();
+        waitToBeClickable(dayToClickOn);
         dayToClickOn.click();
         dayToClickOn.waitUntilElementDisappear(EXPLICIT_TIMEOUT);
         invAmountInput.type(info.getInvoiceAmount());

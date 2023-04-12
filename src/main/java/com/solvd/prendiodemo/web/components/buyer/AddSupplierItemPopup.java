@@ -99,25 +99,25 @@ public class AddSupplierItemPopup extends BasePopup {
 
     public Map<String, String> getInfo() {
         Map<String, String> info = new HashMap<>();
-        info.put("supplierPart", supplierPartField.getAttribute("value"));
-        info.put("desc", descField.getAttribute("value"));
-        info.put("genericDesc", genericDesc.getAttribute("value"));
-        info.put("deprecatedPart", deprecatedPartField.getAttribute("value"));
-        info.put("manufacturer", manufacturerField.getAttribute("value"));
-        info.put("manufactNumber", manufactNumberField.getAttribute("value"));
-        info.put("notes", notesField.getAttribute("value"));
+        info.put("supplierPart", getValue(supplierPartField));
+        info.put("desc", getValue(descField));
+        info.put("genericDesc", getValue(genericDesc));
+        info.put("deprecatedPart", getValue(deprecatedPartField));
+        info.put("manufacturer", getValue(manufacturerField));
+        info.put("manufactNumber", getValue(manufactNumberField));
+        info.put("notes", getValue(notesField));
         info.put("status", Util.getSelectedOptionText(statusSelect));
         String safetyCheckboxesChecked = safetyLabels.stream()
                 .filter(label -> label.findExtendedWebElement(labelsCheckLocator).isChecked())
                 .map(ExtendedWebElement::getText).collect(Collectors.joining(", "));
         info.put("safetyCheckboxesChecked", safetyCheckboxesChecked);
-        info.put("cas", casNumberField.getAttribute("value"));
+        info.put("cas", getValue(casNumberField));
         info.put("unit", Util.getSelectedOptionText(unitSelect));
-        info.put("qtyEach", qtyEachField.getAttribute("value"));
+        info.put("qtyEach", getValue(qtyEachField));
         findExtendedWebElements(materialNameLocator).stream()
-                .filter(material -> !material.getAttribute("value").isBlank())
+                .filter(material -> !getValue(material).isBlank())
                 .forEach(material -> info.put(
-                        "material_name(" + material.getAttribute("value") + ")",
+                        "material_name(" + getValue(material) + ")",
                         material.findExtendedWebElement(materialValueLocator).getAttribute("value"
                         )));
         return info;

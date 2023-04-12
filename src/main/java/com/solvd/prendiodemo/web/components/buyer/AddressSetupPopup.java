@@ -83,7 +83,7 @@ public class AddressSetupPopup extends BasePopup {
         zipCodeField.type(RandomStringUtils.randomAlphabetic(10));
         Util.selectByIndex(countrySelect, 1);
         phoneField.type(RandomStringUtils.randomNumeric(10));
-        if (!addressCode.getAttribute("value").matches("[1-9]\\d{3}]")) {
+        if (!getValue(addressCode).matches("[1-9]\\d{3}]")) {
             addressCode.type(String.valueOf(RandomUtils.nextInt(1, 10_000)));
         }
         defaultAddressContainer.click();
@@ -96,12 +96,12 @@ public class AddressSetupPopup extends BasePopup {
         for (int i = 1; i < 5; i++) {
             info.put("line" + i, findExtendedWebElement(By.id(partialLineId + i)).getAttribute("value"));
         }
-        info.put("city", cityField.getAttribute("value"));
-        info.put("state", stateField.getAttribute("value"));
-        info.put("zip", zipCodeField.getAttribute("value"));
+        info.put("city", getValue(cityField));
+        info.put("state", getValue(stateField));
+        info.put("zip", getValue(zipCodeField));
         info.put("country", Util.getSelectedOptionText(countrySelect));
-        info.put("phone", phoneField.getAttribute("value"));
-        info.put("addressCode", addressCode.getAttribute("value"));
+        info.put("phone", getValue(phoneField));
+        info.put("addressCode", getValue(addressCode));
         info.put("default", String.valueOf(defaultAddressCheckbox.isChecked()));
         return info;
     }

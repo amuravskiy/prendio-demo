@@ -139,21 +139,21 @@ public class AddSupplierPopup extends BasePopup {
 
     public Map<String, String> getGeneralInfo() {
         Map<String, String> info = new HashMap<>();
-        info.put("name", supplierNameField.getAttribute("value"));
+        info.put("name", getValue(supplierNameField));
         info.put("shippingMethod", Util.getSelectedOptionText(shippingMethodSelect));
         info.put("repaidFreight", Util.getSelectedOptionText(prepaidFreightSelect));
         info.put("paymentTerms", Util.getSelectedOptionText(paymentTermsSelect));
         info.put("FOB", Util.getSelectedOptionText(fobSelect));
-        info.put("email", emailField.getAttribute("value"));
-        info.put("defaultServicePhone", defaultUserPhoneField.getAttribute("value").replaceAll("\\D", ""));
-        info.put("remitName", remitNameField.getAttribute("value"));
+        info.put("email", getValue(emailField));
+        info.put("defaultServicePhone", getValue(defaultUserPhoneField).replaceAll("\\D", ""));
+        info.put("remitName", getValue(remitNameField));
         for (int i = 1; i < 5; i++) {
             info.put("line" + i, findExtendedWebElement(By.id(partialLineId + i)).getAttribute("value"));
         }
-        info.put("city", cityField.getAttribute("value"));
-        info.put("state", stateField.getAttribute("value"));
-        info.put("zip", zipCodeField.getAttribute("value"));
-        info.put("notes", notesField.getAttribute("value"));
+        info.put("city", getValue(cityField));
+        info.put("state", getValue(stateField));
+        info.put("zip", getValue(zipCodeField));
+        info.put("notes", getValue(notesField));
         return info;
     }
 
