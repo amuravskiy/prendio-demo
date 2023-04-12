@@ -41,7 +41,7 @@ public class AddressesPage extends BasePage {
     public AddressesPage search(String query) {
         searchField.type(query);
         searchField.sendKeys(Keys.ENTER);
-        return new AddressesPage(getDriver());
+         return new AddressesPage(driver);
     }
 
     public void assertAddressFound(String line1) {

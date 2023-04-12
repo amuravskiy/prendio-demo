@@ -26,11 +26,11 @@ public class BuyerPage extends BasePage {
 
     public BuyerSuppliersPage clickSuppliers() {
         getNavigationTabs().clickTabByName("Suppliers");
-        return new BuyerSuppliersPage(getDriver());
+         return new BuyerSuppliersPage(driver);
     }
 
     public AddressesPage clickAddresses() {
         getNavigationTabs().clickTabByName("Addresses");
-        return new AddressesPage(getDriver());
+         return new AddressesPage(driver);
     }
 }

@@ -25,7 +25,7 @@ public class SearchBlock extends AbstractUIObject {
     public SearchResultPage search(String text) {
         searchField.type(text);
         searchButton.click();
-        return new SearchResultPage(getDriver());
+         return new SearchResultPage(driver);
     }
 
     public void chooseType(OrderType orderType) {

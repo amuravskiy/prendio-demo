@@ -44,7 +44,7 @@ public class BuyerSuppliersPage extends BasePage {
     public BuyerSuppliersPage search(String query) {
         searchField.type(query);
         searchField.sendKeys(Keys.ENTER);
-        return new BuyerSuppliersPage(getDriver());
+         return new BuyerSuppliersPage(driver);
     }
 
     private Optional<TableEntry> findSupplierEntryByName(String name) {

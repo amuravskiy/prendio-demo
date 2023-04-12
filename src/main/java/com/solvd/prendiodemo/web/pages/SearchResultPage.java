@@ -62,7 +62,7 @@ public class SearchResultPage extends BasePage {
     public CartPage clickCreateNewCart(int index) {
         searchResultsItemEntries.get(index).clickAddToANewCart();
         ensureLoaded();
-        return new CartPage(getDriver());
+         return new CartPage(driver);
     }
 
     public ItemContents getItemContents(int index) {

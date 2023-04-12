@@ -39,6 +39,6 @@ public class AccountsPayableSuppliersPage extends BasePage {
     public AccountsPayableSuppliersPage search(String query) {
         searchField.type(query);
         searchField.sendKeys(Keys.ENTER);
-        return new AccountsPayableSuppliersPage(getDriver());
+         return new AccountsPayableSuppliersPage(driver);
     }
 }

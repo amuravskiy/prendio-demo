@@ -27,21 +27,21 @@ public class NavigationMenu extends AbstractUIObject {
 
     public DashboardPage clickDashboardButton() {
         dashboardButton.click();
-        return new DashboardPage(getDriver());
+         return new DashboardPage(driver);
     }
 
     public BuyerPage clickBuyerButton() {
         buyerButton.click();
-        return new BuyerPage(getDriver());
+         return new BuyerPage(driver);
     }
 
     public ReceiverPage clickReceiverButton() {
         receiverButton.click();
-        return new ReceiverPage(getDriver());
+         return new ReceiverPage(driver);
     }
 
     public AccountPayablePage clickAccountsPayableButton() {
         accountsPayableButton.click();
-        return new AccountPayablePage(getDriver());
+         return new AccountPayablePage(driver);
     }
 }

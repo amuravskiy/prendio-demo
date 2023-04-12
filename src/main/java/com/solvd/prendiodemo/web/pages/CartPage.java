@@ -180,7 +180,7 @@ public class CartPage extends BasePage {
     public DashboardPage clickSubmitReqApproval() {
         requisitionApprovalPopup.clickConfirmationButton();
         ensureLoaded();
-        return new DashboardPage(getDriver());
+         return new DashboardPage(driver);
     }
 
     public BasePopup getConfirmationPopup() {

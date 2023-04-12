@@ -50,12 +50,12 @@ public class DepartmentPage extends BasePage {
                 .orElseThrow()
                 .getEditIcon()
                 .click();
-        return new DepartmentPage(getDriver()).depSetupPopup;
+         return new DepartmentPage(driver).depSetupPopup;
     }
 
     public DepartmentPage searchDepartmentByDesc(String desc) {
         searchField.type(desc);
         searchField.sendKeys(Keys.ENTER);
-        return new DepartmentPage(getDriver());
+         return new DepartmentPage(driver);
     }
 }

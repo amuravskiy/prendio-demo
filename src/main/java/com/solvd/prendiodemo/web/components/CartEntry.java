@@ -21,7 +21,7 @@ public class CartEntry extends AbstractUIObject {
 
     public CartPage clickId() {
         idLink.click();
-        return new CartPage(getDriver());
+         return new CartPage(driver);
     }
 
     public String getName() {

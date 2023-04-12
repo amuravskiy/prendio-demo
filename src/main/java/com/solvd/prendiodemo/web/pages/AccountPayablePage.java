@@ -24,16 +24,16 @@ public class AccountPayablePage extends BasePage {
 
     public AccountsPayableSuppliersPage clickSuppliers() {
         navigationTabs.clickTabByName("Suppliers");
-        return new AccountsPayableSuppliersPage(getDriver());
+         return new AccountsPayableSuppliersPage(driver);
     }
 
     public VouchersPage clickVouchers() {
         navigationTabs.clickTabByName("Vouchers");
-        return new VouchersPage(getDriver());
+         return new VouchersPage(driver);
     }
 
     public DepartmentPage clickDepartment() {
         departmentButton.click();
-        return new DepartmentPage(getDriver());
+         return new DepartmentPage(driver);
     }
 }

@@ -27,7 +27,7 @@ public class Util {
     }
 
     public static DashboardPage loginAs(WebDriver driver) {
-        LoginPage loginPage = new LoginPage(getDriver());
+        LoginPage loginPage = new LoginPage(driver);
         loginPage.open();
         loginPage.assertPageOpened();
         OneLoginPortalPage oneLoginPortalPage = loginPage.login(R.CONFIG.get("username"), R.CONFIG.get("password"));

@@ -18,6 +18,6 @@ public class UserStatusWindow extends AbstractUIObject {
 
     public ProfilePage clickViewProfileButton() {
         viewProfileButton.click();
-        return new ProfilePage(getDriver());
+         return new ProfilePage(driver);
     }
 }

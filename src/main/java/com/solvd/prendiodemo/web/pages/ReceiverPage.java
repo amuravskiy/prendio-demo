@@ -23,11 +23,11 @@ public class ReceiverPage extends BasePage {
 
     public ReceiverScanPage clickScan() {
         navigationTabs.clickTabByName("Scan");
-        return new ReceiverScanPage(getDriver());
+         return new ReceiverScanPage(driver);
     }
 
     public ReceiverScanMatchPage clickScanMatch() {
         scanMatchButton.click();
-        return new ReceiverScanMatchPage(getDriver());
+         return new ReceiverScanMatchPage(driver);
     }
 }

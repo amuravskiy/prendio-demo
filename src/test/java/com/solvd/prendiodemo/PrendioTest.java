@@ -36,7 +36,7 @@ public class PrendioTest extends AbstractTest {
     private static final DateTimeFormatter ADD_SUPPLIER_DATE_FORMAT = DateTimeFormatter
             .ofPattern(R.CONFIG.get("add_supplier_date_format"))
             .withZone(ZoneOffset.ofHours(HOURS_OFFSET_FROM_UTC));
-    private static final String TRAIL_FULLNAME_REGEX = R.CONFIG.get("trail_fullname_regex");
+    private static final String TRAIL_FULL_NAME_REGEX = R.CONFIG.get("trail_full_name_regex");
     private static final String TRAIL_DATE_REGEX = R.CONFIG.get("trail_date_regex");
     private static final String TEMPLATE_CART_NAME = R.CONFIG.get("template_cart_name");
     private static final String CATALOG_QUERY = R.CONFIG.get("catalog_query");
@@ -80,14 +80,14 @@ public class PrendioTest extends AbstractTest {
         supplierInfoPopup.assertVisible();
         String trailRecordText = supplierInfoPopup.getCreatedTrailText();
         String currentDateFormatted = ADD_SUPPLIER_DATE_FORMAT.format(Instant.now());
-        Matcher trailFullnameMatcher = Pattern.compile(TRAIL_FULLNAME_REGEX).matcher(trailRecordText);
+        Matcher trailFullNameMatcher = Pattern.compile(TRAIL_FULL_NAME_REGEX).matcher(trailRecordText);
         Matcher trailDateMatcher = Pattern.compile(TRAIL_DATE_REGEX).matcher(trailRecordText);
         Assert.assertTrue(trailDateMatcher.find(), "Date is not found in trail text");
-        Assert.assertTrue(trailFullnameMatcher.find(), "Full name is not found in trail text");
+        Assert.assertTrue(trailFullNameMatcher.find(), "Full name is not found in trail text");
         String trailDate = trailDateMatcher.group(1);
-        String trailFullname = trailFullnameMatcher.group(1);
+        String trailFullName = trailFullNameMatcher.group(1);
         Assert.assertEquals(trailDate, currentDateFormatted, "Trail date is not equal to current date");
-        Assert.assertEquals(trailFullname, fullName, "Trail full name is not equal to current user full name");
+        Assert.assertEquals(trailFullName, fullName, "Trail full name is not equal to current user full name");
         softAssert.assertAll();
     }
 
