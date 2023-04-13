@@ -33,10 +33,10 @@ public class BasePage extends AbstractPage implements ValueService {
     @FindBy(className = "userstatusmenu_block")
     protected UserPhotoBlock userPhotoBlock;
 
-    @FindBy(className = "navigationmenu")
+    @FindBy(xpath = "//div[@id='myNavbar']")
     protected NavigationMenu navigationMenu;
 
-    @FindBy(className = "rtabs")
+    @FindBy(xpath = "//ul[@class='rtabs']")
     protected NavigationTabs navigationTabs;
 
     @FindBy(className = "successmsg")
