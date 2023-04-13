@@ -13,7 +13,7 @@ import java.io.File;
 
 public class ImageUploadPopup extends BasePopup {
 
-    private static final String SAMPLE_PHOTO_URL_PNG = R.CONFIG.get("sample_photo_url_png");
+    private static final String SAMPLE_PHOTO_URL_PNG = R.TESTDATA.get("sample_photo_url_png");
 
     @FindBy(xpath = "//input[@id='file']")
     private ExtendedWebElement uploadInput;

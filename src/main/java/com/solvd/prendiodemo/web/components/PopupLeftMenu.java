@@ -8,16 +8,16 @@ import org.openqa.selenium.support.FindBy;
 
 public class PopupLeftMenu extends AbstractUIObject {
 
-    @FindBy(xpath = "..//a[@type='account']")
+    @FindBy(xpath = ".//a[@type='account']")
     private ExtendedWebElement accountNumbersButton;
 
-    @FindBy(xpath = "..//a[@type='catalog']")
+    @FindBy(xpath = ".//a[@type='catalog']")
     private ExtendedWebElement catalogItemsButton;
 
-    @FindBy(xpath = "..//a[@type='deptWatcher']")
+    @FindBy(xpath = ".//a[@type='deptWatcher']")
     private ExtendedWebElement watchersButton;
 
-    @FindBy(xpath = "..//a[@type='deptUser']")
+    @FindBy(xpath = ".//a[@type and text()='Users']")
     private ExtendedWebElement usersButton;
 
     public PopupLeftMenu(WebDriver driver, SearchContext searchContext) {

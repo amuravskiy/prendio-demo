@@ -13,7 +13,7 @@ import java.io.File;
 
 public class ReceiverScanPage extends ReceiverPage {
 
-    private static final String SAMPLE_SLIP_URL = R.CONFIG.get("sample_slip_url");
+    private static final String SAMPLE_SLIP_URL = R.TESTDATA.get("sample_slip_url");
 
     @FindBy(xpath = "//li//a[text()='Scan']")
     private ExtendedWebElement scanSectionActive;

@@ -6,6 +6,7 @@ import com.solvd.prendiodemo.web.pages.ProfilePage;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class UserPhotoBlock extends AbstractUIObject {
 
@@ -21,7 +22,7 @@ public class UserPhotoBlock extends AbstractUIObject {
 
     public UserStatusWindow openUserStatus() {
         userStatusOpener.click();
-        userStatusOpener.isVisible();
+        waitUntil(ExpectedConditions.visibilityOf(userStatusOpener.getElement()), EXPLICIT_TIMEOUT);
         return userStatusWindow;
     }
 

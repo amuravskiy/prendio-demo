@@ -6,7 +6,6 @@ import com.solvd.prendiodemo.domain.UserProfileInfo;
 import com.solvd.prendiodemo.utils.Util;
 import com.solvd.prendiodemo.web.components.profile.ImageUploadPopup;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.openqa.selenium.By;
@@ -90,13 +89,9 @@ public class ProfilePage extends BasePage {
         dayToClickOn = findExtendedWebElement(firstAvaibleDayLocator);
         waitToBeClickable(dayToClickOn);
         dayToClickOn.click();
-        return new ImmutablePair<>(formatDate(getValue(startDateInput)),
-                formatDate(getValue(endDateInput)));
-    }
-
-    private String formatDate(String date) {
-        return StringUtils.stripStart(date, "0")
-                .replace("/0", "/");
+        return new ImmutablePair<>(Util.formatDate(getValue(startDateInput)),
+                Util.formatDate(getValue(endDateInput)));
+        //TODO: split into 2
     }
 
     public String fillPhoneNumberRandomly() {
@@ -127,8 +122,8 @@ public class ProfilePage extends BasePage {
                 .setTitle(getValue(titleField))
                 .setPhoneNumber(getValue(phoneNumberField))
                 .setCarrier(Util.getSelectedOptionText(carrierSelect))
-                .setStartDate(formatDate(getValue(startDateInput)))
-                .setEndDate(formatDate(getValue(endDateInput)))
+                .setStartDate(Util.formatDate(getValue(startDateInput)))
+                .setEndDate(Util.formatDate(getValue(endDateInput)))
                 .build();
     }
 

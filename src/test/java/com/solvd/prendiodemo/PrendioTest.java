@@ -18,6 +18,7 @@ import com.solvd.prendiodemo.web.pages.buyer.AddressesPage;
 import com.solvd.prendiodemo.web.pages.buyer.BuyerSuppliersPage;
 import com.solvd.prendiodemo.web.pages.receiver.ReceiverScanMatchPage;
 import com.solvd.prendiodemo.web.pages.receiver.ReceiverScanPage;
+import com.zebrunner.carina.core.registrar.ownership.MethodOwner;
 import com.zebrunner.carina.utils.R;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -32,19 +33,20 @@ import java.util.regex.Pattern;
 
 public class PrendioTest extends AbstractTest {
 
-    private static final int HOURS_OFFSET_FROM_UTC = R.CONFIG.getInt("hours_offset_from_utc");
+    private static final int HOURS_OFFSET_FROM_UTC = R.TESTDATA.getInt("hours_offset_from_utc");
     private static final DateTimeFormatter ADD_SUPPLIER_DATE_FORMAT = DateTimeFormatter
-            .ofPattern(R.CONFIG.get("add_supplier_date_format"))
+            .ofPattern(R.TESTDATA.get("add_supplier_date_format"))
             .withZone(ZoneOffset.ofHours(HOURS_OFFSET_FROM_UTC));
-    private static final String TRAIL_FULL_NAME_REGEX = R.CONFIG.get("trail_full_name_regex");
-    private static final String TRAIL_DATE_REGEX = R.CONFIG.get("trail_date_regex");
-    private static final String TEMPLATE_CART_NAME = R.CONFIG.get("template_cart_name");
-    private static final String CATALOG_QUERY = R.CONFIG.get("catalog_query");
+    private static final String TRAIL_FULL_NAME_REGEX = R.TESTDATA.get("trail_full_name_regex");
+    private static final String TRAIL_DATE_REGEX = R.TESTDATA.get("trail_date_regex");
+    private static final String TEMPLATE_CART_NAME = R.TESTDATA.get("template_cart_name");
+    private static final String CATALOG_QUERY = R.TESTDATA.get("catalog_query");
 
-    @Test(description = "Verifies login works properly")
+    @MethodOwner(owner = "Andrew Nazarenko")
+    @Test(description = "Verifies login works properly", testName = "Login Test")
     public void checkLoginTest() {
-        String username = R.CONFIG.get("username");
-        String password = R.CONFIG.get("password");
+        String username = R.TESTDATA.get("username");
+        String password = R.TESTDATA.get("password");
         LoginPage loginPage = new LoginPage(getDriver());
         loginPage.open();
         loginPage.assertPageOpened();
@@ -54,7 +56,8 @@ public class PrendioTest extends AbstractTest {
         dashboardPage.assertPageOpened();
     }
 
-    @Test(description = "Verifies adding supplier leaves trail")
+    @MethodOwner(owner = "Andrew Nazarenko")
+    @Test(description = "Verifies adding supplier leaves trail", testName = "Add Supplier Trail Test")
     public void checkAddingSupplierTrailTest() {
         SoftAssert softAssert = new SoftAssert();
         DashboardPage dashboardPage = Util.loginAs(getDriver());
@@ -91,7 +94,8 @@ public class PrendioTest extends AbstractTest {
         softAssert.assertAll();
     }
 
-    @Test(description = "Verifies cart remains unchanged after duplication")
+    @MethodOwner(owner = "Andrew Nazarenko")
+    @Test(description = "Verifies cart remains unchanged after duplication", testName = "Cart Template Test")
     public void checkCartTemplateTest() {
         SoftAssert softAssert = new SoftAssert();
         DashboardPage dashboardPage = Util.loginAs(getDriver());
@@ -136,7 +140,8 @@ public class PrendioTest extends AbstractTest {
         softAssert.assertAll();
     }
 
-    @Test(description = "Verifies cart order creation")
+    @MethodOwner(owner = "Andrew Nazarenko")
+    @Test(description = "Verifies cart order creation", testName = "Cart Using Catalog Test")
     public void checkCartUsingCatalogTest() {
         final int index = 0;
         DashboardPage dashboardPage = Util.loginAs(getDriver());
@@ -176,7 +181,8 @@ public class PrendioTest extends AbstractTest {
         Assert.assertTrue(dashboardPage.getOrderPreviewsCartName(0).contains(cartId), "Cart id is not found in first order");
     }
 
-    @Test(description = "Verifies department creation")
+    @MethodOwner(owner = "Andrew Nazarenko")
+    @Test(description = "Verifies department creation", testName = "Create and Edit Department Test")
     public void checkCreateAndEditDepartmentTest() {
         SoftAssert softAssert = new SoftAssert();
         DashboardPage dashboardPage = Util.loginAs(getDriver());
@@ -230,7 +236,8 @@ public class PrendioTest extends AbstractTest {
         softAssert.assertAll();
     }
 
-    @Test(description = "Verifies receiver voucher creation")
+    @MethodOwner(owner = "Andrew Nazarenko")
+    @Test(description = "Verifies receiver voucher creation", testName = "PDF File Upload and Invoice Creation Test")
     public void checkReceiverVoucherCreationTest() {
         SoftAssert softAssert = new SoftAssert();
         DashboardPage dashboardPage = Util.loginAs(getDriver());
@@ -263,7 +270,8 @@ public class PrendioTest extends AbstractTest {
         softAssert.assertAll();
     }
 
-    @Test(description = "Verifies user profile update")
+    @MethodOwner(owner = "Andrew Nazarenko")
+    @Test(description = "Verifies user profile update", testName = "User Profile Update Test")
     public void checkUserProfileUpdateTest() {
         SoftAssert softAssert = new SoftAssert();
         DashboardPage dashboardPage = Util.loginAs(getDriver());
@@ -294,7 +302,8 @@ public class PrendioTest extends AbstractTest {
         softAssert.assertAll();
     }
 
-    @Test(description = "Verifies supplier creation")
+    @MethodOwner(owner = "Andrew Nazarenko")
+    @Test(description = "Verifies supplier creation", testName = "Creating and Editing Supplier Test")
     public void checkCreateSupplierTest() {
         SoftAssert softAssert = new SoftAssert();
         DashboardPage dashboardPage = Util.loginAs(getDriver());
@@ -333,7 +342,8 @@ public class PrendioTest extends AbstractTest {
         softAssert.assertAll();
     }
 
-    @Test(description = "Verifies shipping address creation")
+    @MethodOwner(owner = "Andrew Nazarenko")
+    @Test(description = "Verifies shipping address creation", testName = "Creating and Editing Shipping Address Test")
     public void checkCreateShippingAddressTest() {
         SoftAssert softAssert = new SoftAssert();
         DashboardPage dashboardPage = Util.loginAs(getDriver());
@@ -364,7 +374,8 @@ public class PrendioTest extends AbstractTest {
         softAssert.assertAll();
     }
 
-    @Test(description = "Verifies supplier item creation")
+    @MethodOwner(owner = "Andrew Nazarenko")
+    @Test(description = "Verifies supplier item creation", testName = "Adding Supplier Item Test")
     public void checkAddSupplierItemTest() {
         SoftAssert softAssert = new SoftAssert();
         DashboardPage dashboardPage = Util.loginAs(getDriver());

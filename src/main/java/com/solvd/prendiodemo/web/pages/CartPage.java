@@ -163,6 +163,7 @@ public class CartPage extends BasePage {
         waitSuccessMessageVisible();
         projectSelect.click();
         projectToSelect.click();
+        //TODO: split into 2
     }
 
     public boolean isItemSelectsAsCartSelects(int itemIndex) {

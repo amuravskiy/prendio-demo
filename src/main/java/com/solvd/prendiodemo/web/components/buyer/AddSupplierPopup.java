@@ -9,6 +9,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 
 import java.util.HashMap;
@@ -160,7 +161,7 @@ public class AddSupplierPopup extends BasePopup {
     public Map<String, String> getFullInfo() {
         Map<String, String> info = getGeneralInfo();
         getPopupLeftMenu().clickAccountNumbers();
-        firstShipToAddress.isVisible();
+        waitUntil(ExpectedConditions.elementToBeClickable(firstShipToAddress.getElement()), EXPLICIT_TIMEOUT);
         info.put("shipToLine2", firstShipToAddress.getText().split(",")[0]);
         info.put("accountNumber", firstAccountNumber.getText());
         return info;

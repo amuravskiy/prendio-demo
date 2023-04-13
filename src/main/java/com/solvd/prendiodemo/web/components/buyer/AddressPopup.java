@@ -35,5 +35,6 @@ public class AddressPopup extends BasePopup {
     @Override
     public void assertVisible() {
         Assert.assertTrue(firstAddressesTableLine.isVisible(), "Addresses not found in address popup");
+        //TODO: remove
     }
 }

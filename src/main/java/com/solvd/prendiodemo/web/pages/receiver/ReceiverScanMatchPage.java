@@ -19,7 +19,7 @@ import java.time.format.DateTimeFormatter;
 
 public class ReceiverScanMatchPage extends ReceiverPage {
 
-    private static final int HOURS_OFFSET_FROM_UTC = R.CONFIG.getInt("hours_offset_from_utc");
+    private static final int HOURS_OFFSET_FROM_UTC = R.TESTDATA.getInt("hours_offset_from_utc");
     private static final DateTimeFormatter DATE_FORMATTER_SHORT = DateTimeFormatter.ofPattern("M/d/yyyy").withZone(ZoneOffset
             .ofHours(HOURS_OFFSET_FROM_UTC));
 

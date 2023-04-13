@@ -6,6 +6,7 @@ import com.solvd.prendiodemo.web.pages.LoginPage;
 import com.solvd.prendiodemo.web.pages.OneLoginPortalPage;
 import com.zebrunner.carina.utils.R;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.NotFoundException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -28,7 +29,7 @@ public class Util {
         LoginPage loginPage = new LoginPage(driver);
         loginPage.open();
         loginPage.assertPageOpened();
-        OneLoginPortalPage oneLoginPortalPage = loginPage.login(R.CONFIG.get("username"), R.CONFIG.get("password"));
+        OneLoginPortalPage oneLoginPortalPage = loginPage.login(R.TESTDATA.get("username"), R.TESTDATA.get("password"));
         DashboardPage dashboardPage = oneLoginPortalPage.goToPrendio();
         dashboardPage.switchToTab(1);
         return dashboardPage;
@@ -62,5 +63,10 @@ public class Util {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static String formatDate(String date) {
+        return StringUtils.stripStart(date, "0")
+                .replace("/0", "/");
     }
 }

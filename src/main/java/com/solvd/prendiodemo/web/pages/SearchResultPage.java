@@ -13,7 +13,7 @@ import java.util.List;
 
 public class SearchResultPage extends BasePage {
 
-    private static int retrievingTimeout = R.CONFIG.getInt("retrieving_timeout");
+    private static int retrievingTimeout = R.TESTDATA.getInt("retrieving_timeout");
 
     @FindBy(id = "divsearchcontainer")
     private ExtendedWebElement searchResultsActive;

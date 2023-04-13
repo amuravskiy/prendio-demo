@@ -3,21 +3,22 @@ package com.solvd.prendiodemo.web.components;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ElementLoadingStrategy;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractUIObject;
-import com.solvd.prendiodemo.utils.ValueService;
+import com.solvd.prendiodemo.utils.ElementUtils;
 import com.zebrunner.carina.utils.R;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 
 import java.lang.invoke.MethodHandles;
 
-public class BasePopup extends AbstractUIObject implements ValueService {
+public class BasePopup extends AbstractUIObject implements ElementUtils {
 
     protected static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-    private static final long LOADING_BLOCK_APPEAR_TIMEOUT = R.CONFIG.getLong("loading_block_appear_timeout");
+    private static final long LOADING_BLOCK_APPEAR_TIMEOUT = R.TESTDATA.getLong("loading_block_appear_timeout");
 
     @FindBy(className = "HiderText")
     private ExtendedWebElement loadingBlock;
@@ -45,7 +46,7 @@ public class BasePopup extends AbstractUIObject implements ValueService {
     }
 
     public void ensureLoaded() {
-        loadingBlock.isVisible(LOADING_BLOCK_APPEAR_TIMEOUT);
+        waitUntil(ExpectedConditions.elementToBeClickable(loadingBlock.getElement()), LOADING_BLOCK_APPEAR_TIMEOUT);
         loadingBlock.waitUntilElementDisappear(EXPLICIT_TIMEOUT);
     }
 

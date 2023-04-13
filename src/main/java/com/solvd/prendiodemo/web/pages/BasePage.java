@@ -2,7 +2,7 @@ package com.solvd.prendiodemo.web.pages;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractPage;
-import com.solvd.prendiodemo.utils.ValueService;
+import com.solvd.prendiodemo.utils.ElementUtils;
 import com.solvd.prendiodemo.web.components.NavigationMenu;
 import com.solvd.prendiodemo.web.components.NavigationTabs;
 import com.solvd.prendiodemo.web.components.SearchBlock;
@@ -19,10 +19,10 @@ import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BasePage extends AbstractPage implements ValueService {
+public class BasePage extends AbstractPage implements ElementUtils {
 
     protected static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-    private static final long LOADING_BLOCK_APPEAR_TIMEOUT = R.CONFIG.getLong("loading_block_appear_timeout");
+    private static final long LOADING_BLOCK_APPEAR_TIMEOUT = R.TESTDATA.getLong("loading_block_appear_timeout");
 
     @FindBy(className = "logo_block")
     protected ExtendedWebElement logoBlock;
@@ -83,7 +83,7 @@ public class BasePage extends AbstractPage implements ValueService {
     }
 
     public void ensureLoaded() {
-        loadingBlock.isVisible(LOADING_BLOCK_APPEAR_TIMEOUT);
+        waitUntil(ExpectedConditions.elementToBeClickable(loadingBlock.getElement()), LOADING_BLOCK_APPEAR_TIMEOUT);
         loadingBlock.waitUntilElementDisappear(EXPLICIT_TIMEOUT);
     }
 
@@ -94,7 +94,7 @@ public class BasePage extends AbstractPage implements ValueService {
     }
 
     public void waitSuccessMessageVisible() {
-        waitUntil(ExpectedConditions.visibilityOf(successMessage.getElement()), EXPLICIT_TIMEOUT);
+        waitToBeVisible(successMessage);
     }
 
     public UserPhotoBlock getUserPhotoBlock() {
@@ -110,7 +110,11 @@ public class BasePage extends AbstractPage implements ValueService {
         softAssert.assertEquals(successMessage.getText(), expectedText);
     }
 
-    public void waitToBeClickable(ExtendedWebElement element){
+    public void waitToBeClickable(ExtendedWebElement element) {
+        waitUntil(ExpectedConditions.elementToBeClickable(element.getElement()), EXPLICIT_TIMEOUT);
+    }
+
+    public void waitToBeVisible(ExtendedWebElement element) {
         waitUntil(ExpectedConditions.elementToBeClickable(element.getElement()), EXPLICIT_TIMEOUT);
     }
 }
