@@ -3,7 +3,7 @@ package com.solvd.prendiodemo.web.components;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ElementLoadingStrategy;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractUIObject;
-import com.solvd.prendiodemo.utils.ElementUtils;
+import com.solvd.prendiodemo.utils.ElementsUtil;
 import com.zebrunner.carina.utils.R;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
@@ -15,7 +15,7 @@ import org.testng.Assert;
 
 import java.lang.invoke.MethodHandles;
 
-public class BasePopup extends AbstractUIObject implements ElementUtils {
+public class BasePopup extends AbstractUIObject implements ElementsUtil {
 
     protected static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private static final long LOADING_BLOCK_APPEAR_TIMEOUT = R.TESTDATA.getLong("loading_block_appear_timeout");
@@ -69,7 +69,7 @@ public class BasePopup extends AbstractUIObject implements ElementUtils {
     }
 
     public void assertVisible() {
-        Assert.assertTrue(getRootExtendedElement().isVisible(), "Popup \"" + getHeaderText() + "\" is not visible");
+        Assert.assertTrue(this.isVisible(), "Popup \"" + getHeaderText() + "\" is not visible");
         //TODO: remove assertion
     }
 
@@ -84,7 +84,7 @@ public class BasePopup extends AbstractUIObject implements ElementUtils {
     }
 
     public void assertDisappeared() {
-        Assert.assertTrue(this.getRootExtendedElement().waitUntilElementDisappear(EXPLICIT_TIMEOUT), "Popup didn't disappear");
+        Assert.assertTrue(getRootExtendedElement().waitUntilElementDisappear(EXPLICIT_TIMEOUT), "Popup didn't disappear");
         //TODO: wtf is root element exactly
         //TODO: remove assertion
     }

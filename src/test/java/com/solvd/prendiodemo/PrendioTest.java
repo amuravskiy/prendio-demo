@@ -2,10 +2,12 @@ package com.solvd.prendiodemo;
 
 import com.qaprosoft.carina.core.foundation.AbstractTest;
 import com.solvd.prendiodemo.domain.*;
-import com.solvd.prendiodemo.utils.Util;
+import com.solvd.prendiodemo.service.LoginService;
+import com.solvd.prendiodemo.utils.FileUtil;
 import com.solvd.prendiodemo.web.components.BasePopup;
 import com.solvd.prendiodemo.web.components.UserStatusWindow;
 import com.solvd.prendiodemo.web.components.accountspayable.DepSetupPopup;
+import com.solvd.prendiodemo.web.components.accountspayable.DepUserPopup;
 import com.solvd.prendiodemo.web.components.accountspayable.DepWatcherSetupPopup;
 import com.solvd.prendiodemo.web.components.buyer.*;
 import com.solvd.prendiodemo.web.components.cart.ShipToPopup;
@@ -33,6 +35,8 @@ import java.util.regex.Pattern;
 
 public class PrendioTest extends AbstractTest {
 
+    public static final String USERNAME = R.TESTDATA.get("username");
+    public static final String PASSWORD = R.TESTDATA.get("password");
     private static final int HOURS_OFFSET_FROM_UTC = R.TESTDATA.getInt("hours_offset_from_utc");
     private static final DateTimeFormatter ADD_SUPPLIER_DATE_FORMAT = DateTimeFormatter
             .ofPattern(R.TESTDATA.get("add_supplier_date_format"))
@@ -42,17 +46,16 @@ public class PrendioTest extends AbstractTest {
     private static final String TEMPLATE_CART_NAME = R.TESTDATA.get("template_cart_name");
     private static final String CATALOG_QUERY = R.TESTDATA.get("catalog_query");
 
+
     @MethodOwner(owner = "Andrew Nazarenko")
     @Test(description = "Verifies login works properly", testName = "Login Test")
     public void checkLoginTest() {
-        String username = R.TESTDATA.get("username");
-        String password = R.TESTDATA.get("password");
         LoginPage loginPage = new LoginPage(getDriver());
         loginPage.open();
         loginPage.assertPageOpened();
-        OneLoginPortalPage oneLoginPortalPage = loginPage.login(username, password);
+        OneLoginPortalPage oneLoginPortalPage = loginPage.login(USERNAME, PASSWORD);
         DashboardPage dashboardPage = oneLoginPortalPage.goToPrendio();
-        Util.switchToTabOne(getDriver());
+        dashboardPage.switchToTab(1);
         dashboardPage.assertPageOpened();
     }
 
@@ -60,7 +63,7 @@ public class PrendioTest extends AbstractTest {
     @Test(description = "Verifies adding supplier leaves trail", testName = "Add Supplier Trail Test")
     public void checkAddingSupplierTrailTest() {
         SoftAssert softAssert = new SoftAssert();
-        DashboardPage dashboardPage = Util.loginAs(getDriver());
+        DashboardPage dashboardPage = new LoginService(getDriver()).login();
         String fullName = dashboardPage.getFullName();
         BuyerPage buyerPage = dashboardPage.clickBuyer();
         buyerPage.assertPageOpened();
@@ -98,7 +101,7 @@ public class PrendioTest extends AbstractTest {
     @Test(description = "Verifies cart remains unchanged after duplication", testName = "Cart Template Test")
     public void checkCartTemplateTest() {
         SoftAssert softAssert = new SoftAssert();
-        DashboardPage dashboardPage = Util.loginAs(getDriver());
+        DashboardPage dashboardPage = new LoginService(getDriver()).login();
         AllCartsPage allCartsPage = dashboardPage.clickViewAllCarts();
         allCartsPage.assertPageOpened();
         allCartsPage = allCartsPage.search(TEMPLATE_CART_NAME);
@@ -144,7 +147,7 @@ public class PrendioTest extends AbstractTest {
     @Test(description = "Verifies cart order creation", testName = "Cart Using Catalog Test")
     public void checkCartUsingCatalogTest() {
         final int index = 0;
-        DashboardPage dashboardPage = Util.loginAs(getDriver());
+        DashboardPage dashboardPage = new LoginService(getDriver()).login();
         dashboardPage.assertPageOpened();
         SearchResultPage searchResultPage = dashboardPage.searchCatalog(CATALOG_QUERY);
         searchResultPage.assertPageOpened();
@@ -185,7 +188,7 @@ public class PrendioTest extends AbstractTest {
     @Test(description = "Verifies department creation", testName = "Create and Edit Department Test")
     public void checkCreateAndEditDepartmentTest() {
         SoftAssert softAssert = new SoftAssert();
-        DashboardPage dashboardPage = Util.loginAs(getDriver());
+        DashboardPage dashboardPage = new LoginService(getDriver()).login();
         dashboardPage.assertPageOpened();
         AccountPayablePage accountPayablePage = dashboardPage.clickAccountsPayable();
         accountPayablePage.assertPageOpened();
@@ -219,20 +222,20 @@ public class PrendioTest extends AbstractTest {
         confirmationPopup.assertDisappeared();
         departmentPage = new DepartmentPage(getDriver());
         depSetupPopup = departmentPage.editDepByName(infoEntered.getName());
-        depSetupPopup.clickUsers();
-        String username = depSetupPopup.selectAnyUser();
+        DepUserPopup depUserPopup = depSetupPopup.clickUsers();
+        String username = depUserPopup.selectAnyUser();
         departmentPage.assertSuccessMessageVisibleWithText("Saved Successfully", softAssert);
-        depSetupPopup.clickClose();
+        depUserPopup.clickClose();
         depSetupPopup.ensureLoaded();
-        depSetupPopup.assertDisappeared();
+        depUserPopup.assertDisappeared();
         departmentPage = new DepartmentPage(getDriver());
         depSetupPopup = departmentPage.editDepByName(infoEntered.getName());
         DepInfo loadedInfo = depSetupPopup.getInfo();
         Assert.assertEquals(loadedInfo, infoEntered, "Department info does not match entered");
         depSetupPopup.clickWatchers();
         Assert.assertEquals(depSetupPopup.getWatcherInfo(), watcherInfoEntered, "Watcher info does not match entered");
-        depSetupPopup.clickUsers();
-        Assert.assertEquals(depSetupPopup.getSelectedUserName(), username, "Selected user does not match");
+        depUserPopup = depSetupPopup.clickUsers();
+        Assert.assertEquals(depUserPopup.getSelectedUserName(), username, "Selected user does not match");
         softAssert.assertAll();
     }
 
@@ -240,7 +243,7 @@ public class PrendioTest extends AbstractTest {
     @Test(description = "Verifies receiver voucher creation", testName = "PDF File Upload and Invoice Creation Test")
     public void checkReceiverVoucherCreationTest() {
         SoftAssert softAssert = new SoftAssert();
-        DashboardPage dashboardPage = Util.loginAs(getDriver());
+        DashboardPage dashboardPage = new LoginService(getDriver()).login();
         dashboardPage.assertPageOpened();
         ReceiverPage receiverPage = dashboardPage.clickReceiver();
         receiverPage.assertPageOpened();
@@ -274,7 +277,7 @@ public class PrendioTest extends AbstractTest {
     @Test(description = "Verifies user profile update", testName = "User Profile Update Test")
     public void checkUserProfileUpdateTest() {
         SoftAssert softAssert = new SoftAssert();
-        DashboardPage dashboardPage = Util.loginAs(getDriver());
+        DashboardPage dashboardPage = new LoginService(getDriver()).login();
         dashboardPage.assertPageOpened();
         UserStatusWindow statusWindow = dashboardPage.getUserPhotoBlock().openUserStatus();
         statusWindow.assertUIObjectPresent();
@@ -306,7 +309,7 @@ public class PrendioTest extends AbstractTest {
     @Test(description = "Verifies supplier creation", testName = "Creating and Editing Supplier Test")
     public void checkCreateSupplierTest() {
         SoftAssert softAssert = new SoftAssert();
-        DashboardPage dashboardPage = Util.loginAs(getDriver());
+        DashboardPage dashboardPage = new LoginService(getDriver()).login();
         dashboardPage.assertPageOpened();
         BuyerPage buyerPage = dashboardPage.clickBuyer();
         BuyerSuppliersPage suppliersPage = buyerPage.clickSuppliers();
@@ -346,7 +349,7 @@ public class PrendioTest extends AbstractTest {
     @Test(description = "Verifies shipping address creation", testName = "Creating and Editing Shipping Address Test")
     public void checkCreateShippingAddressTest() {
         SoftAssert softAssert = new SoftAssert();
-        DashboardPage dashboardPage = Util.loginAs(getDriver());
+        DashboardPage dashboardPage = new LoginService(getDriver()).login();
         dashboardPage.assertPageOpened();
         BuyerPage buyerPage = dashboardPage.clickBuyer();
         buyerPage.assertPageOpened();
@@ -378,7 +381,7 @@ public class PrendioTest extends AbstractTest {
     @Test(description = "Verifies supplier item creation", testName = "Adding Supplier Item Test")
     public void checkAddSupplierItemTest() {
         SoftAssert softAssert = new SoftAssert();
-        DashboardPage dashboardPage = Util.loginAs(getDriver());
+        DashboardPage dashboardPage = new LoginService(getDriver()).login();
         dashboardPage.assertPageOpened();
         BuyerPage buyerPage = dashboardPage.clickBuyer();
         BuyerSuppliersPage suppliersPage = buyerPage.clickSuppliers();
@@ -398,7 +401,7 @@ public class PrendioTest extends AbstractTest {
         Map<String, String> infoEntered = itemPopup.fillInfoRandomly();
         Assert.assertEquals(infoEntered.get("genericDesc"), infoEntered.get("desc"), "Description is not copied");
         itemPopup.clickAddSpec();
-        Assert.assertTrue(itemPopup.getSpecNumber() > 1, "Spec number has not increased");
+        Assert.assertTrue(itemPopup.getSpecListSize() > 1, "Spec number has not increased");
         itemPopup.clickSave();
         itemPopup.ensureLoaded();
         suppliersPage.assertSuccessMessageVisibleWithText("Catalog Items Added Successfully", softAssert);

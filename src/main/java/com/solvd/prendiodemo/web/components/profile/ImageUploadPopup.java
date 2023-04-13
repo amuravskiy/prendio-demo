@@ -1,7 +1,7 @@
 package com.solvd.prendiodemo.web.components.profile;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
-import com.solvd.prendiodemo.utils.Util;
+import com.solvd.prendiodemo.utils.FileUtil;
 import com.solvd.prendiodemo.web.components.BasePopup;
 import com.zebrunner.carina.utils.R;
 import org.openqa.selenium.SearchContext;
@@ -33,8 +33,7 @@ public class ImageUploadPopup extends BasePopup {
     }
 
     public void attachSamplePhoto() {
-        File file = Util.loadFile(SAMPLE_PHOTO_URL_PNG, new File("sample_photo.png"));
-        uploadInput.attachFile(file.getAbsolutePath());
+        uploadInput.attachFile(FileUtil.loadFileAndGetPath(SAMPLE_PHOTO_URL_PNG, new File("sample_photo.png")));
     }
 
     public void clickUpload() {

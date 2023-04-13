@@ -2,7 +2,6 @@ package com.solvd.prendiodemo.web.components.accountspayable;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.solvd.prendiodemo.domain.WatcherInfo;
-import com.solvd.prendiodemo.utils.Util;
 import com.solvd.prendiodemo.web.components.BasePopup;
 import org.apache.commons.lang3.RandomUtils;
 import org.openqa.selenium.SearchContext;
@@ -25,7 +24,7 @@ public class DepWatcherSetupPopup extends BasePopup {
     }
 
     public WatcherInfo selectFirstWatcher() {
-        Util.selectByIndex(watcherSelect, 1);
+        selectByIndex(watcherSelect, 1);
         WatcherInfo watcherInfo = new WatcherInfo(watcherSelect.getSelectedValue(), String.valueOf(RandomUtils.nextInt(2, 10000)));
         notifyAtField.type(watcherInfo.getNotifyAt());
         return watcherInfo;

@@ -2,7 +2,7 @@ package com.solvd.prendiodemo.web.pages.receiver;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.PageOpeningStrategy;
-import com.solvd.prendiodemo.utils.Util;
+import com.solvd.prendiodemo.utils.FileUtil;
 import com.solvd.prendiodemo.web.pages.ReceiverPage;
 import com.zebrunner.carina.utils.R;
 import org.openqa.selenium.WebDriver;
@@ -40,8 +40,7 @@ public class ReceiverScanPage extends ReceiverPage {
     }
 
     public void addUploadFile() {
-        File file = Util.loadFile(SAMPLE_SLIP_URL, new File("sample_slip.pdf"));
-        fileInput.attachFile(file.getAbsolutePath());
+        fileInput.attachFile(FileUtil.loadFileAndGetPath(SAMPLE_SLIP_URL, new File("sample_slip.pdf")));
     }
 
     public void clickUpload() {

@@ -1,11 +1,9 @@
 package com.solvd.prendiodemo.web.components.buyer;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
-import com.solvd.prendiodemo.utils.Util;
 import com.solvd.prendiodemo.web.components.BasePopup;
 import com.solvd.prendiodemo.web.components.TableEntry;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
@@ -18,7 +16,6 @@ import java.util.Map;
 
 public class AddSupplierPopup extends BasePopup {
 
-    private final String partialLineId = "stxtstreet";
     @FindBy(id = "txtsuppliername")
     private ExtendedWebElement supplierNameField;
 
@@ -37,11 +34,11 @@ public class AddSupplierPopup extends BasePopup {
     @FindBy(id = "txtemail")
     private ExtendedWebElement emailField;
 
+    @FindBy(xpath = "//input[contains(@id,'stxtstreet')]")
+    private List<ExtendedWebElement> addressLines;
+
     @FindBy(id = "defaultuserphone")
     private ExtendedWebElement defaultUserPhoneField;
-
-    @FindBy(id = "stxtstreet1")
-    private ExtendedWebElement addressLine1;
 
     @FindBy(id = "Savesupplier")
     private ExtendedWebElement saveButton;
@@ -96,28 +93,26 @@ public class AddSupplierPopup extends BasePopup {
         String supplierName = RandomStringUtils.randomAlphabetic(10);
         supplierNameField.type(supplierName);
         List.of(shippingMethodSelect, prepaidFreightSelect, paymentTermsSelect, fobSelect)
-                .forEach(select -> Util.selectByIndex(select, 1));
+                .forEach(select -> selectByIndex(select, 1));
         emailField.type(RandomStringUtils.randomAlphabetic(5) + "@" +
                 RandomStringUtils.randomAlphabetic(4) + "." +
                 RandomStringUtils.randomAlphabetic(3));
         defaultUserPhoneField.type(RandomStringUtils.randomNumeric(10));
-        addressLine1.type(RandomStringUtils.randomAlphabetic(20));
+        addressLines.get(0).type(RandomStringUtils.randomAlphabetic(20));
         return supplierName;
     }
 
     public Map<String, String> fillInfoRandomly() {
         supplierNameField.type(RandomStringUtils.randomAlphabetic(10));
         List.of(shippingMethodSelect, prepaidFreightSelect, paymentTermsSelect, fobSelect)
-                .forEach(select -> Util.selectByIndex(select, 1));
+                .forEach(select -> selectByIndex(select, 1));
         String email = RandomStringUtils.randomAlphabetic(5) + "@" +
                 RandomStringUtils.randomAlphabetic(4) + "." +
                 RandomStringUtils.randomAlphabetic(3);
         emailField.type(email);
         defaultUserPhoneField.type(RandomStringUtils.randomNumeric(10));
         remitNameField.type(RandomStringUtils.randomAlphabetic(20));
-        for (int i = 1; i < 5; i++) {
-            findExtendedWebElement(By.id(partialLineId + i)).type(RandomStringUtils.randomAlphabetic(20));
-        }
+        fillAddressLinesRandomly(addressLines);
         cityField.type(RandomStringUtils.randomAlphabetic(20));
         stateField.type(RandomStringUtils.randomAlphabetic(20));
         zipCodeField.type(RandomStringUtils.randomAlphabetic(20));
@@ -141,15 +136,15 @@ public class AddSupplierPopup extends BasePopup {
     public Map<String, String> getGeneralInfo() {
         Map<String, String> info = new HashMap<>();
         info.put("name", getValue(supplierNameField));
-        info.put("shippingMethod", Util.getSelectedOptionText(shippingMethodSelect));
-        info.put("repaidFreight", Util.getSelectedOptionText(prepaidFreightSelect));
-        info.put("paymentTerms", Util.getSelectedOptionText(paymentTermsSelect));
-        info.put("FOB", Util.getSelectedOptionText(fobSelect));
+        info.put("shippingMethod", getSelectedOptionText(shippingMethodSelect));
+        info.put("repaidFreight", getSelectedOptionText(prepaidFreightSelect));
+        info.put("paymentTerms", getSelectedOptionText(paymentTermsSelect));
+        info.put("FOB", getSelectedOptionText(fobSelect));
         info.put("email", getValue(emailField));
         info.put("defaultServicePhone", getValue(defaultUserPhoneField).replaceAll("\\D", ""));
         info.put("remitName", getValue(remitNameField));
-        for (int i = 1; i < 5; i++) {
-            info.put("line" + i, findExtendedWebElement(By.id(partialLineId + i)).getAttribute("value"));
+        for (int i = 0; i < addressLines.size(); i++) {
+            info.put("line" + (i + 1), getValue(addressLines.get(i)));
         }
         info.put("city", getValue(cityField));
         info.put("state", getValue(stateField));

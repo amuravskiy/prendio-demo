@@ -3,11 +3,9 @@ package com.solvd.prendiodemo.web.pages.receiver;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.PageOpeningStrategy;
 import com.solvd.prendiodemo.domain.SlipInfo;
-import com.solvd.prendiodemo.utils.Util;
 import com.solvd.prendiodemo.web.pages.ReceiverPage;
 import com.zebrunner.carina.utils.R;
 import org.apache.commons.lang3.RandomUtils;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -53,6 +51,9 @@ public class ReceiverScanMatchPage extends ReceiverPage {
     @FindBy(id = "INVOICENext")
     private ExtendedWebElement nextButton;
 
+    @FindBy(xpath = "//a[text()='%s']")
+    private ExtendedWebElement dayToClick;
+
     public ReceiverScanMatchPage(WebDriver driver) {
         super(driver);
         setUiLoadedMarker(scanMatchActive);
@@ -77,21 +78,21 @@ public class ReceiverScanMatchPage extends ReceiverPage {
                 .setInvoiceAmount(String.valueOf(RandomUtils.nextInt(1, 10_000)))
                 .setDay(String.valueOf(Instant.now().atOffset(ZoneOffset.ofHours(HOURS_OFFSET_FROM_UTC)).getDayOfMonth()))
                 .build();
-        By dayLocator = By.xpath("//a[text()='" + info.getDay() + "']");
+
         receivedDateIcon.click();
-        ExtendedWebElement dayToClickOn = findExtendedWebElement(dayLocator);
+        ExtendedWebElement dayToClickOn = dayToClick.format(info.getDay());
         waitUntil(ExpectedConditions.elementToBeClickable(dayToClickOn.getElement()), EXPLICIT_TIMEOUT);
         waitToBeClickable(dayToClickOn);
         dayToClickOn.click();
         invNumverInput.type(info.getInvoiceNumber());
         indDateIcon.click();
-        dayToClickOn = findExtendedWebElement(dayLocator);
+        dayToClickOn = dayToClick.format(info.getDay());
         waitToBeClickable(dayToClickOn);
         dayToClickOn.click();
         dayToClickOn.waitUntilElementDisappear(EXPLICIT_TIMEOUT);
         invAmountInput.type(info.getInvoiceAmount());
         noPOCheckbox.clickByJs();
-        Util.selectByIndex(chooseUserSelect, 1);
+        selectByIndex(chooseUserSelect, 1);
         return info;
     }
 

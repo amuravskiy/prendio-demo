@@ -4,7 +4,6 @@ import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebEleme
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.PageOpeningStrategy;
 import com.solvd.prendiodemo.domain.CartContents;
 import com.solvd.prendiodemo.domain.ItemContents;
-import com.solvd.prendiodemo.utils.Util;
 import com.solvd.prendiodemo.web.components.BasePopup;
 import com.solvd.prendiodemo.web.components.cart.ShipToPopup;
 import org.openqa.selenium.WebDriver;
@@ -154,7 +153,7 @@ public class CartPage extends BasePage {
     }
 
     public void setSelects() {
-        Util.selectByIndex(orderTypeSelect, 2);
+        selectByIndex(orderTypeSelect, 2);
         departmentSelect.click();
         departmentToSelect.click();
         waitSuccessMessageVisible();

@@ -2,7 +2,6 @@ package com.solvd.prendiodemo.web.pages.accountspayable;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.PageOpeningStrategy;
-import com.solvd.prendiodemo.utils.Util;
 import com.solvd.prendiodemo.web.components.BasePopup;
 import com.solvd.prendiodemo.web.pages.BasePage;
 import org.openqa.selenium.Keys;
@@ -32,7 +31,11 @@ public class AccountsPayableSuppliersPage extends BasePage {
     }
 
     public BasePopup clickSupplierByName(String name) {
-        Util.clickElementByName(supplierNames, name);
+        supplierNames.stream()
+                .filter(tab -> tab.getText().equals(name))
+                .findFirst()
+                .orElseThrow()
+                .click();
         return supplierInfoPopup;
     }
 

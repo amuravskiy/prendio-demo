@@ -5,16 +5,12 @@ import com.solvd.prendiodemo.domain.DepInfo;
 import com.solvd.prendiodemo.domain.WatcherInfo;
 import com.solvd.prendiodemo.web.components.BasePopup;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class DepSetupPopup extends BasePopup {
-
-    private final By usernameOfTheCheckboxLocator = By.xpath("..//..//..//td");
-
-    private final By membersCheckboxesLocator = By.xpath("//table[@id='tbldeptuser']//input[@class='memberdeptchk']");
 
     @FindBy(id = "txtdepname")
     private ExtendedWebElement depNameField;
@@ -52,6 +48,9 @@ public class DepSetupPopup extends BasePopup {
     @FindBy(id = "SaveDepartment")
     private ExtendedWebElement saveButton;
 
+    @FindBy(xpath = "//div[contains(@class,'departmentpopup')]")
+    private DepUserPopup depUserPopup;
+
     public DepSetupPopup(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
     }
@@ -68,11 +67,13 @@ public class DepSetupPopup extends BasePopup {
 
     public void clickWatchers() {
         getPopupLeftMenu().clickWatchers();
+        waitUntil(ExpectedConditions.visibilityOf(watchersBlock.getElement()), EXPLICIT_TIMEOUT);
     }
 
-    public void clickUsers() {
+    public DepUserPopup clickUsers() {
         getPopupLeftMenu().clickUsers();
         ensureLoaded();
+        return depUserPopup;
     }
 
     public String getWatchersText() {
@@ -97,16 +98,6 @@ public class DepSetupPopup extends BasePopup {
         saveButton.click();
     }
 
-    public String selectAnyUser() {
-        ensureLoaded();
-        ExtendedWebElement toCheck = findExtendedWebElements(membersCheckboxesLocator)
-                .stream()
-                .filter(ExtendedWebElement::isClickable)
-                .findAny()
-                .orElseThrow();
-        toCheck.clickByJs();
-        return toCheck.findExtendedWebElement(usernameOfTheCheckboxLocator).getText();
-    }
 
     public DepInfo getInfo() {
         return new DepInfo(getValue(depNameField),
@@ -117,15 +108,5 @@ public class DepSetupPopup extends BasePopup {
     public WatcherInfo getWatcherInfo() {
         String watchedNotifyAtInteger = firstWatcherNotifyAt.getText().replace(".00", "").replace(",", "");
         return new WatcherInfo(firstWatcherName.getText(), watchedNotifyAtInteger);
-    }
-
-    public String getSelectedUserName() {
-        ExtendedWebElement selected = findExtendedWebElements(membersCheckboxesLocator)
-                .stream()
-                .filter(ExtendedWebElement::isClickable)
-                .filter(ExtendedWebElement::isChecked)
-                .findAny()
-                .orElseThrow();
-        return selected.findExtendedWebElement(usernameOfTheCheckboxLocator).getText();
     }
 }

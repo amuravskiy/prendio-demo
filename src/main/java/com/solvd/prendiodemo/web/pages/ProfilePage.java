@@ -3,12 +3,11 @@ package com.solvd.prendiodemo.web.pages;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.PageOpeningStrategy;
 import com.solvd.prendiodemo.domain.UserProfileInfo;
-import com.solvd.prendiodemo.utils.Util;
+import com.solvd.prendiodemo.utils.ProfileDateUtil;
 import com.solvd.prendiodemo.web.components.profile.ImageUploadPopup;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -16,7 +15,8 @@ import org.openqa.selenium.support.ui.Select;
 
 public class ProfilePage extends BasePage {
 
-    private final By firstAvaibleDayLocator = By.xpath("//table//a[@href]");
+    @FindBy(xpath = "//table//a[@href]")
+    private ExtendedWebElement firstAvailableDay;
 
     @FindBy(xpath = "//h2[text()='PROFILE']")
     private ExtendedWebElement profileTitle;
@@ -75,23 +75,31 @@ public class ProfilePage extends BasePage {
                 .orElseThrow()
                 .getAttribute("value");
         select.selectByValue(valueToSelect);
-        return Util.getSelectedOptionText(carrierSelect);
+        return getSelectedOptionText(carrierSelect);
     }
 
     public Pair<String, String> fillOutOfOffice() {
+        return new ImmutablePair<>(fillStartDay(), fillEndDate());
+    }
+
+    private String fillStartDay() {
         startDateInput.click();
-        ExtendedWebElement dayToClickOn = findExtendedWebElement(firstAvaibleDayLocator);
+        waitToBeVisible(firstAvailableDay);
+        ExtendedWebElement dayToClickOn = firstAvailableDay;
         waitToBeClickable(dayToClickOn);
         dayToClickOn.click();
+        return ProfileDateUtil.formatDate(getValue(startDateInput));
+    }
+
+    private String fillEndDate() {
         endDateInput.click();
         waitToBeClickable(nextMonthButton);
         nextMonthButton.click();
-        dayToClickOn = findExtendedWebElement(firstAvaibleDayLocator);
+        waitToBeVisible(firstAvailableDay);
+        ExtendedWebElement dayToClickOn = firstAvailableDay;
         waitToBeClickable(dayToClickOn);
         dayToClickOn.click();
-        return new ImmutablePair<>(Util.formatDate(getValue(startDateInput)),
-                Util.formatDate(getValue(endDateInput)));
-        //TODO: split into 2
+        return ProfileDateUtil.formatDate(getValue(endDateInput));
     }
 
     public String fillPhoneNumberRandomly() {
@@ -121,9 +129,9 @@ public class ProfilePage extends BasePage {
         return new UserProfileInfo.Builder()
                 .setTitle(getValue(titleField))
                 .setPhoneNumber(getValue(phoneNumberField))
-                .setCarrier(Util.getSelectedOptionText(carrierSelect))
-                .setStartDate(Util.formatDate(getValue(startDateInput)))
-                .setEndDate(Util.formatDate(getValue(endDateInput)))
+                .setCarrier(getSelectedOptionText(carrierSelect))
+                .setStartDate(ProfileDateUtil.formatDate(getValue(startDateInput)))
+                .setEndDate(ProfileDateUtil.formatDate(getValue(endDateInput)))
                 .build();
     }
 
