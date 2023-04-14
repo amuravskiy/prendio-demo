@@ -5,6 +5,7 @@ import com.qaprosoft.carina.core.foundation.webdriver.decorator.PageOpeningStrat
 import com.solvd.prendiodemo.domain.CartContents;
 import com.solvd.prendiodemo.domain.ItemContents;
 import com.solvd.prendiodemo.web.components.BasePopup;
+import com.solvd.prendiodemo.web.components.cart.ItemsForm;
 import com.solvd.prendiodemo.web.components.cart.ShipToPopup;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
@@ -30,20 +31,8 @@ public class CartPage extends BasePage {
     @FindBy(xpath = "//div[@id='popupform' and h2[text()='CONFIRMATION']]")
     private BasePopup confirmationPopup;
 
-    @FindBy(id = "txtPartNo")
-    private List<ExtendedWebElement> partNumbers;
-
-    @FindBy(id = "txtPartDesc")
-    private List<ExtendedWebElement> descriptions;
-
-    @FindBy(id = "ttlPrice")
-    private List<ExtendedWebElement> totals;
-
-    @FindBy(id = "spnsuppName")
-    private List<ExtendedWebElement> supplierNames;
-
-    @FindBy(id = "ddCurrency")
-    private List<ExtendedWebElement> currencySelects;
+    @FindBy(id = "divCatLogList")
+    private ItemsForm itemsForm;
 
     @FindBy(id = "lnkChangeAddress")
     private ExtendedWebElement shipToButton;
@@ -77,15 +66,6 @@ public class CartPage extends BasePage {
 
     @FindBy(xpath = "//div[@id='cartheadapplytoall' and text()='Apply to all lines']")
     private ExtendedWebElement applyToAllButton;
-
-    @FindBy(id = "ddDeptCart")
-    private List<ExtendedWebElement> itemsDepartment;
-
-    @FindBy(id = "ddGLAccount")
-    private List<ExtendedWebElement> itemsGlAccount;
-
-    @FindBy(id = "ddProjectCart")
-    private List<ExtendedWebElement> itemsProject;
 
     @FindBy(xpath = "//div[@id='allavailablecart']//div[@id='btnSubmitCart']")
     private ExtendedWebElement submitCartButton;
@@ -121,18 +101,11 @@ public class CartPage extends BasePage {
     }
 
     public CartContents getCartContents() {
-        CartContents cartContents = new CartContents();
-        cartContents.setPartNumbers(partNumbers.stream().map(ExtendedWebElement::getText).collect(Collectors.toList()));
-        cartContents.setDescriptions(descriptions.stream().map(ExtendedWebElement::getText).collect(Collectors.toList()));
-        cartContents.setTotals(totals.stream().map(ExtendedWebElement::getText).collect(Collectors.toList()));
-        return cartContents;
+        return new CartContents(itemsForm.getAllItems());
     }
 
     public ItemContents getFirstItemContents() {
-        ItemContents itemContents = getCartContents().getItemContents(0);
-        itemContents.setCurrencyType(currencySelects.get(0).getAttribute("title"));
-        itemContents.setSupplier(supplierNames.get(0).getText().trim());
-        return itemContents;
+        return itemsForm.getItemContents(0,0);
     }
 
     public void removeTemplateWord() {
@@ -166,6 +139,8 @@ public class CartPage extends BasePage {
     }
 
     public boolean isItemSelectsAsCartSelects(int itemIndex) {
+        String depSelect=departmentSelect.getText();
+        String glAcc=glAccountSelect.getText();
         return departmentSelect.getText().equals(itemsDepartment.get(itemIndex).getSelectedValue())
                 && glAccountSelect.getText().equals(itemsGlAccount.get(itemIndex).getSelectedValue())
                 && projectSelect.getText().equals(itemsProject.get(itemIndex).getSelectedValue());

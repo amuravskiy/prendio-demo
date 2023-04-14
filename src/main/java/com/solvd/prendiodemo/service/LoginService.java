@@ -3,13 +3,9 @@ package com.solvd.prendiodemo.service;
 import com.solvd.prendiodemo.web.pages.DashboardPage;
 import com.solvd.prendiodemo.web.pages.LoginPage;
 import com.solvd.prendiodemo.web.pages.OneLoginPortalPage;
-import com.zebrunner.carina.utils.R;
 import org.openqa.selenium.WebDriver;
 
 public class LoginService {
-
-    public static final String USERNAME = R.TESTDATA.get("username");
-    public static final String PASSWORD = R.TESTDATA.get("password");
 
     private final WebDriver driver;
 
@@ -17,13 +13,15 @@ public class LoginService {
         this.driver = driver;
     }
 
-    public DashboardPage login() {
+    public DashboardPage login(String username, String password) {
         LoginPage loginPage = new LoginPage(driver);
         loginPage.open();
         loginPage.assertPageOpened();
-        OneLoginPortalPage oneLoginPortalPage = loginPage.login(USERNAME, PASSWORD);
+        OneLoginPortalPage oneLoginPortalPage = loginPage.login(username, password);
+        oneLoginPortalPage.assertPageOpened();
         DashboardPage dashboardPage = oneLoginPortalPage.goToPrendio();
         dashboardPage.switchToTab(1);
+        dashboardPage.assertPageOpened();
         return dashboardPage;
     }
 }

@@ -63,7 +63,7 @@ public class PrendioTest extends AbstractTest {
     @Test(description = "Verifies adding supplier leaves trail", testName = "Add Supplier Trail Test")
     public void checkAddingSupplierTrailTest() {
         SoftAssert softAssert = new SoftAssert();
-        DashboardPage dashboardPage = new LoginService(getDriver()).login();
+        DashboardPage dashboardPage = new LoginService(getDriver()).login(USERNAME, PASSWORD);
         String fullName = dashboardPage.getFullName();
         BuyerPage buyerPage = dashboardPage.clickBuyer();
         buyerPage.assertPageOpened();
@@ -101,7 +101,7 @@ public class PrendioTest extends AbstractTest {
     @Test(description = "Verifies cart remains unchanged after duplication", testName = "Cart Template Test")
     public void checkCartTemplateTest() {
         SoftAssert softAssert = new SoftAssert();
-        DashboardPage dashboardPage = new LoginService(getDriver()).login();
+        DashboardPage dashboardPage = new LoginService(getDriver()).login(USERNAME, PASSWORD);
         AllCartsPage allCartsPage = dashboardPage.clickViewAllCarts();
         allCartsPage.assertPageOpened();
         allCartsPage = allCartsPage.search(TEMPLATE_CART_NAME);
@@ -147,7 +147,7 @@ public class PrendioTest extends AbstractTest {
     @Test(description = "Verifies cart order creation", testName = "Cart Using Catalog Test")
     public void checkCartUsingCatalogTest() {
         final int index = 0;
-        DashboardPage dashboardPage = new LoginService(getDriver()).login();
+        DashboardPage dashboardPage = new LoginService(getDriver()).login(USERNAME, PASSWORD);
         dashboardPage.assertPageOpened();
         SearchResultPage searchResultPage = dashboardPage.searchCatalog(CATALOG_QUERY);
         searchResultPage.assertPageOpened();
@@ -188,7 +188,7 @@ public class PrendioTest extends AbstractTest {
     @Test(description = "Verifies department creation", testName = "Create and Edit Department Test")
     public void checkCreateAndEditDepartmentTest() {
         SoftAssert softAssert = new SoftAssert();
-        DashboardPage dashboardPage = new LoginService(getDriver()).login();
+        DashboardPage dashboardPage = new LoginService(getDriver()).login(USERNAME, PASSWORD);
         dashboardPage.assertPageOpened();
         AccountPayablePage accountPayablePage = dashboardPage.clickAccountsPayable();
         accountPayablePage.assertPageOpened();
@@ -243,7 +243,7 @@ public class PrendioTest extends AbstractTest {
     @Test(description = "Verifies receiver voucher creation", testName = "PDF File Upload and Invoice Creation Test")
     public void checkReceiverVoucherCreationTest() {
         SoftAssert softAssert = new SoftAssert();
-        DashboardPage dashboardPage = new LoginService(getDriver()).login();
+        DashboardPage dashboardPage = new LoginService(getDriver()).login(USERNAME, PASSWORD);
         dashboardPage.assertPageOpened();
         ReceiverPage receiverPage = dashboardPage.clickReceiver();
         receiverPage.assertPageOpened();
@@ -277,7 +277,7 @@ public class PrendioTest extends AbstractTest {
     @Test(description = "Verifies user profile update", testName = "User Profile Update Test")
     public void checkUserProfileUpdateTest() {
         SoftAssert softAssert = new SoftAssert();
-        DashboardPage dashboardPage = new LoginService(getDriver()).login();
+        DashboardPage dashboardPage = new LoginService(getDriver()).login(USERNAME, PASSWORD);
         dashboardPage.assertPageOpened();
         UserStatusWindow statusWindow = dashboardPage.getUserPhotoBlock().openUserStatus();
         statusWindow.assertUIObjectPresent();
@@ -309,7 +309,7 @@ public class PrendioTest extends AbstractTest {
     @Test(description = "Verifies supplier creation", testName = "Creating and Editing Supplier Test")
     public void checkCreateSupplierTest() {
         SoftAssert softAssert = new SoftAssert();
-        DashboardPage dashboardPage = new LoginService(getDriver()).login();
+        DashboardPage dashboardPage = new LoginService(getDriver()).login(USERNAME, PASSWORD);
         dashboardPage.assertPageOpened();
         BuyerPage buyerPage = dashboardPage.clickBuyer();
         BuyerSuppliersPage suppliersPage = buyerPage.clickSuppliers();
@@ -349,7 +349,7 @@ public class PrendioTest extends AbstractTest {
     @Test(description = "Verifies shipping address creation", testName = "Creating and Editing Shipping Address Test")
     public void checkCreateShippingAddressTest() {
         SoftAssert softAssert = new SoftAssert();
-        DashboardPage dashboardPage = new LoginService(getDriver()).login();
+        DashboardPage dashboardPage = new LoginService(getDriver()).login(USERNAME, PASSWORD);
         dashboardPage.assertPageOpened();
         BuyerPage buyerPage = dashboardPage.clickBuyer();
         buyerPage.assertPageOpened();
@@ -381,7 +381,7 @@ public class PrendioTest extends AbstractTest {
     @Test(description = "Verifies supplier item creation", testName = "Adding Supplier Item Test")
     public void checkAddSupplierItemTest() {
         SoftAssert softAssert = new SoftAssert();
-        DashboardPage dashboardPage = new LoginService(getDriver()).login();
+        DashboardPage dashboardPage = new LoginService(getDriver()).login(USERNAME, PASSWORD);
         dashboardPage.assertPageOpened();
         BuyerPage buyerPage = dashboardPage.clickBuyer();
         BuyerSuppliersPage suppliersPage = buyerPage.clickSuppliers();

@@ -5,32 +5,23 @@ import java.util.Objects;
 
 public class CartContents {
 
-    private List<String> partNumbers;
-    private List<String> descriptions;
-    private List<String> totals;
+    private List<ItemContents> items;
 
-    public List<String> getPartNumbers() {
-        return partNumbers;
+    public CartContents(List<ItemContents> items) {
+        this.items = items;
     }
 
-    public void setPartNumbers(List<String> partNumbers) {
-        this.partNumbers = partNumbers;
+    public List<ItemContents> getItems() {
+        return items;
     }
 
-    public List<String> getDescriptions() {
-        return descriptions;
+    public void setItems(List<ItemContents> items) {
+        this.items = items;
     }
 
-    public void setDescriptions(List<String> descriptions) {
-        this.descriptions = descriptions;
-    }
-
-    public List<String> getTotals() {
-        return totals;
-    }
-
-    public void setTotals(List<String> totals) {
-        this.totals = totals;
+    @Override
+    public int hashCode() {
+        return items != null ? items.hashCode() : 0;
     }
 
     @Override
@@ -44,28 +35,13 @@ public class CartContents {
 
         CartContents that = (CartContents) o;
 
-        if (!Objects.equals(partNumbers, that.partNumbers)) {
-            return false;
-        }
-        if (!Objects.equals(descriptions, that.descriptions)) {
-            return false;
-        }
-        return Objects.equals(totals, that.totals);
-    }
-
-    public ItemContents getItemContents(int index) {
-        return new ItemContents.ItemContentsBuilder()
-                .setItemNumber(partNumbers.get(index))
-                .setTitle(descriptions.get(index))
-                .setPrice(totals.get(index)).build();
+        return Objects.equals(items, that.items);
     }
 
     @Override
     public String toString() {
         return "CartContents{" +
-                "partNumbers=" + partNumbers +
-                ", descriptions=" + descriptions +
-                ", totals=" + totals +
+                "items=" + items +
                 '}';
     }
 }

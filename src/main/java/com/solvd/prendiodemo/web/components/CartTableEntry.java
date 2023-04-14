@@ -7,7 +7,10 @@ import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
-public class CartEntry extends AbstractUIObject {
+/**
+ * Represents a single cart in a table of carts.
+ **/
+public class CartTableEntry extends AbstractUIObject {
 
     @FindBy(xpath = ".//a[@type='cart']")
     private ExtendedWebElement idLink;
@@ -15,7 +18,7 @@ public class CartEntry extends AbstractUIObject {
     @FindBy(xpath = ".//td[2]")
     private ExtendedWebElement name;
 
-    public CartEntry(WebDriver driver, SearchContext searchContext) {
+    public CartTableEntry(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
     }
 

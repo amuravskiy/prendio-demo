@@ -2,7 +2,7 @@ package com.solvd.prendiodemo.web.pages;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.PageOpeningStrategy;
-import com.solvd.prendiodemo.web.components.CartEntry;
+import com.solvd.prendiodemo.web.components.CartTableEntry;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NotFoundException;
 import org.openqa.selenium.WebDriver;
@@ -21,7 +21,7 @@ public class AllCartsPage extends BasePage {
     private ExtendedWebElement searchField;
 
     @FindBy(xpath = "//tr[@cartid]")
-    private List<CartEntry> cartEntries;
+    private List<CartTableEntry> cartEntries;
 
     public AllCartsPage(WebDriver driver) {
         super(driver);
@@ -44,7 +44,7 @@ public class AllCartsPage extends BasePage {
 
     public CartPage clickById(String id) {
         return cartEntries.stream()
-                .filter(cartEntry -> cartEntry.getId().equals(id))
+                .filter(cartTableEntry -> cartTableEntry.getId().equals(id))
                 .findFirst()
                 .orElseThrow()
                 .clickId();
@@ -56,7 +56,7 @@ public class AllCartsPage extends BasePage {
                 "Cart with name " + name + " is not found");
     }
 
-    private Optional<CartEntry> findCartEntryById(String id) {
+    private Optional<CartTableEntry> findCartEntryById(String id) {
         return cartEntries.stream()
                 .filter(cart -> cart.getId().equals(id))
                 .findFirst();
