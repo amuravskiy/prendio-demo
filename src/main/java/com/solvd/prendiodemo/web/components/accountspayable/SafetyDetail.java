@@ -1,5 +1,6 @@
 package com.solvd.prendiodemo.web.components.accountspayable;
 
+import com.qaprosoft.carina.core.foundation.webdriver.decorator.ElementLoadingStrategy;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractUIObject;
 import org.apache.commons.lang3.RandomUtils;
@@ -19,14 +20,18 @@ public class SafetyDetail extends AbstractUIObject {
     @FindBy(xpath = "..//div[@id='safetydetail']//label")
     private List<ExtendedWebElement> labels;
 
+    @FindBy(xpath = "..//div[@id='safetydetail']//label[1]")
+    private ExtendedWebElement loadedMarker;
+
     public SafetyDetail(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
+        setUiLoadedMarker(loadedMarker);
+        setLoadingStrategy(ElementLoadingStrategy.BY_VISIBILITY);
     }
 
-    public void fillRandomly() {
+    public void fillRandomValues() {
         if (labels.isEmpty()) {
             throw new RuntimeException("Labels not found");
-            //TODO: okay??
         }
         labels.stream()
                 .filter(label -> RandomUtils.nextBoolean())

@@ -11,6 +11,7 @@ import org.openqa.selenium.support.FindBy;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 
 public class AddSupplierItemPopup extends BasePopup {
 
@@ -64,15 +65,10 @@ public class AddSupplierItemPopup extends BasePopup {
     }
 
     public Map<String, String> fillInfoRandomly() {
-        supplierPartField.type(RandomStringUtils.randomAlphabetic(15));
-        descField.type(RandomStringUtils.randomAlphabetic(30));
+        Stream.of(supplierPartField, descField, deprecatedPartField, manufacturerField, manufactNumberField, notesField, casNumberField)
+                        .forEach(field->field.type(RandomStringUtils.randomAlphabetic(15)));
         copyDownButton.click();
-        deprecatedPartField.type(RandomStringUtils.randomAlphabetic(15));
-        manufacturerField.type(RandomStringUtils.randomAlphabetic(15));
-        manufactNumberField.type(RandomStringUtils.randomAlphabetic(15));
-        notesField.type(RandomStringUtils.randomAlphabetic(45));
-        safetyDetail.fillRandomly();
-        casNumberField.type(RandomStringUtils.randomAlphabetic(15));
+        safetyDetail.fillRandomValues();
         selectByIndex(unitSelect, 1);
         qtyEachField.type(String.valueOf(RandomUtils.nextInt(1, 10_000 + 1)));
         specificationsSection.addRandomSpec();
@@ -80,6 +76,7 @@ public class AddSupplierItemPopup extends BasePopup {
     }
 
     public Map<String, String> getInfo() {
+        //TODO: to validator
         Map<String, String> info = new HashMap<>();
         info.put("supplierPart", getValue(supplierPartField));
         info.put("desc", getValue(descField));

@@ -13,6 +13,7 @@ import org.testng.Assert;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 public class AddSupplierPopup extends BasePopup {
 
@@ -108,12 +109,9 @@ public class AddSupplierPopup extends BasePopup {
                 RandomStringUtils.randomAlphabetic(3);
         emailField.type(email);
         defaultUserPhoneField.type(RandomStringUtils.randomNumeric(10));
-        remitNameField.type(RandomStringUtils.randomAlphabetic(20));
+        Stream.of(remitNameField, cityField, stateField, zipCodeField, notesField)
+                .forEach(field -> field.type(RandomStringUtils.randomAlphabetic(20)));
         fillAddressLinesRandomly(addressLines);
-        cityField.type(RandomStringUtils.randomAlphabetic(20));
-        stateField.type(RandomStringUtils.randomAlphabetic(20));
-        zipCodeField.type(RandomStringUtils.randomAlphabetic(20));
-        notesField.type(RandomStringUtils.randomAlphabetic(50));
         return getGeneralInfo();
     }
 

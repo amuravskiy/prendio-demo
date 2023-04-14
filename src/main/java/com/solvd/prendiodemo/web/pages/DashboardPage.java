@@ -8,7 +8,7 @@ import org.openqa.selenium.support.FindBy;
 
 public class DashboardPage extends BasePage {
 
-    @FindBy(xpath = "tbltoporder")
+    @FindBy(id = "tbltoporder")
     private OrdersTable ordersTable;
 
     @FindBy(xpath = "//div[@id='tblncart']//a[contains(text(),'View All')]")

@@ -60,7 +60,6 @@ public class ReceiverScanMatchPage extends ReceiverPage {
     }
 
     public SlipInfo fillSlipInfoRandomly() {
-        //TODO: rework
         SlipInfo info = new SlipInfo.SlipInfoBuilder()
                 .setRecDate(DateUtil.getCurrentDateScanMatch())
                 .setInvoiceNumber(String.valueOf(RandomUtils.nextInt(1, 10_000)))
@@ -68,13 +67,17 @@ public class ReceiverScanMatchPage extends ReceiverPage {
                 .setInvoiceAmount(String.valueOf(RandomUtils.nextInt(1, 10_000)))
                 .setDay(DateUtil.getDayOfTheMonth())
                 .build();
+        fillWith(info);
+        return info;
+    }
+
+    private void fillWith(SlipInfo info){
         invNumberInput.type(info.getInvoiceNumber());
         selectReceivedDate(info);
         selectInvDate(info);
         invAmountInput.type(info.getInvoiceAmount());
         noPoCheckbox.clickByJs();
         selectByIndex(chooseUserSelect, 1);
-        return info;
     }
 
     private void selectReceivedDate(SlipInfo info) {

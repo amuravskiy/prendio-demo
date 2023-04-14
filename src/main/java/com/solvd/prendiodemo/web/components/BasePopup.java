@@ -85,7 +85,6 @@ public class BasePopup extends AbstractUIObject implements ElementsUtil {
 
     public void assertDisappeared() {
         Assert.assertTrue(getRootExtendedElement().waitUntilElementDisappear(EXPLICIT_TIMEOUT), "Popup didn't disappear");
-        //TODO: wtf is root element exactly
         //TODO: remove assertion
     }
 

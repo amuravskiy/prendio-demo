@@ -15,7 +15,6 @@ public class ShipToAddresses extends AbstractUIObject {
         super(driver, searchContext);
     }
 
-
     public String getLine2() {
         return line2.getText();
     }

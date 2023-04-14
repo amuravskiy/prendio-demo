@@ -28,7 +28,7 @@ public class ImageUploadPopup extends BasePopup {
         super(driver, searchContext);
     }
 
-    public void imageAppeared() {
+    public void assertImageAppeared() {
         Assert.assertTrue(imageBox.isVisible(), "Image didn't appear");
     }
 

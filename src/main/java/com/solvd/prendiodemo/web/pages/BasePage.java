@@ -105,9 +105,12 @@ public class BasePage extends AbstractPage implements ElementsUtil {
         return outLink.isVisible();
     }
 
-    public void assertSuccessMessageVisibleWithText(String expectedText, SoftAssert softAssert) {
-        softAssert.assertTrue(successMessage.isVisible(), "Success message is not visible");
-        softAssert.assertEquals(successMessage.getText(), expectedText);
+    public boolean isSuccessMessageVisible() {
+        return successMessage.isVisible();
+    }
+
+    public String getSuccessMessageText() {
+        return successMessage.getText();
     }
 
     public void waitToBeClickable(ExtendedWebElement element) {
