@@ -3,38 +3,29 @@ package com.solvd.prendiodemo.web.pages.receiver;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.PageOpeningStrategy;
 import com.solvd.prendiodemo.domain.SlipInfo;
+import com.solvd.prendiodemo.utils.DateUtil;
+import com.solvd.prendiodemo.web.components.CalendarForm;
+import com.solvd.prendiodemo.web.components.ScanItemContainer;
 import com.solvd.prendiodemo.web.pages.ReceiverPage;
-import com.zebrunner.carina.utils.R;
 import org.apache.commons.lang3.RandomUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.testng.Assert;
 
-import java.time.Instant;
-import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public class ReceiverScanMatchPage extends ReceiverPage {
-
-    private static final int HOURS_OFFSET_FROM_UTC = R.TESTDATA.getInt("hours_offset_from_utc");
-    private static final DateTimeFormatter DATE_FORMATTER_SHORT = DateTimeFormatter.ofPattern("M/d/yyyy").withZone(ZoneOffset
-            .ofHours(HOURS_OFFSET_FROM_UTC));
 
     @FindBy(xpath = "//a[@type='match' and @class='active']")
     private ExtendedWebElement scanMatchActive;
 
     @FindBy(className = "scanitem")
-    private ExtendedWebElement firstScanItemContainer;
-
-    @FindBy(className = "divselected")
-    private ExtendedWebElement firstItemCheck;
+    private List<ScanItemContainer> scanItemContainers;
 
     @FindBy(xpath = "//input[@id='porecdatetxt']/following::span[@class='calendar_icon'][1]")
     private ExtendedWebElement receivedDateIcon;
 
     @FindBy(id = "invoicenotxt")
-    private ExtendedWebElement invNumverInput;
+    private ExtendedWebElement invNumberInput;
 
     @FindBy(xpath = "//input[@id='invoiceduedatetxt']/following::span[@class='calendar_icon'][1]")
     private ExtendedWebElement indDateIcon;
@@ -43,7 +34,7 @@ public class ReceiverScanMatchPage extends ReceiverPage {
     private ExtendedWebElement invAmountInput;
 
     @FindBy(xpath = "//form[@id='inoiceform']//input[@type='checkbox']")
-    private ExtendedWebElement noPOCheckbox;
+    private ExtendedWebElement noPoCheckbox;
 
     @FindBy(id = "selectuser")
     private ExtendedWebElement chooseUserSelect;
@@ -51,8 +42,8 @@ public class ReceiverScanMatchPage extends ReceiverPage {
     @FindBy(id = "INVOICENext")
     private ExtendedWebElement nextButton;
 
-    @FindBy(xpath = "//a[text()='%s']")
-    private ExtendedWebElement dayToClick;
+    @FindBy(id = "ui-datepicker-div")
+    private CalendarForm calendarForm;
 
     public ReceiverScanMatchPage(WebDriver driver) {
         super(driver);
@@ -61,39 +52,43 @@ public class ReceiverScanMatchPage extends ReceiverPage {
     }
 
     public void assertFirstScanItemVisible() {
-        Assert.assertTrue(firstScanItemContainer.isVisible(), "First scan item is not visible");
+        scanItemContainers.get(0).assertUIObjectPresent();
     }
 
     public void checkFirstItem() {
-        firstItemCheck.click();
+        scanItemContainers.get(0).selectItem();
     }
 
     public SlipInfo fillSlipInfoRandomly() {
         //TODO: rework
-        String currentDateFormatted = DATE_FORMATTER_SHORT.format(Instant.now());
         SlipInfo info = new SlipInfo.SlipInfoBuilder()
-                .setRecDate(currentDateFormatted)
+                .setRecDate(DateUtil.getCurrentDateScanMatch())
                 .setInvoiceNumber(String.valueOf(RandomUtils.nextInt(1, 10_000)))
-                .setInvDate(currentDateFormatted)
+                .setInvDate(DateUtil.getCurrentDateScanMatch())
                 .setInvoiceAmount(String.valueOf(RandomUtils.nextInt(1, 10_000)))
-                .setDay(String.valueOf(Instant.now().atOffset(ZoneOffset.ofHours(HOURS_OFFSET_FROM_UTC)).getDayOfMonth()))
+                .setDay(DateUtil.getDayOfTheMonth())
                 .build();
-
-        receivedDateIcon.click();
-        ExtendedWebElement dayToClickOn = dayToClick.format(info.getDay());
-        waitUntil(ExpectedConditions.elementToBeClickable(dayToClickOn.getElement()), EXPLICIT_TIMEOUT);
-        waitToBeClickable(dayToClickOn);
-        dayToClickOn.click();
-        invNumverInput.type(info.getInvoiceNumber());
-        indDateIcon.click();
-        dayToClickOn = dayToClick.format(info.getDay());
-        waitToBeClickable(dayToClickOn);
-        dayToClickOn.click();
-        dayToClickOn.waitUntilElementDisappear(EXPLICIT_TIMEOUT);
+        invNumberInput.type(info.getInvoiceNumber());
+        selectReceivedDate(info);
+        selectInvDate(info);
         invAmountInput.type(info.getInvoiceAmount());
-        noPOCheckbox.clickByJs();
+        noPoCheckbox.clickByJs();
         selectByIndex(chooseUserSelect, 1);
         return info;
+    }
+
+    private void selectReceivedDate(SlipInfo info) {
+        receivedDateIcon.click();
+        calendarForm = new CalendarForm(getDriver(), getDriver());
+        calendarForm.waitDateToBeVisible();
+        calendarForm.clickSpecificDay(info.getDay());
+    }
+
+    private void selectInvDate(SlipInfo info) {
+        indDateIcon.click();
+        calendarForm = new CalendarForm(getDriver(), getDriver());
+        calendarForm.waitDateToBeVisible();
+        calendarForm.clickSpecificDay(info.getDay());
     }
 
     public void clickNext() {

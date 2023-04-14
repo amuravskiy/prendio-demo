@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 public class ItemsForm extends AbstractUIObject {
 
-    @FindBy(tagName = "suppliercart")
+    @FindBy(xpath = "//div[@tag='suppliercart']")
     private List<SupplierItems> suppliers;
 
     public ItemsForm(WebDriver driver, SearchContext searchContext) {

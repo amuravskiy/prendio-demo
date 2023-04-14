@@ -11,9 +11,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 public class CartPage extends BasePage {
 
     @FindBy(id = "divCartId")
@@ -30,9 +27,6 @@ public class CartPage extends BasePage {
 
     @FindBy(xpath = "//div[@id='popupform' and h2[text()='CONFIRMATION']]")
     private BasePopup confirmationPopup;
-
-    @FindBy(id = "divCatLogList")
-    private ItemsForm itemsForm;
 
     @FindBy(id = "lnkChangeAddress")
     private ExtendedWebElement shipToButton;
@@ -73,6 +67,9 @@ public class CartPage extends BasePage {
     @FindBy(xpath = "//div[@id='popupform' and h2[text()='Requisition  Approval']]")
     private BasePopup requisitionApprovalPopup;
 
+    @FindBy(xpath = "//div[@id='divCatLogList']")
+    private ItemsForm itemsForm;
+
     public CartPage(WebDriver driver) {
         super(driver);
         setUiLoadedMarker(cartId);
@@ -105,7 +102,7 @@ public class CartPage extends BasePage {
     }
 
     public ItemContents getFirstItemContents() {
-        return itemsForm.getItemContents(0,0);
+        return itemsForm.getItemContents(0, 0);
     }
 
     public void removeTemplateWord() {
@@ -127,23 +124,36 @@ public class CartPage extends BasePage {
 
     public void setSelects() {
         selectByIndex(orderTypeSelect, 2);
+        selectDepartment();
+        selectGlAccount();
+        selectProject();
+    }
+
+    private void selectDepartment() {
         departmentSelect.click();
         departmentToSelect.click();
         waitSuccessMessageVisible();
+    }
+
+    private void selectGlAccount() {
         glAccountSelect.click();
         glAccountToSelect.click();
         waitSuccessMessageVisible();
+    }
+
+    private void selectProject() {
         projectSelect.click();
         projectToSelect.click();
-        //TODO: split into 2
     }
 
     public boolean isItemSelectsAsCartSelects(int itemIndex) {
-        String depSelect=departmentSelect.getText();
-        String glAcc=glAccountSelect.getText();
-        return departmentSelect.getText().equals(itemsDepartment.get(itemIndex).getSelectedValue())
-                && glAccountSelect.getText().equals(itemsGlAccount.get(itemIndex).getSelectedValue())
-                && projectSelect.getText().equals(itemsProject.get(itemIndex).getSelectedValue());
+        String department = departmentSelect.getText();
+        String glAcc = glAccountSelect.getText();
+        String project = projectSelect.getText();
+        return itemsForm.getAllItems().stream()
+                .allMatch(itemContents -> itemContents.getDepartment().equals(department)
+                        && itemContents.getGlAccount().equals(glAcc)
+                        && itemContents.getProject().equals(project));
     }
 
     public BasePopup clickSubmitCartButton() {

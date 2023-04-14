@@ -3,7 +3,6 @@ package com.solvd.prendiodemo;
 import com.qaprosoft.carina.core.foundation.AbstractTest;
 import com.solvd.prendiodemo.domain.*;
 import com.solvd.prendiodemo.service.LoginService;
-import com.solvd.prendiodemo.utils.FileUtil;
 import com.solvd.prendiodemo.web.components.BasePopup;
 import com.solvd.prendiodemo.web.components.UserStatusWindow;
 import com.solvd.prendiodemo.web.components.accountspayable.DepSetupPopup;
@@ -155,6 +154,7 @@ public class PrendioTest extends AbstractTest {
         Assert.assertTrue(searchResultPage.isItemsDisplayed(), "Items not found");
         Assert.assertTrue(searchResultPage.isAllItemTitlesContainQuery(CATALOG_QUERY), "Not all items contain query string in their title");
         ItemContents itemContents = searchResultPage.getItemContents(index);
+        //TODO: validate via service
         searchResultPage.clickAddToCart(index);
         Assert.assertTrue(searchResultPage.isCreateNewCartButtonDisplayed(index), "Create new cart button is not displayed");
         Assert.assertTrue(searchResultPage.isAddInExistingCartButtonDisplayed(index), "Add in existing cart button is not displayed");
@@ -326,7 +326,7 @@ public class PrendioTest extends AbstractTest {
         AddressPopup addressPopup = addAccountNumbersPopup.clickSelectShipToAddress();
         addressPopup.assertVisible();
         infoEntered.put("shipToLine2", addressPopup.getAddressLine2Text(0));
-        addressPopup.clickAddress(0);
+        addressPopup.clickFirstAddress();
         addressPopup.assertDisappeared();
         infoEntered.put("accountNumber", addAccountNumbersPopup.fillAccountNumberRandomly());
         addAccountNumbersPopup.clickSave();

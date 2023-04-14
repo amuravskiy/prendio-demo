@@ -3,7 +3,7 @@ package com.solvd.prendiodemo.web.pages;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.PageOpeningStrategy;
 import com.solvd.prendiodemo.web.components.CartTableEntry;
-import org.openqa.selenium.Keys;
+import com.solvd.prendiodemo.web.components.SearchFilter;
 import org.openqa.selenium.NotFoundException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
@@ -17,8 +17,8 @@ public class AllCartsPage extends BasePage {
     @FindBy(xpath = "//table[@id='tblCartList']//td")
     private ExtendedWebElement cartsTabActive;
 
-    @FindBy(xpath = "//div[@id='divcarts']//input[@placeholder='<filter list>']")
-    private ExtendedWebElement searchField;
+    @FindBy(xpath = "//div[@id='divcarts']")
+    private SearchFilter searchFilter;
 
     @FindBy(xpath = "//tr[@cartid]")
     private List<CartTableEntry> cartEntries;
@@ -30,8 +30,7 @@ public class AllCartsPage extends BasePage {
     }
 
     public AllCartsPage search(String name) {
-        searchField.type(name);
-        searchField.sendKeys(Keys.ENTER);
+        searchFilter.search(name);
         if (!cartEntries.isEmpty()) {
             cartEntries.get(0).getRootExtendedElement().waitUntilElementDisappear(EXPLICIT_TIMEOUT);
         }

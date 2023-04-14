@@ -8,7 +8,7 @@ public class SlipInfo {
     private String invoiceNumber;
     private String invDate;
     private String invoiceAmount;
-    private String day;
+    private int day;
 
     private SlipInfo(SlipInfoBuilder builder) {
         this.recDate = builder.recDate;
@@ -18,11 +18,11 @@ public class SlipInfo {
         this.day = builder.day;
     }
 
-    public String getDay() {
+    public int getDay() {
         return day;
     }
 
-    public void setDay(String day) {
+    public void setDay(int day) {
         this.day = day;
     }
 
@@ -93,17 +93,17 @@ public class SlipInfo {
 
     public static class SlipInfoBuilder {
 
-        private String day;
+        private int day;
         private String recDate;
         private String invoiceNumber;
         private String invDate;
         private String invoiceAmount;
 
-        public String getDay() {
+        public int getDay() {
             return day;
         }
 
-        public SlipInfoBuilder setDay(String day) {
+        public SlipInfoBuilder setDay(int day) {
             this.day = day;
             return this;
         }

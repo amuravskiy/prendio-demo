@@ -2,6 +2,7 @@ package com.solvd.prendiodemo.web.pages.buyer;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.PageOpeningStrategy;
+import com.solvd.prendiodemo.web.components.SearchFilter;
 import com.solvd.prendiodemo.web.components.TableEntry;
 import com.solvd.prendiodemo.web.components.buyer.AddSupplierPopup;
 import com.solvd.prendiodemo.web.pages.BasePage;
@@ -24,8 +25,8 @@ public class BuyerSuppliersPage extends BasePage {
     @FindBy(xpath = "//div[@id='popupform']")
     private AddSupplierPopup addSupplierPopup;
 
-    @FindBy(xpath = "//div[@id='divsuppliers']//input[@placeholder='<filter list>']")
-    private ExtendedWebElement searchField;
+    @FindBy(xpath = "//div[@id='divsuppliers']")
+    private SearchFilter searchFilter;
 
     @FindBy(xpath = "//table[@id='tblsuplist']/tbody/tr")
     private List<TableEntry> suppliers;
@@ -42,8 +43,7 @@ public class BuyerSuppliersPage extends BasePage {
     }
 
     public BuyerSuppliersPage search(String query) {
-        searchField.type(query);
-        searchField.sendKeys(Keys.ENTER);
+        searchFilter.search(query);
         return new BuyerSuppliersPage(getDriver());
     }
 

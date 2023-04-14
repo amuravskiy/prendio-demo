@@ -36,11 +36,8 @@ public class DepSetupPopup extends BasePopup {
     @FindBy(xpath = "//div[h2[text()='Department Watcher Setup']]")
     private DepWatcherSetupPopup depWatcherSetupPopup;
 
-    @FindBy(xpath = "//table[@id='tbldeptwatcher']//td[1]")
-    private ExtendedWebElement firstWatcherName;
-
-    @FindBy(xpath = "//table[@id='tbldeptwatcher']//td[3]")
-    private ExtendedWebElement firstWatcherNotifyAt;
+    @FindBy(xpath = "//table[@id='tbldeptwatcher']/tbody/tr")
+    private WatchersTableEntry firstWatcher;
 
     @FindBy(xpath = "//div[h2[text()='CONFIRMATION']]")
     private BasePopup confirmationPopup;
@@ -106,7 +103,7 @@ public class DepSetupPopup extends BasePopup {
     }
 
     public WatcherInfo getWatcherInfo() {
-        String watchedNotifyAtInteger = firstWatcherNotifyAt.getText().replace(".00", "").replace(",", "");
-        return new WatcherInfo(firstWatcherName.getText(), watchedNotifyAtInteger);
+        String watcherNotifyAt = firstWatcher.getWatcherNotifyAt().replace(".00", "").replace(",", "");
+        return new WatcherInfo(firstWatcher.getWatcherName(), watcherNotifyAt);
     }
 }

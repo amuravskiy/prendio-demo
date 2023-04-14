@@ -14,9 +14,6 @@ import java.util.Map;
 
 public class AddSupplierItemPopup extends BasePopup {
 
-    @FindBy(xpath = "//div[@id='safetydetail']//label")
-    private ExtendedWebElement loadedMarker;
-
     @FindBy(id = "txtsuppart")
     private ExtendedWebElement supplierPartField;
 
@@ -52,12 +49,6 @@ public class AddSupplierItemPopup extends BasePopup {
 
     @FindBy(id = "txtQty")
     private ExtendedWebElement qtyEachField;
-
-    @FindBy(id = "txtmaterialname")
-    private ExtendedWebElement firstMaterialNameField;
-
-    @FindBy(id = "txtmaterialvalue")
-    private ExtendedWebElement fistMaterialValue;
 
     @FindBy(id = "savecatalogitem")
     private ExtendedWebElement saveButton;

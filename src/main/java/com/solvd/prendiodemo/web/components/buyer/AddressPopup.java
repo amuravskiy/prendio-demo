@@ -1,40 +1,38 @@
 package com.solvd.prendiodemo.web.components.buyer;
 
+import com.qaprosoft.carina.core.foundation.webdriver.decorator.ElementLoadingStrategy;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.solvd.prendiodemo.web.components.BasePopup;
+import com.solvd.prendiodemo.web.components.accountspayable.ShipToAddresses;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 
-import java.util.List;
-
 public class AddressPopup extends BasePopup {
 
-    @FindBy(xpath = "//table[@id='tblbilllist']//tbody//tr")
-    private ExtendedWebElement firstAddressesTableLine;
+    @FindBy(xpath = "//table[@id='tblbilllist']//tbody//tr[1]")
+    private ExtendedWebElement loadedMarket;
 
-    @FindBy(xpath = "//table[@id='tblbilllist']//tbody//tr//td[2]")
-    private List<ExtendedWebElement> line2s;
-
-    @FindBy(xpath = "//table[@id='tblbilllist']//tbody//tr")
-    private List<ExtendedWebElement> addresses;
+    @FindBy(xpath = "//table[@id='tblbilllist']//tbody//tr[1]")
+    private ShipToAddresses firstShipToAddresses;
 
     public AddressPopup(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
+        setUiLoadedMarker(loadedMarket);
+        setLoadingStrategy(ElementLoadingStrategy.BY_VISIBILITY);
     }
 
-    public void clickAddress(int index) {
-        addresses.get(index).click();
+    public void clickFirstAddress() {
+        firstShipToAddresses.click();
     }
 
     public String getAddressLine2Text(int index) {
-        return line2s.get(index).getText();
+        return firstShipToAddresses.getLine2();
     }
 
     @Override
     public void assertVisible() {
-        Assert.assertTrue(firstAddressesTableLine.isVisible(), "Addresses not found in address popup");
-        //TODO: remove
+        Assert.assertTrue(loadedMarket.isVisible(), "Addresses not found in address popup");
     }
 }

@@ -3,7 +3,8 @@ package com.solvd.prendiodemo.web.pages;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.PageOpeningStrategy;
 import com.solvd.prendiodemo.domain.UserProfileInfo;
-import com.solvd.prendiodemo.utils.ProfileDateUtil;
+import com.solvd.prendiodemo.utils.DateUtil;
+import com.solvd.prendiodemo.web.components.CalendarForm;
 import com.solvd.prendiodemo.web.components.profile.ImageUploadPopup;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
@@ -14,9 +15,6 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 
 public class ProfilePage extends BasePage {
-
-    @FindBy(xpath = "//table//a[@href]")
-    private ExtendedWebElement firstAvailableDay;
 
     @FindBy(xpath = "//h2[text()='PROFILE']")
     private ExtendedWebElement profileTitle;
@@ -42,8 +40,8 @@ public class ProfilePage extends BasePage {
     @FindBy(xpath = "//input[@value='Save']")
     private ExtendedWebElement saveButton;
 
-    @FindBy(xpath = "//a[@title='Next']")
-    private ExtendedWebElement nextMonthButton;
+    @FindBy(id = "ui-datepicker-div")
+    private CalendarForm calendarForm;
 
     @FindBy(id = "startdate")
     private ExtendedWebElement startDateInput;
@@ -84,22 +82,18 @@ public class ProfilePage extends BasePage {
 
     private String fillStartDay() {
         startDateInput.click();
-        waitToBeVisible(firstAvailableDay);
-        ExtendedWebElement dayToClickOn = firstAvailableDay;
-        waitToBeClickable(dayToClickOn);
-        dayToClickOn.click();
-        return ProfileDateUtil.formatDate(getValue(startDateInput));
+        calendarForm = new CalendarForm(getDriver(), getDriver());
+        calendarForm.waitDateToBeVisible();
+        calendarForm.clickFirstAvailableDate();
+        return DateUtil.formatDateProfile(getValue(startDateInput));
     }
 
     private String fillEndDate() {
         endDateInput.click();
-        waitToBeClickable(nextMonthButton);
-        nextMonthButton.click();
-        waitToBeVisible(firstAvailableDay);
-        ExtendedWebElement dayToClickOn = firstAvailableDay;
-        waitToBeClickable(dayToClickOn);
-        dayToClickOn.click();
-        return ProfileDateUtil.formatDate(getValue(endDateInput));
+        calendarForm = new CalendarForm(getDriver(), getDriver());
+        calendarForm.waitDateToBeVisible();
+        calendarForm.clickFirstAvailableDate();
+        return DateUtil.formatDateProfile(getValue(endDateInput));
     }
 
     public String fillPhoneNumberRandomly() {
@@ -130,8 +124,8 @@ public class ProfilePage extends BasePage {
                 .setTitle(getValue(titleField))
                 .setPhoneNumber(getValue(phoneNumberField))
                 .setCarrier(getSelectedOptionText(carrierSelect))
-                .setStartDate(ProfileDateUtil.formatDate(getValue(startDateInput)))
-                .setEndDate(ProfileDateUtil.formatDate(getValue(endDateInput)))
+                .setStartDate(DateUtil.formatDateProfile(getValue(startDateInput)))
+                .setEndDate(DateUtil.formatDateProfile(getValue(endDateInput)))
                 .build();
     }
 

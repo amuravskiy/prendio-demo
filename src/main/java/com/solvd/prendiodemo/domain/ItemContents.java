@@ -13,6 +13,9 @@ public class ItemContents {
     private String glAccount;
     private String department;
 
+    public ItemContents() {
+    }
+
     public ItemContents(ItemContentsBuilder builder) {
         this.title = builder.title;
         this.supplier = builder.supplier;

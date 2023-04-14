@@ -11,20 +11,17 @@ public class DashboardPage extends BasePage {
     @FindBy(xpath = "tbltoporder")
     private OrdersTable ordersTable;
 
-    @FindBy(xpath = "//table[@id='tbltoporder']/tbody/tr")
-    private OrdersTable ordersLoaded;
-
     @FindBy(xpath = "//div[@id='tblncart']//a[contains(text(),'View All')]")
-    private ExtendedWebElement viewAllCarts;
+    private ExtendedWebElement viewAllCartsButton;
 
     public DashboardPage(WebDriver driver) {
         super(driver);
-        setUiLoadedMarker(ordersLoaded.getRootExtendedElement());
+        setUiLoadedMarker(ordersTable.getRootExtendedElement());
         setPageOpeningStrategy(PageOpeningStrategy.BY_ELEMENT);
     }
 
     public AllCartsPage clickViewAllCarts() {
-        viewAllCarts.click();
+        viewAllCartsButton.click();
         return new AllCartsPage(getDriver());
     }
 

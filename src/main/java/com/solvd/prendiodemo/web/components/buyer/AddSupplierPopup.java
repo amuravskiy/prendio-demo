@@ -3,11 +3,11 @@ package com.solvd.prendiodemo.web.components.buyer;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.solvd.prendiodemo.web.components.BasePopup;
 import com.solvd.prendiodemo.web.components.TableEntry;
+import com.solvd.prendiodemo.web.components.accountspayable.AccountNumbersTableEntry;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 
 import java.util.HashMap;
@@ -67,11 +67,8 @@ public class AddSupplierPopup extends BasePopup {
     @FindBy(xpath = "//div[h2[text()='Add Account Numbers']]")
     private AddAccountNumbersPopup addAccountNumbersPopup;
 
-    @FindBy(id = "tdaddress")
-    private ExtendedWebElement firstShipToAddress;
-
-    @FindBy(xpath = "//td[@id='tdaddress']//following::td[1]")
-    private ExtendedWebElement firstAccountNumber;
+    @FindBy(xpath = "//table[@id='tblaccount']//tbody//tr[1]")
+    private AccountNumbersTableEntry firstAccountNumberTableEntry;
 
     @FindBy(id = "Inner_Add_Catalog")
     private ExtendedWebElement addItemButton;
@@ -156,9 +153,9 @@ public class AddSupplierPopup extends BasePopup {
     public Map<String, String> getFullInfo() {
         Map<String, String> info = getGeneralInfo();
         getPopupLeftMenu().clickAccountNumbers();
-        waitUntil(ExpectedConditions.elementToBeClickable(firstShipToAddress.getElement()), EXPLICIT_TIMEOUT);
-        info.put("shipToLine2", firstShipToAddress.getText().split(",")[0]);
-        info.put("accountNumber", firstAccountNumber.getText());
+        firstAccountNumberTableEntry.waitToBeClickable();
+        info.put("shipToLine2", firstAccountNumberTableEntry.getShipToAddress().split(",")[0]);
+        info.put("accountNumber", firstAccountNumberTableEntry.getAccountNumber());
         return info;
     }
 

@@ -2,10 +2,10 @@ package com.solvd.prendiodemo.web.pages.buyer;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.PageOpeningStrategy;
+import com.solvd.prendiodemo.web.components.SearchFilter;
 import com.solvd.prendiodemo.web.components.TableEntry;
 import com.solvd.prendiodemo.web.components.buyer.AddressSetupPopup;
 import com.solvd.prendiodemo.web.pages.BasePage;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
@@ -21,8 +21,8 @@ public class AddressesPage extends BasePage {
     @FindBy(xpath = "//div[h2[text()='Address Setup']]")
     private AddressSetupPopup addressSetupPopup;
 
-    @FindBy(xpath = "//div[@id='divaddresses']//input[@placeholder='<filter list>']")
-    private ExtendedWebElement searchField;
+    @FindBy(xpath = "//div[@id='divaddresses']")
+    private SearchFilter searchFilter;
 
     @FindBy(xpath = "//table[@id='tbladdress']//tbody//tr")
     private TableEntry firstAddress;
@@ -39,8 +39,7 @@ public class AddressesPage extends BasePage {
     }
 
     public AddressesPage search(String query) {
-        searchField.type(query);
-        searchField.sendKeys(Keys.ENTER);
+        searchFilter.search(query);
         return new AddressesPage(getDriver());
     }
 

@@ -19,7 +19,7 @@ public class SupplierItems extends AbstractUIObject {
     @FindBy(id = "spnsuppName")
     private ExtendedWebElement supplierName;
 
-    @FindBy(tagName = "suppliercartdetailitem")
+    @FindBy(xpath = ".//div[@tag='suppliercartdetailitem']")
     private List<CartItem> items;
 
     public SupplierItems(WebDriver driver, SearchContext searchContext) {
