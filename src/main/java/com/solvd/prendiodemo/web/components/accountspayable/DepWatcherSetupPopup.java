@@ -7,10 +7,11 @@ import org.apache.commons.lang3.RandomUtils;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class DepWatcherSetupPopup extends BasePopup {
 
-    @FindBy(id = "selectwatcher")
+    @FindBy(xpath = "//select[@id='selectwatcher']")
     private ExtendedWebElement watcherSelect;
 
     @FindBy(xpath = "//input[@id='deptapproveliit']")
@@ -24,6 +25,7 @@ public class DepWatcherSetupPopup extends BasePopup {
     }
 
     public WatcherInfo selectFirstWatcher() {
+        waitUntil(ExpectedConditions.elementToBeClickable(watcherSelect.getElement()), EXPLICIT_TIMEOUT);
         selectByIndex(watcherSelect, 1);
         WatcherInfo watcherInfo = WatcherInfo.builder()
                 .watcherName(watcherSelect.getSelectedValue())

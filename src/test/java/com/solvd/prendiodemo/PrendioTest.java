@@ -62,19 +62,19 @@ public class PrendioTest extends AbstractTest {
     @Test(description = "Verifies adding supplier leaves trail", testName = "Add Supplier Trail Test")
     public void checkAddingSupplierTrailTest() {
         SoftAssert softAssert = new SoftAssert();
-        SuccessMessageValidation successMessageValidation = new SuccessMessageValidation(softAssert);
         DashboardPage dashboardPage = new LoginService(getDriver()).login(USERNAME, PASSWORD);
         String fullName = dashboardPage.getFullName();
         BuyerPage buyerPage = dashboardPage.clickBuyer();
         buyerPage.assertPageOpened();
         BuyerSuppliersPage buyerSuppliersPage = buyerPage.clickSuppliers();
         buyerSuppliersPage.assertPageOpened();
+        SuccessMessageValidation successMessageValidation = new SuccessMessageValidation(softAssert, buyerSuppliersPage);
         AddSupplierPopup addSupplierPopup = buyerSuppliersPage.clickAddSupplierButton();
         Assert.assertTrue(addSupplierPopup.isVisible(), "Add Supplier popup is not visible");
         String supplierName = addSupplierPopup.fillRequiredFieldsRandomly();
         addSupplierPopup.clickSave();
         successMessageValidation.validateSuccessMessageVisible();
-        successMessageValidation.validateSuccessMessageText( "Supplier Added Successfully");
+        successMessageValidation.validateSuccessMessageText("Supplier Added Successfully");
         addSupplierPopup.clickClose();
         Assert.assertTrue(addSupplierPopup.isDisappeared(), "Popup didn't disappear");
         AccountPayablePage accountPayablePage = buyerSuppliersPage.clickAccountsPayable();
@@ -102,7 +102,6 @@ public class PrendioTest extends AbstractTest {
     @Test(description = "Verifies cart remains unchanged after duplication", testName = "Cart Template Test")
     public void checkCartTemplateTest() {
         SoftAssert softAssert = new SoftAssert();
-        SuccessMessageValidation successMessageValidation = new SuccessMessageValidation(softAssert);
         DashboardPage dashboardPage = new LoginService(getDriver()).login(USERNAME, PASSWORD);
         AllCartsPage allCartsPage = dashboardPage.clickViewAllCarts();
         allCartsPage.assertPageOpened();
@@ -124,12 +123,13 @@ public class PrendioTest extends AbstractTest {
         Assert.assertTrue(confirmationPopup.isDisappeared(), "Popup didn't disappear");
         cartPage = new CartPage(getDriver());
         cartPage.assertPageOpened();
+        SuccessMessageValidation successMessageValidation = new SuccessMessageValidation(softAssert, cartPage);
         CartContents duplicatedContents = cartPage.getCartContents();
         Assert.assertEquals(duplicatedContents, cartContents, "Cart contents does not match");
         Assert.assertEquals(cartPage.getCartName(), TEMPLATE_CART_NAME, "Cart name does not match");
         cartPage.removeTemplateWord();
         successMessageValidation.validateSuccessMessageVisible();
-        successMessageValidation.validateSuccessMessageText( "Cart items saved");
+        successMessageValidation.validateSuccessMessageText("Cart items saved");
         String newCartName = cartPage.getCartName();
         String newCartId = cartPage.getId();
         Assert.assertEquals(cartPage.getCartName(), TEMPLATE_CART_NAME.replace(" Template", ""), "Cart name does not match");
@@ -191,13 +191,13 @@ public class PrendioTest extends AbstractTest {
     @Test(description = "Verifies department creation", testName = "Create and Edit Department Test")
     public void checkCreateAndEditDepartmentTest() {
         SoftAssert softAssert = new SoftAssert();
-        SuccessMessageValidation successMessageValidation = new SuccessMessageValidation(softAssert);
         DashboardPage dashboardPage = new LoginService(getDriver()).login(USERNAME, PASSWORD);
         dashboardPage.assertPageOpened();
         AccountPayablePage accountPayablePage = dashboardPage.clickAccountsPayable();
         accountPayablePage.assertPageOpened();
         DepartmentPage departmentPage = accountPayablePage.clickDepartment();
         departmentPage.assertPageOpened();
+        SuccessMessageValidation successMessageValidation = new SuccessMessageValidation(softAssert, departmentPage);
         Assert.assertTrue(departmentPage.isAddButtonVisible(), "Add department page is not visible");
         DepSetupPopup depSetupPopup = departmentPage.clickAddDep();
         Assert.assertTrue(depSetupPopup.isVisible(), "Department Setup popup is not visible");
@@ -205,7 +205,7 @@ public class PrendioTest extends AbstractTest {
         depSetupPopup.clickSave();
         Assert.assertTrue(depSetupPopup.isDisappeared(), "Popup didn't disappear");
         successMessageValidation.validateSuccessMessageVisible();
-        successMessageValidation.validateSuccessMessageText( "Department Added Successfully");
+        successMessageValidation.validateSuccessMessageText("Department Added Successfully");
         departmentPage = departmentPage.searchDepartmentByDesc(infoEntered.getDescription());
         departmentPage.assertPageOpened();
         depSetupPopup = departmentPage.editDepByName(infoEntered.getName());
@@ -221,7 +221,7 @@ public class PrendioTest extends AbstractTest {
         depWatcherSetupPopup.clickSave();
         Assert.assertTrue(depWatcherSetupPopup.isDisappeared(), "Popup didn't disappear");
         successMessageValidation.validateSuccessMessageVisible();
-        successMessageValidation.validateSuccessMessageText( "Department Watcher Added Successfully");
+        successMessageValidation.validateSuccessMessageText("Department Watcher Added Successfully");
         BasePopup confirmationPopup = depSetupPopup.close();
         Assert.assertTrue(confirmationPopup.isVisible(), "Confirmation popup is not visible");
         confirmationPopup.clickConfirmationButton();
@@ -231,7 +231,7 @@ public class PrendioTest extends AbstractTest {
         DepUserPopup depUserPopup = depSetupPopup.clickUsers();
         String username = depUserPopup.selectAnyUser();
         successMessageValidation.validateSuccessMessageVisible();
-        successMessageValidation.validateSuccessMessageText( "Saved Successfully");
+        successMessageValidation.validateSuccessMessageText("Saved Successfully");
         depUserPopup.clickClose();
         depSetupPopup.ensureLoaded();
         Assert.assertTrue(depUserPopup.isDisappeared(), "Popup didn't disappear");
@@ -250,7 +250,6 @@ public class PrendioTest extends AbstractTest {
     @Test(description = "Verifies receiver voucher creation", testName = "PDF File Upload and Invoice Creation Test")
     public void checkReceiverVoucherCreationTest() {
         SoftAssert softAssert = new SoftAssert();
-        SuccessMessageValidation successMessageValidation = new SuccessMessageValidation(softAssert);
         DashboardPage dashboardPage = new LoginService(getDriver()).login(USERNAME, PASSWORD);
         dashboardPage.assertPageOpened();
         ReceiverPage receiverPage = dashboardPage.clickReceiver();
@@ -265,13 +264,14 @@ public class PrendioTest extends AbstractTest {
         Assert.assertEquals(scanPage.getUploadStatusText(), "100%", "Upload status text doesn't show 100%");//TODO: soft
         ReceiverScanMatchPage matchPage = receiverPage.clickScanMatch();
         matchPage.assertPageOpened();
+        SuccessMessageValidation successMessageValidation = new SuccessMessageValidation(softAssert, matchPage);
         Assert.assertTrue(matchPage.isFirstScanItemVisible(), "First Scan item is not visible");
         matchPage.checkFirstItem();
         SlipInfo infoEntered = matchPage.fillSlipInfoRandomly();
         matchPage.clickNext();
         matchPage.ensureLoaded();
         successMessageValidation.validateSuccessMessageVisible();
-        successMessageValidation.validateSuccessMessageText( "Entry Added Successfully");
+        successMessageValidation.validateSuccessMessageText("Entry Added Successfully");
         AccountPayablePage accountPayablePage = matchPage.clickAccountsPayable();
         accountPayablePage.assertPageOpened();
         VouchersPage vouchersPage = accountPayablePage.clickVouchers();
@@ -285,13 +285,13 @@ public class PrendioTest extends AbstractTest {
     @Test(description = "Verifies user profile update", testName = "User Profile Update Test")
     public void checkUserProfileUpdateTest() {
         SoftAssert softAssert = new SoftAssert();
-        SuccessMessageValidation successMessageValidation = new SuccessMessageValidation(softAssert);
         DashboardPage dashboardPage = new LoginService(getDriver()).login(USERNAME, PASSWORD);
         dashboardPage.assertPageOpened();
         UserStatusWindow statusWindow = dashboardPage.getUserPhotoBlock().openUserStatus();
         statusWindow.assertUIObjectPresent();
         ProfilePage profilePage = statusWindow.clickViewProfileButton();
         profilePage.assertPageOpened();
+        SuccessMessageValidation successMessageValidation = new SuccessMessageValidation(softAssert, profilePage);
         UserProfileInfo filledInfo = profilePage.fillProfileInfoRandomly();
         profilePage.hoverUploadButton();
         Assert.assertTrue(profilePage.isUploadButtonVisible(), "Upload button is not visible");
@@ -303,11 +303,11 @@ public class PrendioTest extends AbstractTest {
         imageUploadPopup.ensureLoaded();
         Assert.assertTrue(imageUploadPopup.isDisappeared(), "Popup didn't disappear");
         successMessageValidation.validateSuccessMessageVisible();
-        successMessageValidation.validateSuccessMessageText( "Image Uploaded Successfully");
+        successMessageValidation.validateSuccessMessageText("Image Uploaded Successfully");
         profilePage.clickSave();
         profilePage.ensureLoaded();
         successMessageValidation.validateSuccessMessageVisible();
-        successMessageValidation.validateSuccessMessageText( "User Profile Saved.");
+        successMessageValidation.validateSuccessMessageText("User Profile Saved.");
         profilePage.refresh();
         profilePage = new ProfilePage(getDriver());
         profilePage.assertPageOpened();
@@ -324,14 +324,14 @@ public class PrendioTest extends AbstractTest {
         dashboardPage.assertPageOpened();
         BuyerPage buyerPage = dashboardPage.clickBuyer();
         BuyerSuppliersPage suppliersPage = buyerPage.clickSuppliers();
-        SuccessMessageValidation successMessageValidation = new SuccessMessageValidation(softAssert);
+        SuccessMessageValidation successMessageValidation = new SuccessMessageValidation(softAssert, suppliersPage);
         suppliersPage.assertPageOpened();
         AddSupplierPopup addSupplierPopup = suppliersPage.clickAddSupplierButton();
         Assert.assertTrue(addSupplierPopup.isVisible(), "addSupplier popup is not visible");
         SupplierInfo infoEntered = addSupplierPopup.fillInfoRandomly();
         addSupplierPopup.clickSave();
         successMessageValidation.validateSuccessMessageVisible();
-        successMessageValidation.validateSuccessMessageText( "Supplier Added Successfully");
+        successMessageValidation.validateSuccessMessageText("Supplier Added Successfully");
         addSupplierPopup.getPopupLeftMenu().clickAccountNumbers();
         Assert.assertTrue(addSupplierPopup.isAccountsSectionDisplayed(), "Account section is not displayed");
         AddAccountNumbersPopup addAccountNumbersPopup = addSupplierPopup.clickAdd();
@@ -368,8 +368,8 @@ public class PrendioTest extends AbstractTest {
         BuyerPage buyerPage = dashboardPage.clickBuyer();
         buyerPage.assertPageOpened();
         AddressesPage addressesPage = buyerPage.clickAddresses();
-        SuccessMessageValidation successMessageValidation = new SuccessMessageValidation(softAssert);
         addressesPage.assertPageOpened();
+        SuccessMessageValidation successMessageValidation = new SuccessMessageValidation(softAssert, addressesPage);
         AddressSetupPopup addressSetupPopup = addressesPage.clickAddAddress();
         Assert.assertTrue(addressSetupPopup.isVisible(), "Address Setup popup is not visible");
         AddressInfo addressInfo = addressSetupPopup.fillInfoRandomly();
@@ -403,7 +403,7 @@ public class PrendioTest extends AbstractTest {
         BuyerPage buyerPage = dashboardPage.clickBuyer();
         BuyerSuppliersPage suppliersPage = buyerPage.clickSuppliers();
         suppliersPage.assertPageOpened();
-        SuccessMessageValidation successMessageValidation = new SuccessMessageValidation(softAssert);
+        SuccessMessageValidation successMessageValidation = new SuccessMessageValidation(softAssert, suppliersPage);
         AddSupplierPopup supplierPopup = suppliersPage.clickAddSupplierButton();
         Assert.assertTrue(supplierPopup.isVisible(), "Supplier popup is not visible");
         supplierPopup.fillRequiredFieldsRandomly();

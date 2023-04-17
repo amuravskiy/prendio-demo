@@ -61,7 +61,7 @@ public class DepSetupPopup extends BasePopup {
 
     public void clickWatchers() {
         getPopupLeftMenu().clickWatchers();
-        waitUntil(ExpectedConditions.visibilityOf(watchersBlock.getElement()), EXPLICIT_TIMEOUT);
+        waitUntil(ExpectedConditions.textToBePresentInElement(watchersBlock.getElement(), "("), EXPLICIT_TIMEOUT);
     }
 
     public DepUserPopup clickUsers() {

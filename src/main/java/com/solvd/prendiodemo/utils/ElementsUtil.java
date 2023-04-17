@@ -7,7 +7,6 @@ import org.openqa.selenium.support.ui.Select;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public interface ElementsUtil {
 
@@ -24,6 +23,7 @@ public interface ElementsUtil {
 
     default void selectByIndex(ExtendedWebElement element, int index) {
         Select select = new Select(element.getElement());
+        System.out.println(select.getOptions());
         select.selectByIndex(index);
     }
 

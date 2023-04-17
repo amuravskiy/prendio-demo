@@ -1,17 +1,16 @@
 package com.solvd.prendiodemo.validation;
 
-import com.qaprosoft.carina.core.foundation.webdriver.DriverHelper;
 import com.solvd.prendiodemo.web.pages.BasePage;
 import org.testng.asserts.SoftAssert;
 
-public class SuccessMessageValidation extends DriverHelper {
+public class SuccessMessageValidation {
 
     private final SoftAssert softAssert;
     private BasePage page;
 
-    public SuccessMessageValidation(SoftAssert softAssert) {
+    public SuccessMessageValidation(SoftAssert softAssert, BasePage page) {
         this.softAssert = softAssert;
-        this.page = new BasePage(getDriver());
+        this.page = page;
     }
 
     public void validateSuccessMessageVisible() {
