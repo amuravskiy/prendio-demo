@@ -1,6 +1,7 @@
 package com.solvd.prendiodemo.web.components.buyer;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
+import com.solvd.prendiodemo.domain.SupplierInfo;
 import com.solvd.prendiodemo.web.components.BasePopup;
 import com.solvd.prendiodemo.web.components.TableEntry;
 import com.solvd.prendiodemo.web.components.accountspayable.AccountNumbersTableEntry;
@@ -9,9 +10,9 @@ import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class AddSupplierPopup extends BasePopup {
@@ -99,7 +100,7 @@ public class AddSupplierPopup extends BasePopup {
         return supplierName;
     }
 
-    public Map<String, String> fillInfoRandomly() {
+    public SupplierInfo fillInfoRandomly() {
         supplierNameField.type(RandomStringUtils.randomAlphabetic(10));
         List.of(shippingMethodSelect, prepaidFreightSelect, paymentTermsSelect, fobSelect)
                 .forEach(select -> selectByIndex(select, 1));
@@ -127,32 +128,33 @@ public class AddSupplierPopup extends BasePopup {
         return addAccountNumbersPopup;
     }
 
-    public Map<String, String> getGeneralInfo() {
-        Map<String, String> info = new HashMap<>();
-        info.put("name", getValue(supplierNameField));
-        info.put("shippingMethod", getSelectedOptionText(shippingMethodSelect));
-        info.put("repaidFreight", getSelectedOptionText(prepaidFreightSelect));
-        info.put("paymentTerms", getSelectedOptionText(paymentTermsSelect));
-        info.put("FOB", getSelectedOptionText(fobSelect));
-        info.put("email", getValue(emailField));
-        info.put("defaultServicePhone", getValue(defaultUserPhoneField).replaceAll("\\D", ""));
-        info.put("remitName", getValue(remitNameField));
-        for (int i = 0; i < addressLines.size(); i++) {
-            info.put("line" + (i + 1), getValue(addressLines.get(i)));
-        }
-        info.put("city", getValue(cityField));
-        info.put("state", getValue(stateField));
-        info.put("zip", getValue(zipCodeField));
-        info.put("notes", getValue(notesField));
+    public SupplierInfo getGeneralInfo() {
+        SupplierInfo info = SupplierInfo.builder()
+                .name(getValue(supplierNameField))
+                .shippingMethod(getSelectedOptionText(shippingMethodSelect))
+                .prepaidFreight(getSelectedOptionText(prepaidFreightSelect))
+                .paymentTerms(getSelectedOptionText(paymentTermsSelect))
+                .fob(getSelectedOptionText(fobSelect))
+                .email(getValue(emailField))
+                .defaultServicePhone(getValue(defaultUserPhoneField).replaceAll("\\D", ""))
+                .remitName(getValue(remitNameField))
+                .city(getValue(cityField))
+                .zip(getValue(zipCodeField))
+                .state(getValue(stateField))
+                .notes(getValue(notesField))
+                .addressLines(IntStream.range(1, addressLines.size() + 2)
+                        .mapToObj(i -> getValue(addressLines.get(i)))
+                        .collect(Collectors.toList()))
+                .build();
         return info;
     }
 
-    public Map<String, String> getFullInfo() {
-        Map<String, String> info = getGeneralInfo();
+    public SupplierInfo getFullInfo() {
+        SupplierInfo info = getGeneralInfo();
         getPopupLeftMenu().clickAccountNumbers();
         firstAccountNumberTableEntry.waitToBeClickable();
-        info.put("shipToLine2", firstAccountNumberTableEntry.getShipToAddress().split(",")[0]);
-        info.put("accountNumber", firstAccountNumberTableEntry.getAccountNumber());
+        info.setShipToLine2(firstAccountNumberTableEntry.getShipToAddress().split(",")[0]);
+        info.setAccountNumber(firstAccountNumberTableEntry.getAccountNumber());
         return info;
     }
 

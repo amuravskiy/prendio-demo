@@ -58,12 +58,12 @@ public class SearchResultsItemEntry extends AbstractUIObject {
     }
 
     public ItemContents getItemContents() {
-        return new ItemContents.ItemContentsBuilder()
-                .setItemNumber(itemNumber.getText().replace("Supplier Part#", "").trim())
-                .setSupplier(supplierText.getText())
-                .setTitle(itemTitle.getText())
-                .setCurrencyType(currencyTypeText.getText().replaceAll("[^a-zA-Z]", ""))
-                .setPrice(priceContainer.getAttribute("cprice").replace("NA", "0.00"))
+        return ItemContents.builder()
+                .itemNumber(itemNumber.getText().replace("Supplier Part#", "").trim())
+                .supplier(supplierText.getText())
+                .title(itemTitle.getText())
+                .currencyType(currencyTypeText.getText().replaceAll("[^a-zA-Z]", ""))
+                .price(priceContainer.getAttribute("cprice").replace("NA", "0.00"))
                 .build();
     }
 }

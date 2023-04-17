@@ -110,22 +110,22 @@ public class ProfilePage extends BasePage {
 
     public UserProfileInfo fillProfileInfoRandomly() {
         Pair<String, String> dates = fillOutOfOffice();
-        return new UserProfileInfo.Builder()
-                .setTitle(fillTitleRandomly())
-                .setPhoneNumber(fillPhoneNumberRandomly())
-                .setCarrier(selectOtherCarrier())
-                .setStartDate(dates.getLeft())
-                .setEndDate(dates.getRight())
+        return UserProfileInfo.builder()
+                .title(fillTitleRandomly())
+                .phoneNumber(fillPhoneNumberRandomly())
+                .carrier(selectOtherCarrier())
+                .startDate(dates.getLeft())
+                .endDate(dates.getRight())
                 .build();
     }
 
     public UserProfileInfo getProfileInfo() {
-        return new UserProfileInfo.Builder()
-                .setTitle(getValue(titleField))
-                .setPhoneNumber(getValue(phoneNumberField))
-                .setCarrier(getSelectedOptionText(carrierSelect))
-                .setStartDate(DateUtil.formatDateProfile(getValue(startDateInput)))
-                .setEndDate(DateUtil.formatDateProfile(getValue(endDateInput)))
+        return UserProfileInfo.builder()
+                .title(getValue(titleField))
+                .phoneNumber(getValue(phoneNumberField))
+                .carrier(getSelectedOptionText(carrierSelect))
+                .startDate(DateUtil.formatDateProfile(getValue(startDateInput)))
+                .endDate(DateUtil.formatDateProfile(getValue(endDateInput)))
                 .build();
     }
 

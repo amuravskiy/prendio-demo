@@ -1,7 +1,7 @@
 package com.solvd.prendiodemo.web.components.accountspayable;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
-import com.solvd.prendiodemo.domain.DepInfo;
+import com.solvd.prendiodemo.domain.DepartmentInfo;
 import com.solvd.prendiodemo.domain.WatcherInfo;
 import com.solvd.prendiodemo.web.components.BasePopup;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -52,14 +52,11 @@ public class DepSetupPopup extends BasePopup {
         super(driver, searchContext);
     }
 
-    public DepInfo fillFieldsRandomly() {
-        DepInfo depInfo = new DepInfo(RandomStringUtils.randomAlphabetic(10),
-                RandomStringUtils.randomAlphabetic(20),
-                RandomStringUtils.randomAlphabetic(30));
-        depNameField.type(depInfo.getName());
-        depDescField.type(depInfo.getDesc());
-        depNotesField.type(depInfo.getNotes());
-        return depInfo;
+    public DepartmentInfo fillFieldsRandomly() {
+        depNameField.type(RandomStringUtils.randomAlphabetic(10));
+        depDescField.type(RandomStringUtils.randomAlphabetic(20));
+        depNotesField.type(RandomStringUtils.randomAlphabetic(30));
+        return getInfo();
     }
 
     public void clickWatchers() {
@@ -96,14 +93,19 @@ public class DepSetupPopup extends BasePopup {
     }
 
 
-    public DepInfo getInfo() {
-        return new DepInfo(getValue(depNameField),
-                getValue(depDescField),
-                getValue(depNotesField));
+    public DepartmentInfo getInfo() {
+        return DepartmentInfo.builder()
+                .name(getValue(depNameField))
+                .description(getValue(depDescField))
+                .notes(getValue(depNotesField))
+                .build();
     }
 
     public WatcherInfo getWatcherInfo() {
         String watcherNotifyAt = firstWatcher.getWatcherNotifyAt().replace(".00", "").replace(",", "");
-        return new WatcherInfo(firstWatcher.getWatcherName(), watcherNotifyAt);
+        return WatcherInfo.builder()
+                .watcherName(firstWatcher.getWatcherName())
+                .notifyAt(watcherNotifyAt)
+                .build();
     }
 }

@@ -60,12 +60,12 @@ public class ReceiverScanMatchPage extends ReceiverPage {
     }
 
     public SlipInfo fillSlipInfoRandomly() {
-        SlipInfo info = new SlipInfo.SlipInfoBuilder()
-                .setRecDate(DateUtil.getCurrentDateScanMatch())
-                .setInvoiceNumber(String.valueOf(RandomUtils.nextInt(1, 10_000)))
-                .setInvDate(DateUtil.getCurrentDateScanMatch())
-                .setInvoiceAmount(String.valueOf(RandomUtils.nextInt(1, 10_000)))
-                .setDay(DateUtil.getDayOfTheMonth())
+        SlipInfo info = SlipInfo.builder()
+                .recDate(DateUtil.getCurrentDateScanMatch())
+                .invoiceNumber(String.valueOf(RandomUtils.nextInt(1, 10_000)))
+                .invDate(DateUtil.getCurrentDateScanMatch())
+                .invoiceAmount(String.valueOf(RandomUtils.nextInt(1, 10_000)))
+                .day(DateUtil.getDayOfTheMonth())
                 .build();
         fillWith(info);
         return info;

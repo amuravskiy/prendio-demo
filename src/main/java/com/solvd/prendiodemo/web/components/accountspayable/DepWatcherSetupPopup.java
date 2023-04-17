@@ -25,7 +25,10 @@ public class DepWatcherSetupPopup extends BasePopup {
 
     public WatcherInfo selectFirstWatcher() {
         selectByIndex(watcherSelect, 1);
-        WatcherInfo watcherInfo = new WatcherInfo(watcherSelect.getSelectedValue(), String.valueOf(RandomUtils.nextInt(2, 10000)));
+        WatcherInfo watcherInfo = WatcherInfo.builder()
+                .watcherName(watcherSelect.getSelectedValue())
+                .notifyAt(String.valueOf(RandomUtils.nextInt(2, 10000)))
+                .build();
         notifyAtField.type(watcherInfo.getNotifyAt());
         return watcherInfo;
     }

@@ -41,14 +41,14 @@ public class CartItem extends AbstractUIObject implements ElementsUtil {
     }
 
     public ItemContents getItemContents() {
-        return new ItemContents.ItemContentsBuilder()
-                .setItemNumber(partNumber.getText())
-                .setTitle(partDesc.getText())
-                .setCurrencyType(getSelectedOptionText(currencySelect).replaceAll("[^a-zA-Z]", ""))
-                .setPrice(totalPrice.getText().replace("NA", "0.00"))
-                .setDepartment(getSelectedOptionText(department))
-                .setGlAccount(getSelectedOptionText(glAccount))
-                .setProject(getSelectedOptionText(project))
+        return ItemContents.builder()
+                .itemNumber(partNumber.getText())
+                .title(partDesc.getText())
+                .currencyType(getSelectedOptionText(currencySelect).replaceAll("[^a-zA-Z]", ""))
+                .price(totalPrice.getText().replace("NA", "0.00"))
+                .department(getSelectedOptionText(department))
+                .glAccount(getSelectedOptionText(glAccount))
+                .project(getSelectedOptionText(project))
                 .build();
     }
 
