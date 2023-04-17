@@ -2,9 +2,9 @@ package com.solvd.prendiodemo.web.components.buyer;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractUIObject;
+import com.solvd.prendiodemo.domain.ItemSpec;
 import com.solvd.prendiodemo.utils.ElementsUtil;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
@@ -33,10 +33,10 @@ public class SpecificationsSection extends AbstractUIObject implements ElementsU
         return materials.size();
     }
 
-    public List<ImmutablePair<String, String>> getSpecs() {
+    public List<ItemSpec> getSpecs() {
         return IntStream.range(0, materials.size())
                 .filter(i -> !getValue(materials.get(i)).isBlank())
-                .mapToObj(i -> ImmutablePair.of(getValue(materials.get(i)), getValue(materialValues.get(i))))
+                .mapToObj(i -> new ItemSpec(getValue(materials.get(i)), getValue(materialValues.get(i))))
                 .collect(Collectors.toList());
     }
 

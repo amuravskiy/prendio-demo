@@ -1,6 +1,7 @@
 package com.solvd.prendiodemo.web.components.buyer;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
+import com.solvd.prendiodemo.domain.SupplierItemInfo;
 import com.solvd.prendiodemo.web.components.BasePopup;
 import com.solvd.prendiodemo.web.components.accountspayable.SafetyDetail;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -9,8 +10,6 @@ import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.stream.Stream;
 
 public class AddSupplierItemPopup extends BasePopup {
@@ -64,7 +63,7 @@ public class AddSupplierItemPopup extends BasePopup {
         super(driver, searchContext);
     }
 
-    public Map<String, String> fillInfoRandomly() {
+    public SupplierItemInfo fillInfoRandomly() {
         Stream.of(supplierPartField, descField, deprecatedPartField, manufacturerField, manufactNumberField, notesField, casNumberField)
                 .forEach(field -> field.type(RandomStringUtils.randomAlphabetic(15)));
         copyDownButton.click();
@@ -75,24 +74,22 @@ public class AddSupplierItemPopup extends BasePopup {
         return getInfo();
     }
 
-    public Map<String, String> getInfo() {
-        //TODO: to validator
-        Map<String, String> info = new HashMap<>();
-        info.put("supplierPart", getValue(supplierPartField));
-        info.put("desc", getValue(descField));
-        info.put("genericDesc", getValue(genericDesc));
-        info.put("deprecatedPart", getValue(deprecatedPartField));
-        info.put("manufacturer", getValue(manufacturerField));
-        info.put("manufactNumber", getValue(manufactNumberField));
-        info.put("notes", getValue(notesField));
-        info.put("status", getSelectedOptionText(statusSelect));
-        String safetyCheckboxesChecked = safetyDetail.getCheckboxesChecked();
-        info.put("safetyCheckboxesChecked", safetyCheckboxesChecked);
-        info.put("cas", getValue(casNumberField));
-        info.put("unit", getSelectedOptionText(unitSelect));
-        info.put("qtyEach", getValue(qtyEachField));
-        specificationsSection.getSpecs().forEach(pair -> info.put(pair.left, pair.right));
-        return info;
+    public SupplierItemInfo getInfo() {
+        return SupplierItemInfo.builder()
+                .supplierPart(getValue(supplierPartField))
+                .desc(getValue(descField))
+                .genericDesc(getValue(genericDesc))
+                .deprecatedPart(getValue(deprecatedPartField))
+                .manufacturer(getValue(manufacturerField))
+                .manufactNumber(getValue(manufactNumberField))
+                .notes(getValue(notesField)).
+                status(getSelectedOptionText(statusSelect)).
+                safetyCheckboxesChecked(safetyDetail.getCheckboxesChecked())
+                .cas(getValue(casNumberField))
+                .unit(getSelectedOptionText(unitSelect))
+                .qtyEach(getValue(qtyEachField))
+                .specs(specificationsSection.getSpecs())
+                .build();
     }
 
     public void clickAddSpec() {

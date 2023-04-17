@@ -29,7 +29,6 @@ import org.testng.asserts.SoftAssert;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -374,7 +373,7 @@ public class PrendioTest extends AbstractTest {
         addressesPage.assertPageOpened();
         AddressSetupPopup addressSetupPopup = addressesPage.clickAddAddress();
         Assert.assertTrue(addressSetupPopup.isVisible(), "Address Setup popup is not visible");
-        Map<String, String> addressInfo = addressSetupPopup.fillInfoRandomly();
+        AddressInfo addressInfo = addressSetupPopup.fillInfoRandomly();
         addressSetupPopup.clickSave();
         successMessageValidation.validateSuccessMessageVisible(addressesPage.isSuccessMessageVisible());
         successMessageValidation.validateSuccessMessageText(addressesPage.getSuccessMessageText(), "Saved Successfully");
@@ -387,8 +386,9 @@ public class PrendioTest extends AbstractTest {
         addressSetupPopup.clickClose();
         addressSetupPopup.ensureLoaded();
         Assert.assertTrue(addressSetupPopup.isDisappeared(), "Popup didn't disappear");
-        addressesPage = addressesPage.search(addressInfo.get("line1"));
-        Assert.assertTrue(addressesPage.isAddressFound(addressInfo.get("line1")), "Address not found");
+        String addressLine1 = addressInfo.getAddressLines().get(0);
+        addressesPage = addressesPage.search(addressLine1);
+        Assert.assertTrue(addressesPage.isAddressFound(addressLine1), "Address not found");
         addressSetupPopup = addressesPage.editFirstAddress();
         Assert.assertTrue(addressSetupPopup.isVisible(), "Address Setup popup is not visible");
         Assert.assertEquals(addressSetupPopup.getInfo(), addressInfo);
@@ -418,8 +418,8 @@ public class PrendioTest extends AbstractTest {
         AddSupplierItemPopup itemPopup = catalogItemsPopup.clickAddItem();
         catalogItemsPopup.ensureLoaded();
         Assert.assertTrue(itemPopup.isVisible(), "Add Supplier Item popup is not visible");
-        Map<String, String> infoEntered = itemPopup.fillInfoRandomly();
-        Assert.assertEquals(infoEntered.get("genericDesc"), infoEntered.get("desc"), "Description is not copied");
+        SupplierItemInfo infoEntered = itemPopup.fillInfoRandomly();
+        Assert.assertEquals(infoEntered.getGenericDesc(), infoEntered.getDesc(), "Description is not copied");
         itemPopup.clickAddSpec();
         Assert.assertTrue(itemPopup.getSpecListSize() > 1, "Spec number has not increased");
         itemPopup.clickSave();
@@ -432,7 +432,7 @@ public class PrendioTest extends AbstractTest {
         itemPopup = supplierPopup.clickOnAddedItemEdit();
         itemPopup.ensureLoaded();
         Assert.assertTrue(itemPopup.isVisible(), "Edit Supplier Item popup is not visible");
-        Map<String, String> infoRead = itemPopup.getInfo();
+        SupplierItemInfo infoRead = itemPopup.getInfo();
         Assert.assertEquals(infoRead, infoEntered);
         softAssert.assertAll();
     }
