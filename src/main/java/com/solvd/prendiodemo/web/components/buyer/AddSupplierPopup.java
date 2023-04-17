@@ -63,7 +63,7 @@ public class AddSupplierPopup extends BasePopup {
     @FindBy(id = "addaccount")
     private ExtendedWebElement addAccountButton;
 
-    @FindBy(xpath = "//div[h2[text()='Add Account Numbers']]")
+    @FindBy(xpath = "//div[contains(@class, 'addAccountpopup')]")
     private AddAccountNumbersPopup addAccountNumbersPopup;
 
     @FindBy(xpath = "//table[@id='tblaccount']//tbody//tr[1]")

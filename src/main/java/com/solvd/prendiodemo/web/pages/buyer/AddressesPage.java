@@ -17,7 +17,7 @@ public class AddressesPage extends BasePage {
     @FindBy(id = "Add_Address")
     private ExtendedWebElement addAddressButton;
 
-    @FindBy(xpath = "//div[h2[text()='Address Setup']]")
+    @FindBy(xpath = "//div[@id='popupform' and contains(@class, 'addresstpopup')]")
     private AddressSetupPopup addressSetupPopup;
 
     @FindBy(xpath = "//div[@id='divaddresses']")

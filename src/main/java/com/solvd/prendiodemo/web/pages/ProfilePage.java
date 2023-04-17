@@ -49,7 +49,7 @@ public class ProfilePage extends BasePage {
     @FindBy(id = "enddate")
     private ExtendedWebElement endDateInput;
 
-    @FindBy(xpath = "//div[@id='popupform' and child::h2[text()='Edit Profile Photo']]")
+    @FindBy(xpath = "//div[@id='popupform' and contains(@class, 'editprofilephoto')]")
     private ImageUploadPopup imageUploadPopup;
 
     public ProfilePage(WebDriver driver) {

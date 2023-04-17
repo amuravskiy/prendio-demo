@@ -33,13 +33,13 @@ public class DepSetupPopup extends BasePopup {
     @FindBy(xpath = "//div[@id='divdeptWatcher']//td[@class='tdempty']")
     private ExtendedWebElement emptyWatchersTableMarker;
 
-    @FindBy(xpath = "//div[h2[text()='Department Watcher Setup']]")
+    @FindBy(xpath = "//div[@id='popupform1' and contains(@class, 'addprowatcherpopup')]")
     private DepWatcherSetupPopup depWatcherSetupPopup;
 
     @FindBy(xpath = "//table[@id='tbldeptwatcher']/tbody/tr")
     private WatchersTableEntry firstWatcher;
 
-    @FindBy(xpath = "//div[h2[text()='CONFIRMATION']]")
+    @FindBy(id = "autoconfirm")
     private BasePopup confirmationPopup;
 
     @FindBy(id = "SaveDepartment")

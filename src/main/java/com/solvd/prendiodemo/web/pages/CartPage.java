@@ -21,10 +21,10 @@ public class CartPage extends BasePage {
     @FindBy(xpath = "//div[@id='btmCartDiv']//div[@id='btncopycart']")
     private ExtendedWebElement duplicateCartButton;
 
-    @FindBy(xpath = "//div[@id='popupform' and //child::input[@value='Ok']]")
+    @FindBy(xpath = "//div[@id='popupform' and //div[@class='message_information']]")
     private BasePopup okPopup;
 
-    @FindBy(xpath = "//div[@id='popupform' and h2[text()='CONFIRMATION']]")
+    @FindBy(xpath = "//div[@id='popupform' and //div[@class='message_confirmation']]")
     private BasePopup confirmationPopup;
 
     @FindBy(id = "lnkChangeAddress")
@@ -33,7 +33,7 @@ public class CartPage extends BasePage {
     @FindBy(id = "divShipToAddress")
     private ExtendedWebElement shipToAddressText;
 
-    @FindBy(xpath = "//div[@id='popupform' and h2[text()='Ship To Address List']]")
+    @FindBy(xpath = "//div[@id='popupform' and contains(@class,'shippintolistpopup')]")
     private ShipToPopup shipToPopup;
 
     @FindBy(id = "ddDeptOrderType")
@@ -63,7 +63,7 @@ public class CartPage extends BasePage {
     @FindBy(xpath = "//div[@id='allavailablecart']//div[@id='btnSubmitCart']")
     private ExtendedWebElement submitCartButton;
 
-    @FindBy(xpath = "//div[@id='popupform' and h2[text()='Requisition  Approval']]")
+    @FindBy(xpath = "//div[@id='popupform' and //div[@id='divorderList']]")
     private BasePopup requisitionApprovalPopup;
 
     @FindBy(xpath = "//div[@id='divCatLogList']")

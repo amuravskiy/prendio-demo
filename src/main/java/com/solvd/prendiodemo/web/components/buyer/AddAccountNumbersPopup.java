@@ -18,7 +18,7 @@ public class AddAccountNumbersPopup extends BasePopup {
     @FindBy(id = "SaveAccount")
     private ExtendedWebElement saveButton;
 
-    @FindBy(xpath = "..//div[h2[text()='Default Ship To Address']]")
+    @FindBy(xpath = "..//div[@id='popupform3' and //*[text()='City']]")
     private AddressPopup addressPopup;
 
     public AddAccountNumbersPopup(WebDriver driver, SearchContext searchContext) {

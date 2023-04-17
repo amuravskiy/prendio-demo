@@ -89,12 +89,12 @@ public class PrendioTest extends AbstractTest {
         String currentDateFormatted = ADD_SUPPLIER_DATE_FORMAT.format(Instant.now());
         Matcher trailFullNameMatcher = Pattern.compile(TRAIL_FULL_NAME_REGEX).matcher(trailRecordText);
         Matcher trailDateMatcher = Pattern.compile(TRAIL_DATE_REGEX).matcher(trailRecordText);
-        Assert.assertTrue(trailDateMatcher.find(), "Date is not found in trail text");
-        Assert.assertTrue(trailFullNameMatcher.find(), "Full name is not found in trail text");
+        softAssert.assertTrue(trailDateMatcher.find(), "Date is not found in trail text");
+        softAssert.assertTrue(trailFullNameMatcher.find(), "Full name is not found in trail text");
         String trailDate = trailDateMatcher.group(1);
         String trailFullName = trailFullNameMatcher.group(1);
-        Assert.assertEquals(trailDate, currentDateFormatted, "Trail date is not equal to current date");
-        Assert.assertEquals(trailFullName, fullName, "Trail full name is not equal to current user full name");
+        softAssert.assertEquals(trailDate, currentDateFormatted, "Trail date is not equal to current date");
+        softAssert.assertEquals(trailFullName, fullName, "Trail full name is not equal to current user full name");
         softAssert.assertAll();
     }
 
@@ -150,13 +150,14 @@ public class PrendioTest extends AbstractTest {
     @Test(description = "Verifies cart order creation", testName = "Cart Using Catalog Test")
     public void checkCartUsingCatalogTest() {
         final int index = 0;
+        SoftAssert softAssert = new SoftAssert();
         DashboardPage dashboardPage = new LoginService(getDriver()).login(USERNAME, PASSWORD);
         dashboardPage.assertPageOpened();
         SearchResultPage searchResultPage = dashboardPage.searchCatalog(CATALOG_QUERY);
         searchResultPage.assertPageOpened();
         Assert.assertTrue(searchResultPage.isRetrieved(), "Retrieving has not ended in retrieving timeout");
         Assert.assertTrue(searchResultPage.isItemsDisplayed(), "Items not found");
-        Assert.assertTrue(searchResultPage.isAllItemTitlesContainQuery(CATALOG_QUERY), "Not all items contain query string in their title");
+        softAssert.assertTrue(searchResultPage.isAllItemTitlesContainQuery(CATALOG_QUERY), "Not all items contain query string in their title");
         ItemContents itemContents = searchResultPage.getItemContents(index);
         searchResultPage.clickAddToCart(index);
         Assert.assertTrue(searchResultPage.isCreateNewCartButtonDisplayed(index), "Create new cart button is not displayed");
@@ -164,7 +165,7 @@ public class PrendioTest extends AbstractTest {
         CartPage cartPage = searchResultPage.clickCreateNewCart(index);
         cartPage.assertPageOpened();
         ItemContents itemContentsInCart = cartPage.getFirstItemContents();
-        Assert.assertEquals(itemContentsInCart, itemContents, "Item contents not equal to what was on the results page");
+        softAssert.assertEquals(itemContentsInCart, itemContents, "Item contents not equal to what was on the results page");
         ShipToPopup shipToPopup = cartPage.clickShipToButton();
         Assert.assertTrue(shipToPopup.isVisible(), "Ship To popup is not visible");
         String line1 = shipToPopup.chooseShipToAddress(0);
@@ -185,6 +186,7 @@ public class PrendioTest extends AbstractTest {
         dashboardPage = cartPage.clickSubmitReqApproval();
         dashboardPage.assertPageOpened();
         Assert.assertTrue(dashboardPage.getOrderPreviewsCartName(0).contains(cartId), "Cart id is not found in first order");
+        softAssert.assertAll();
     }
 
     @MethodOwner(owner = "Andrew Nazarenko")
@@ -213,8 +215,8 @@ public class PrendioTest extends AbstractTest {
         String expectedName = ("Department Setup - " + infoEntered.getName()).toLowerCase();
         Assert.assertEquals(depSetupPopup.getHeaderText().toLowerCase(), expectedName, "Department Setup popup department name not found");
         depSetupPopup.clickWatchers();
-        Assert.assertTrue(depSetupPopup.getWatchersText().contains("0"), "Watchers info doesn't show 0 watchers");//TODO: soft
-        Assert.assertTrue(depSetupPopup.isWatchersTableEmpty(), "Watcher table is not empty");
+        softAssert.assertTrue(depSetupPopup.getWatchersText().contains("0"), "Watchers info doesn't show 0 watchers");
+        softAssert.assertTrue(depSetupPopup.isWatchersTableEmpty(), "Watcher table is not empty");
         DepWatcherSetupPopup depWatcherSetupPopup = depSetupPopup.clickAddWatcher();
         Assert.assertTrue(depWatcherSetupPopup.isVisible(), "Department Watcher Setup popup is not visible");
         WatcherInfo watcherInfoEntered = depWatcherSetupPopup.selectFirstWatcher();
@@ -257,11 +259,11 @@ public class PrendioTest extends AbstractTest {
         ReceiverScanPage scanPage = receiverPage.clickScan();
         scanPage.assertPageOpened();
         scanPage.addUploadFile();
-        Assert.assertTrue(scanPage.isIconVisible(), "Icon of the uploaded file is not visible");
+        softAssert.assertTrue(scanPage.isIconVisible(), "Icon of the uploaded file is not visible");
         scanPage.clickUpload();
-        Assert.assertTrue(scanPage.isProgressBarVisible(), "Progress bar is not visible");
-        Assert.assertTrue(scanPage.isProgressBarDisappeared(), "Progress did not disappear");
-        Assert.assertEquals(scanPage.getUploadStatusText(), "100%", "Upload status text doesn't show 100%");//TODO: soft
+        softAssert.assertTrue(scanPage.isProgressBarVisible(), "Progress bar is not visible");
+        softAssert.assertTrue(scanPage.isProgressBarDisappeared(), "Progress did not disappear");
+        softAssert.assertEquals(scanPage.getUploadStatusText(), "100%", "Upload status text doesn't show 100%");
         ReceiverScanMatchPage matchPage = receiverPage.clickScanMatch();
         matchPage.assertPageOpened();
         SuccessMessageValidation successMessageValidation = new SuccessMessageValidation(softAssert, matchPage);
@@ -298,7 +300,7 @@ public class PrendioTest extends AbstractTest {
         ImageUploadPopup imageUploadPopup = profilePage.clickUploadButton();
         Assert.assertTrue(imageUploadPopup.isVisible(), "Image Upload popup is not visible");
         imageUploadPopup.attachSamplePhoto();
-        Assert.assertTrue(imageUploadPopup.isImageAppeared(), "Image didn't appear");
+        softAssert.assertTrue(imageUploadPopup.isImageAppeared(), "Image didn't appear");
         imageUploadPopup.clickUpload();
         imageUploadPopup.ensureLoaded();
         Assert.assertTrue(imageUploadPopup.isDisappeared(), "Popup didn't disappear");
@@ -308,7 +310,7 @@ public class PrendioTest extends AbstractTest {
         profilePage.ensureLoaded();
         successMessageValidation.validateSuccessMessageVisible();
         successMessageValidation.validateSuccessMessageText("User Profile Saved.");
-        profilePage.refresh();
+        getDriver().navigate().refresh();
         profilePage = new ProfilePage(getDriver());
         profilePage.assertPageOpened();
         Assert.assertEquals(profilePage.getProfileInfo(), filledInfo, "Profile info not as entered");
@@ -381,7 +383,7 @@ public class PrendioTest extends AbstractTest {
         Assert.assertTrue(addressSetupPopup.isUserSectionVisible(), "User section is not visible");
         addressSetupPopup.ensureLoaded();
         addressSetupPopup.checkAllDefault();
-        Assert.assertTrue(addressSetupPopup.isAllDefaultActive(), "Not all checkboxes checked");
+        softAssert.assertTrue(addressSetupPopup.isAllDefaultActive(), "Not all checkboxes checked");
         addressSetupPopup.clickClose();
         addressSetupPopup.ensureLoaded();
         Assert.assertTrue(addressSetupPopup.isDisappeared(), "Popup didn't disappear");
@@ -418,7 +420,7 @@ public class PrendioTest extends AbstractTest {
         catalogItemsPopup.ensureLoaded();
         Assert.assertTrue(itemPopup.isVisible(), "Add Supplier Item popup is not visible");
         SupplierItemInfo infoEntered = itemPopup.fillInfoRandomly();
-        Assert.assertEquals(infoEntered.getGenericDesc(), infoEntered.getDesc(), "Description is not copied");
+        softAssert.assertEquals(infoEntered.getGenericDesc(), infoEntered.getDesc(), "Description is not copied");
         itemPopup.clickAddSpec();
         Assert.assertTrue(itemPopup.getSpecListSize() > 1, "Spec number has not increased");
         itemPopup.clickSave();

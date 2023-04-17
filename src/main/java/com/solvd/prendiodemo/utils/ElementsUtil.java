@@ -23,7 +23,6 @@ public interface ElementsUtil {
 
     default void selectByIndex(ExtendedWebElement element, int index) {
         Select select = new Select(element.getElement());
-        System.out.println(select.getOptions());
         select.selectByIndex(index);
     }
 
