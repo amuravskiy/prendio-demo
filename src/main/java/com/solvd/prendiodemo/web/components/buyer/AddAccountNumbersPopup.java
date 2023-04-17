@@ -31,7 +31,7 @@ public class AddAccountNumbersPopup extends BasePopup {
     }
 
     public String fillAccountNumberRandomly() {
-        String accNum = String.valueOf(RandomUtils.nextInt(1, 10_000));
+        String accNum = String.valueOf(RandomUtils.nextInt(10, 10_000));
         accountNumberField.type(accNum);
         return accNum;
     }

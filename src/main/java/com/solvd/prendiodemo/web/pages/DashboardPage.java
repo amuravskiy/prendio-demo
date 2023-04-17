@@ -8,6 +8,9 @@ import org.openqa.selenium.support.FindBy;
 
 public class DashboardPage extends BasePage {
 
+    @FindBy(xpath = "//table[@id='tbltoporder']/tbody/tr[1]")
+    private ExtendedWebElement loadedMarker;
+
     @FindBy(id = "tbltoporder")
     private OrdersTable ordersTable;
 
@@ -16,7 +19,7 @@ public class DashboardPage extends BasePage {
 
     public DashboardPage(WebDriver driver) {
         super(driver);
-        setUiLoadedMarker(ordersTable.getRootExtendedElement());
+        setUiLoadedMarker(loadedMarker);
         setPageOpeningStrategy(PageOpeningStrategy.BY_ELEMENT);
     }
 

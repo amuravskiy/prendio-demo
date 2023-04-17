@@ -103,6 +103,7 @@ public class PrendioTest extends AbstractTest {
     public void checkCartTemplateTest() {
         SoftAssert softAssert = new SoftAssert();
         DashboardPage dashboardPage = new LoginService(getDriver()).login(USERNAME, PASSWORD);
+        dashboardPage.assertPageOpened();
         AllCartsPage allCartsPage = dashboardPage.clickViewAllCarts();
         allCartsPage.assertPageOpened();
         allCartsPage = allCartsPage.search(TEMPLATE_CART_NAME);
