@@ -36,8 +36,7 @@ public interface ElementsUtil {
     }
 
     default List<String> getAddressLines(List<ExtendedWebElement> addressLines) {
-        return IntStream.range(1, addressLines.size() + 1)
-                .mapToObj(i -> getValue(addressLines.get(i)))
+        return addressLines.stream().map(this::getValue)
                 .collect(Collectors.toList());
     }
 }
