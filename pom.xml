@@ -15,6 +15,7 @@
         <byte-buddy.version>1.12.10</byte-buddy.version>
         <mybatis.version>3.5.13</mybatis.version>
         <postgresql.version>42.6.0</postgresql.version>
+        <lombok.version>1.18.26</lombok.version>
         <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
         <maven-dependency-plugin.version>3.5.0</maven-dependency-plugin.version>
         <maven-surefire-plugin.version>3.0.0</maven-surefire-plugin.version>
@@ -58,7 +59,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.26</version>
+            <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

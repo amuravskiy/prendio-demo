@@ -6,6 +6,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public interface ElementsUtil {
 
@@ -31,6 +33,12 @@ public interface ElementsUtil {
                 .findFirst()
                 .orElseThrow()
                 .getText();
+    }
+
+    default List<String> getAddressLines(List<ExtendedWebElement> addressLines) {
+        return IntStream.range(1, addressLines.size() + 1)
+                .mapToObj(i -> getValue(addressLines.get(i)))
+                .collect(Collectors.toList());
     }
 }
 

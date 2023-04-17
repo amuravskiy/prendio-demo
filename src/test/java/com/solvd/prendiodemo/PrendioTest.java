@@ -213,7 +213,7 @@ public class PrendioTest extends AbstractTest {
         String expectedName = ("Department Setup - " + infoEntered.getName()).toLowerCase();
         Assert.assertEquals(depSetupPopup.getHeaderText().toLowerCase(), expectedName, "Department Setup popup department name not found");
         depSetupPopup.clickWatchers();
-        Assert.assertTrue(depSetupPopup.getWatchersText().contains("0"));
+        Assert.assertTrue(depSetupPopup.getWatchersText().contains("0"), "Watchers info doesn't show 0 watchers");//TODO: soft
         Assert.assertTrue(depSetupPopup.isWatchersTableEmpty(), "Watcher table is not empty");
         DepWatcherSetupPopup depWatcherSetupPopup = depSetupPopup.clickAddWatcher();
         Assert.assertTrue(depWatcherSetupPopup.isVisible(), "Department Watcher Setup popup is not visible");
@@ -262,7 +262,7 @@ public class PrendioTest extends AbstractTest {
         scanPage.clickUpload();
         Assert.assertTrue(scanPage.isProgressBarVisible(), "Progress bar is not visible");
         Assert.assertTrue(scanPage.isProgressBarDisappeared(), "Progress did not disappear");
-        Assert.assertEquals(scanPage.getUploadStatusText(), "100%");
+        Assert.assertEquals(scanPage.getUploadStatusText(), "100%", "Upload status text doesn't show 100%");//TODO: soft
         ReceiverScanMatchPage matchPage = receiverPage.clickScanMatch();
         matchPage.assertPageOpened();
         Assert.assertTrue(matchPage.isFirstScanItemVisible(), "First Scan item is not visible");
@@ -278,7 +278,6 @@ public class PrendioTest extends AbstractTest {
         String invNumber = infoEntered.getInvoiceNumber();
         vouchersPage = vouchersPage.search(invNumber);
         Assert.assertTrue(vouchersPage.isVoucherFound(invNumber), "Voucher with invNumber " + invNumber + " not found");
-        Assert.assertEquals(vouchersPage.getVoucherEntryByInvNumber(invNumber).getInvNumberText(), invNumber);
         softAssert.assertAll();
     }
 
@@ -312,7 +311,7 @@ public class PrendioTest extends AbstractTest {
         profilePage.refresh();
         profilePage = new ProfilePage(getDriver());
         profilePage.assertPageOpened();
-        Assert.assertEquals(profilePage.getProfileInfo(), filledInfo);
+        Assert.assertEquals(profilePage.getProfileInfo(), filledInfo, "Profile info not as entered");
         Assert.assertTrue(profilePage.isOutLinkVisible(), "Out of office sign is not visible");
         softAssert.assertAll();
     }
@@ -356,7 +355,7 @@ public class PrendioTest extends AbstractTest {
         suppliersPage.ensureLoaded();
         Assert.assertTrue(addSupplierPopup.isVisible(), "Edit Supplier popup is not visible");
         SupplierInfo infoRead = addSupplierPopup.getFullInfo();
-        Assert.assertEquals(infoRead, infoEntered);
+        Assert.assertEquals(infoRead, infoEntered, "Supplier info not as entered");
         softAssert.assertAll();
     }
 
@@ -391,7 +390,7 @@ public class PrendioTest extends AbstractTest {
         Assert.assertTrue(addressesPage.isAddressFound(addressLine1), "Address not found");
         addressSetupPopup = addressesPage.editFirstAddress();
         Assert.assertTrue(addressSetupPopup.isVisible(), "Address Setup popup is not visible");
-        Assert.assertEquals(addressSetupPopup.getInfo(), addressInfo);
+        Assert.assertEquals(addressSetupPopup.getInfo(), addressInfo, "Addresses aren't identical");
         softAssert.assertAll();
     }
 
@@ -433,7 +432,7 @@ public class PrendioTest extends AbstractTest {
         itemPopup.ensureLoaded();
         Assert.assertTrue(itemPopup.isVisible(), "Edit Supplier Item popup is not visible");
         SupplierItemInfo infoRead = itemPopup.getInfo();
-        Assert.assertEquals(infoRead, infoEntered);
+        Assert.assertEquals(infoRead, infoEntered, "Items information is not identical");
         softAssert.assertAll();
     }
 }

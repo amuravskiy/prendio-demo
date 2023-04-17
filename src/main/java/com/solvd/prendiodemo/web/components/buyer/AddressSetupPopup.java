@@ -90,9 +90,7 @@ public class AddressSetupPopup extends BasePopup {
     public AddressInfo getInfo() {
         return AddressInfo.builder()
                 .addressType(getSelectedOptionText(addressTypeSelect))
-                .addressLines(IntStream.range(1, addressLines.size() + 2)
-                        .mapToObj(i -> getValue(addressLines.get(i)))
-                        .collect(Collectors.toList()))
+                .addressLines(getAddressLines(addressLines))
                 .city(getValue(cityField))
                 .state(getValue(stateField))
                 .zip(getValue(zipCodeField))

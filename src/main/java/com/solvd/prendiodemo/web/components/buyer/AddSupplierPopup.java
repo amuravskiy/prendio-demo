@@ -11,8 +11,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class AddSupplierPopup extends BasePopup {
@@ -129,7 +127,7 @@ public class AddSupplierPopup extends BasePopup {
     }
 
     public SupplierInfo getGeneralInfo() {
-        SupplierInfo info = SupplierInfo.builder()
+        return SupplierInfo.builder()
                 .name(getValue(supplierNameField))
                 .shippingMethod(getSelectedOptionText(shippingMethodSelect))
                 .prepaidFreight(getSelectedOptionText(prepaidFreightSelect))
@@ -142,11 +140,8 @@ public class AddSupplierPopup extends BasePopup {
                 .zip(getValue(zipCodeField))
                 .state(getValue(stateField))
                 .notes(getValue(notesField))
-                .addressLines(IntStream.range(1, addressLines.size() + 2)
-                        .mapToObj(i -> getValue(addressLines.get(i)))
-                        .collect(Collectors.toList()))
+                .addressLines(getAddressLines(addressLines))
                 .build();
-        return info;
     }
 
     public SupplierInfo getFullInfo() {
