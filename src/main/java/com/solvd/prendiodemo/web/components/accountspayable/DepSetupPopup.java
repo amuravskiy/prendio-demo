@@ -39,7 +39,7 @@ public class DepSetupPopup extends BasePopup {
     @FindBy(xpath = "//table[@id='tbldeptwatcher']/tbody/tr")
     private WatchersTableEntry firstWatcher;
 
-    @FindBy(id = "autoconfirm")
+    @FindBy(xpath = "//div[@id='autoconfirm']")
     private BasePopup confirmationPopup;
 
     @FindBy(id = "SaveDepartment")

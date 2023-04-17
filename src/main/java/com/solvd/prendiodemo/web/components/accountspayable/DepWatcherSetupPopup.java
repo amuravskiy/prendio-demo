@@ -25,7 +25,7 @@ public class DepWatcherSetupPopup extends BasePopup {
     }
 
     public WatcherInfo selectFirstWatcher() {
-        waitUntil(ExpectedConditions.elementToBeClickable(watcherSelect.getElement()), EXPLICIT_TIMEOUT);
+        waitUntil(ExpectedConditions.textToBePresentInElement(watcherSelect.getElement(), "Select"), EXPLICIT_TIMEOUT);
         selectByIndex(watcherSelect, 1);
         WatcherInfo watcherInfo = WatcherInfo.builder()
                 .watcherName(watcherSelect.getSelectedValue())
