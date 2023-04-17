@@ -51,8 +51,8 @@ public class ReceiverScanMatchPage extends ReceiverPage {
         setPageOpeningStrategy(PageOpeningStrategy.BY_ELEMENT);
     }
 
-    public void assertFirstScanItemVisible() {
-        scanItemContainers.get(0).assertUIObjectPresent();
+    public boolean isFirstScanItemVisible() {
+        return scanItemContainers.get(0).isUIObjectPresent();
     }
 
     public void checkFirstItem() {
@@ -71,7 +71,7 @@ public class ReceiverScanMatchPage extends ReceiverPage {
         return info;
     }
 
-    private void fillWith(SlipInfo info){
+    private void fillWith(SlipInfo info) {
         invNumberInput.type(info.getInvoiceNumber());
         selectReceivedDate(info);
         selectInvDate(info);

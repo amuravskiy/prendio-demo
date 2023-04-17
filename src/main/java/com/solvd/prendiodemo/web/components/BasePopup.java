@@ -11,7 +11,6 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testng.Assert;
 
 import java.lang.invoke.MethodHandles;
 
@@ -68,24 +67,12 @@ public class BasePopup extends AbstractUIObject implements ElementsUtil {
         return text;
     }
 
-    public void assertVisible() {
-        Assert.assertTrue(this.isVisible(), "Popup \"" + getHeaderText() + "\" is not visible");
-        //TODO: remove assertion
-    }
-
-    public void assertVisibleWithTitle(String expected) {
-        Assert.assertTrue(getRootExtendedElement().isVisible(), "Popup \"" + getHeaderText() + "\" is not visible");
-        Assert.assertEquals(getHeaderText(), expected);
-        //TODO: fix logically
-    }
-
     public boolean isVisible() {
         return getRootExtendedElement().isVisible();
     }
 
-    public void assertDisappeared() {
-        Assert.assertTrue(getRootExtendedElement().waitUntilElementDisappear(EXPLICIT_TIMEOUT), "Popup didn't disappear");
-        //TODO: remove assertion
+    public boolean isDisappeared() {
+        return getRootExtendedElement().waitUntilElementDisappear(EXPLICIT_TIMEOUT);
     }
 
     public void clickConfirmationButton() {

@@ -7,7 +7,6 @@ import com.solvd.prendiodemo.web.components.accountspayable.ShipToAddresses;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
-import org.testng.Assert;
 
 public class AddressPopup extends BasePopup {
 
@@ -32,7 +31,7 @@ public class AddressPopup extends BasePopup {
     }
 
     @Override
-    public void assertVisible() {
-        Assert.assertTrue(loadedMarket.isVisible(), "Addresses not found in address popup");
+    public boolean isVisible() {
+        return loadedMarket.isVisible();
     }
 }

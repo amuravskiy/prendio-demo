@@ -66,7 +66,7 @@ public class AddSupplierItemPopup extends BasePopup {
 
     public Map<String, String> fillInfoRandomly() {
         Stream.of(supplierPartField, descField, deprecatedPartField, manufacturerField, manufactNumberField, notesField, casNumberField)
-                        .forEach(field->field.type(RandomStringUtils.randomAlphabetic(15)));
+                .forEach(field -> field.type(RandomStringUtils.randomAlphabetic(15)));
         copyDownButton.click();
         safetyDetail.fillRandomValues();
         selectByIndex(unitSelect, 1);

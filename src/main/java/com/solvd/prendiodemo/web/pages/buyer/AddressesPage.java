@@ -8,7 +8,6 @@ import com.solvd.prendiodemo.web.components.buyer.AddressSetupPopup;
 import com.solvd.prendiodemo.web.pages.BasePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
-import org.testng.Assert;
 
 public class AddressesPage extends BasePage {
 
@@ -43,8 +42,8 @@ public class AddressesPage extends BasePage {
         return new AddressesPage(getDriver());
     }
 
-    public void assertAddressFound(String line1) {
-        Assert.assertEquals(firstAddress.getNameContainer().getText().split(",")[0], line1, "Address not found");
+    public boolean isAddressFound(String line1) {
+        return firstAddress.getNameContainer().getText().split(",")[0].equals(line1);
     }
 
     public AddressSetupPopup editFirstAddress() {

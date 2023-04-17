@@ -29,15 +29,7 @@ public class ItemContents {
 
     @Override
     public int hashCode() {
-        int result = title != null ? title.hashCode() : 0;
-        result = 31 * result + (supplier != null ? supplier.hashCode() : 0);
-        result = 31 * result + (itemNumber != null ? itemNumber.hashCode() : 0);
-        result = 31 * result + (price != null ? price.hashCode() : 0);
-        result = 31 * result + (currencyType != null ? currencyType.hashCode() : 0);
-        result = 31 * result + (project != null ? project.hashCode() : 0);
-        result = 31 * result + (glAccount != null ? glAccount.hashCode() : 0);
-        result = 31 * result + (department != null ? department.hashCode() : 0);
-        return result;
+        return Objects.hash(title, supplier, itemNumber, price, currencyType);
     }
 
     @Override
@@ -48,31 +40,8 @@ public class ItemContents {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-
         ItemContents that = (ItemContents) o;
-
-        if (!Objects.equals(title, that.title)) {
-            return false;
-        }
-        if (!Objects.equals(supplier, that.supplier)) {
-            return false;
-        }
-        if (!Objects.equals(itemNumber, that.itemNumber)) {
-            return false;
-        }
-        if (!Objects.equals(price, that.price)) {
-            return false;
-        }
-        if (!Objects.equals(currencyType, that.currencyType)) {
-            return false;
-        }
-        if (!Objects.equals(project, that.project)) {
-            return false;
-        }
-        if (!Objects.equals(glAccount, that.glAccount)) {
-            return false;
-        }
-        return Objects.equals(department, that.department);
+        return Objects.equals(title, that.title) && Objects.equals(supplier, that.supplier) && Objects.equals(itemNumber, that.itemNumber) && Objects.equals(price, that.price) && Objects.equals(currencyType, that.currencyType);
     }
 
     @Override

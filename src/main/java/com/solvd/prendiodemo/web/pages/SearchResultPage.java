@@ -7,13 +7,12 @@ import com.solvd.prendiodemo.web.components.SearchResultsItemEntry;
 import com.zebrunner.carina.utils.R;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
-import org.testng.Assert;
 
 import java.util.List;
 
 public class SearchResultPage extends BasePage {
 
-    private static int retrievingTimeout = R.TESTDATA.getInt("retrieving_timeout");
+    private static final int RETRIEVING_TIMEOUT = R.TESTDATA.getInt("retrieving_timeout");
 
     @FindBy(id = "divsearchcontainer")
     private ExtendedWebElement searchResultsActive;
@@ -33,8 +32,8 @@ public class SearchResultPage extends BasePage {
         setPageOpeningStrategy(PageOpeningStrategy.BY_ELEMENT);
     }
 
-    public void assertRetrieved() {
-        Assert.assertTrue(searchLoadingSign.waitUntilElementDisappear(retrievingTimeout), "Retrieving has not ended in " + retrievingTimeout + " sec");
+    public boolean isRetrieved() {
+        return searchLoadingSign.waitUntilElementDisappear(RETRIEVING_TIMEOUT);
     }
 
     public boolean isItemsDisplayed() {

@@ -29,6 +29,11 @@ public class WatcherInfo {
     }
 
     @Override
+    public int hashCode() {
+        return Objects.hash(watcherName, notifyAt);
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -36,13 +41,8 @@ public class WatcherInfo {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-
         WatcherInfo that = (WatcherInfo) o;
-
-        if (!Objects.equals(watcherName, that.watcherName)) {
-            return false;
-        }
-        return Objects.equals(notifyAt, that.notifyAt);
+        return Objects.equals(watcherName, that.watcherName) && Objects.equals(notifyAt, that.notifyAt);
     }
 
     @Override

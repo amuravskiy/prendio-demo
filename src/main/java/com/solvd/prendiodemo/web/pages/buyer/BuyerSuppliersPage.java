@@ -6,10 +6,8 @@ import com.solvd.prendiodemo.web.components.SearchFilter;
 import com.solvd.prendiodemo.web.components.TableEntry;
 import com.solvd.prendiodemo.web.components.buyer.AddSupplierPopup;
 import com.solvd.prendiodemo.web.pages.BasePage;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
-import org.testng.Assert;
 
 import java.util.List;
 import java.util.Optional;
@@ -53,8 +51,8 @@ public class BuyerSuppliersPage extends BasePage {
                 .findFirst();
     }
 
-    public void assertSupplierFound(String name) {
-        Assert.assertTrue(findSupplierEntryByName(name).isPresent(), "Supplier with name " + name + " not found");
+    public boolean isSupplierFound(String name) {
+        return findSupplierEntryByName(name).isPresent();
     }
 
     public AddSupplierPopup editSupplierByName(String name) {

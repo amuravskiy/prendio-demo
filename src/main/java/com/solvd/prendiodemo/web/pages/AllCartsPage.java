@@ -7,7 +7,6 @@ import com.solvd.prendiodemo.web.components.SearchFilter;
 import org.openqa.selenium.NotFoundException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
-import org.testng.Assert;
 
 import java.util.List;
 import java.util.Optional;
@@ -49,10 +48,9 @@ public class AllCartsPage extends BasePage {
                 .clickId();
     }
 
-    public void assertCartWithNameFound(String name) {
-        Assert.assertTrue(cartEntries.stream()
-                        .anyMatch(cart -> cart.getName().equals(name)),
-                "Cart with name " + name + " is not found");
+    public boolean isCartWithNameFound(String name) {
+        return cartEntries.stream()
+                .anyMatch(cart -> cart.getName().equals(name));
     }
 
     private Optional<CartTableEntry> findCartEntryById(String id) {
@@ -61,8 +59,8 @@ public class AllCartsPage extends BasePage {
                 .findFirst();
     }
 
-    public void assertCartPresent(String id) {
-        Assert.assertTrue(findCartEntryById(id).isPresent(), "Cart with id " + id + " not found");
+    public boolean isCartPresent(String id) {
+        return findCartEntryById(id).isPresent();
     }
 
     public String getCartNameById(String id) {

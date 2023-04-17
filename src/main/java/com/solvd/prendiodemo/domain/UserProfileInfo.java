@@ -62,6 +62,11 @@ public class UserProfileInfo {
     }
 
     @Override
+    public int hashCode() {
+        return Objects.hash(title, phoneNumber, carrier, startDate, endDate);
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -69,22 +74,8 @@ public class UserProfileInfo {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-
         UserProfileInfo that = (UserProfileInfo) o;
-
-        if (!Objects.equals(title, that.title)) {
-            return false;
-        }
-        if (!Objects.equals(phoneNumber, that.phoneNumber)) {
-            return false;
-        }
-        if (!Objects.equals(carrier, that.carrier)) {
-            return false;
-        }
-        if (!Objects.equals(startDate, that.startDate)) {
-            return false;
-        }
-        return Objects.equals(endDate, that.endDate);
+        return Objects.equals(title, that.title) && Objects.equals(phoneNumber, that.phoneNumber) && Objects.equals(carrier, that.carrier) && Objects.equals(startDate, that.startDate) && Objects.equals(endDate, that.endDate);
     }
 
     @Override

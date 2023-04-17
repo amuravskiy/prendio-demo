@@ -2,7 +2,6 @@ package com.solvd.prendiodemo.web.components.cart;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractUIObject;
-import com.solvd.prendiodemo.domain.CartContents;
 import com.solvd.prendiodemo.domain.ItemContents;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;

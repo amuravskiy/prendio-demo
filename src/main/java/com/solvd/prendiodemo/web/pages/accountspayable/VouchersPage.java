@@ -7,7 +7,6 @@ import com.solvd.prendiodemo.web.pages.AccountPayablePage;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
-import org.testng.Assert;
 
 import java.util.List;
 import java.util.Optional;
@@ -41,8 +40,8 @@ public class VouchersPage extends AccountPayablePage {
                 .findFirst();
     }
 
-    public void assertVoucherFound(String invNumber) {
-        Assert.assertTrue(findVoucherEntryByInvNumber(invNumber).isPresent(), "Voucher with invNumber " + invNumber + " not found");
+    public boolean isVoucherFound(String invNumber) {
+        return findVoucherEntryByInvNumber(invNumber).isPresent();
     }
 
     public VoucherEntry getVoucherEntryByInvNumber(String invNumber) {

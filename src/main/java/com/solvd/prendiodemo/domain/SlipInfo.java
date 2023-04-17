@@ -59,6 +59,11 @@ public class SlipInfo {
     }
 
     @Override
+    public int hashCode() {
+        return Objects.hash(recDate, invoiceNumber, invDate, invoiceAmount, day);
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -66,19 +71,8 @@ public class SlipInfo {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-
         SlipInfo slipInfo = (SlipInfo) o;
-
-        if (!Objects.equals(recDate, slipInfo.recDate)) {
-            return false;
-        }
-        if (!Objects.equals(invoiceNumber, slipInfo.invoiceNumber)) {
-            return false;
-        }
-        if (!Objects.equals(invDate, slipInfo.invDate)) {
-            return false;
-        }
-        return Objects.equals(invoiceAmount, slipInfo.invoiceAmount);
+        return day == slipInfo.day && Objects.equals(recDate, slipInfo.recDate) && Objects.equals(invoiceNumber, slipInfo.invoiceNumber) && Objects.equals(invDate, slipInfo.invDate) && Objects.equals(invoiceAmount, slipInfo.invoiceAmount);
     }
 
     @Override

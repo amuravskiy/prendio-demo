@@ -5,7 +5,6 @@ import com.qaprosoft.carina.core.foundation.webdriver.decorator.PageOpeningStrat
 import com.solvd.prendiodemo.web.components.BasePopup;
 import com.solvd.prendiodemo.web.components.SearchFilter;
 import com.solvd.prendiodemo.web.pages.BasePage;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 

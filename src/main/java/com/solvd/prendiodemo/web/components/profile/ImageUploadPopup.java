@@ -7,7 +7,6 @@ import com.zebrunner.carina.utils.R;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
-import org.testng.Assert;
 
 import java.io.File;
 
@@ -28,8 +27,8 @@ public class ImageUploadPopup extends BasePopup {
         super(driver, searchContext);
     }
 
-    public void assertImageAppeared() {
-        Assert.assertTrue(imageBox.isVisible(), "Image didn't appear");
+    public boolean isImageAppeared() {
+        return imageBox.isVisible();
     }
 
     public void attachSamplePhoto() {

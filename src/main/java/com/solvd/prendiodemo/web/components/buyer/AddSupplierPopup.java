@@ -8,7 +8,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
-import org.testng.Assert;
 
 import java.util.HashMap;
 import java.util.List;
@@ -167,8 +166,8 @@ public class AddSupplierPopup extends BasePopup {
         return addSupplierItemPopup;
     }
 
-    public void assertCatalogItemsSectionOpened() {
-        Assert.assertTrue(catalogItemsSectionActive.isVisible(), "Catalog Item section is not opened");
+    public boolean isCatalogItemsSectionOpened() {
+        return catalogItemsSectionActive.isVisible();
     }
 
     public AddSupplierItemPopup clickOnAddedItemEdit() {

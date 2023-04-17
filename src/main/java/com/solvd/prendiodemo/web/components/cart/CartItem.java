@@ -54,11 +54,7 @@ public class CartItem extends AbstractUIObject implements ElementsUtil {
 
     @Override
     public int hashCode() {
-        int result = partNumber != null ? partNumber.hashCode() : 0;
-        result = 31 * result + (partDesc != null ? partDesc.hashCode() : 0);
-        result = 31 * result + (totalPrice != null ? totalPrice.hashCode() : 0);
-        result = 31 * result + (currencySelect != null ? currencySelect.hashCode() : 0);
-        return result;
+        return Objects.hash(partNumber, partDesc, totalPrice, currencySelect);
     }
 
     @Override
@@ -69,19 +65,8 @@ public class CartItem extends AbstractUIObject implements ElementsUtil {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-
         CartItem cartItem = (CartItem) o;
-
-        if (!Objects.equals(partNumber, cartItem.partNumber)) {
-            return false;
-        }
-        if (!Objects.equals(partDesc, cartItem.partDesc)) {
-            return false;
-        }
-        if (!Objects.equals(totalPrice, cartItem.totalPrice)) {
-            return false;
-        }
-        return Objects.equals(currencySelect, cartItem.currencySelect);
+        return Objects.equals(partNumber, cartItem.partNumber) && Objects.equals(partDesc, cartItem.partDesc) && Objects.equals(totalPrice, cartItem.totalPrice) && Objects.equals(currencySelect, cartItem.currencySelect);
     }
 
     @Override

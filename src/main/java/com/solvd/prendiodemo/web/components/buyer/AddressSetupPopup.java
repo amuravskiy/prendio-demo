@@ -8,7 +8,6 @@ import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.testng.Assert;
 
 import java.util.HashMap;
 import java.util.List;
@@ -107,18 +106,17 @@ public class AddressSetupPopup extends BasePopup {
         getPopupLeftMenu().clickUsers();
     }
 
-    public void assertUserSectionVisible() {
-        Assert.assertTrue(userTable.isVisible(), "User section is not visible");
+    public boolean isUserSectionVisible() {
+        return userTable.isVisible();
     }
 
     public void checkAllDefault() {
         allDefaultChecker.click();
     }
 
-    public void assertAllDefaultActive() {
-        Assert.assertTrue(tableCheckboxes.stream()
-                        .filter(checkbox -> checkbox.getElement().isDisplayed())
-                        .allMatch(ExtendedWebElement::isChecked),
-                "Not all checkboxes checked");
+    public boolean isAllDefaultActive() {
+        return tableCheckboxes.stream()
+                .filter(checkbox -> checkbox.getElement().isDisplayed())
+                .allMatch(ExtendedWebElement::isChecked);
     }
 }

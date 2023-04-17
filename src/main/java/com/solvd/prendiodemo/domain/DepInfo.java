@@ -39,12 +39,8 @@ public class DepInfo {
     }
 
     @Override
-    public String toString() {
-        return "DepInfo{" +
-                "name='" + name + '\'' +
-                ", desc='" + desc + '\'' +
-                ", notes='" + notes + '\'' +
-                '}';
+    public int hashCode() {
+        return Objects.hash(name, desc, notes);
     }
 
     @Override
@@ -55,15 +51,16 @@ public class DepInfo {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-
         DepInfo depInfo = (DepInfo) o;
+        return Objects.equals(name, depInfo.name) && Objects.equals(desc, depInfo.desc) && Objects.equals(notes, depInfo.notes);
+    }
 
-        if (!Objects.equals(name, depInfo.name)) {
-            return false;
-        }
-        if (!Objects.equals(desc, depInfo.desc)) {
-            return false;
-        }
-        return Objects.equals(notes, depInfo.notes);
+    @Override
+    public String toString() {
+        return "DepInfo{" +
+                "name='" + name + '\'' +
+                ", desc='" + desc + '\'' +
+                ", notes='" + notes + '\'' +
+                '}';
     }
 }
