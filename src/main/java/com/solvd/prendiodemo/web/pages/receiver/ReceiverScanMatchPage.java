@@ -14,6 +14,8 @@ import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 
+import static com.solvd.prendiodemo.constants.Constants.LOADING_BLOCK_APPEAR_TIMEOUT;
+
 public class ReceiverScanMatchPage extends ReceiverPage {
 
     @FindBy(xpath = "//a[@type='match' and @class='active']")

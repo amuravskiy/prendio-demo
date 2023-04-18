@@ -4,7 +4,6 @@ import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebEleme
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.PageOpeningStrategy;
 import com.solvd.prendiodemo.utils.FileUtil;
 import com.solvd.prendiodemo.web.pages.ReceiverPage;
-import com.zebrunner.carina.utils.R;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
@@ -12,7 +11,7 @@ import java.io.File;
 
 public class ReceiverScanPage extends ReceiverPage {
 
-    private static final String SAMPLE_SLIP_URL = R.TESTDATA.get("sample_slip_url");
+    private static final String SAMPLE_SLIP_URL = "https://www.ups.com/media/en/packinglist.pdf";
 
     @FindBy(xpath = "//li//a[text()='Scan']")
     private ExtendedWebElement scanSectionActive;

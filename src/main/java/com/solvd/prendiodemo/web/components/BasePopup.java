@@ -4,7 +4,6 @@ import com.qaprosoft.carina.core.foundation.webdriver.decorator.ElementLoadingSt
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractUIObject;
 import com.solvd.prendiodemo.utils.ElementsUtil;
-import com.zebrunner.carina.utils.R;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
@@ -14,10 +13,11 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.invoke.MethodHandles;
 
+import static com.solvd.prendiodemo.constants.Constants.LOADING_BLOCK_APPEAR_TIMEOUT;
+
 public class BasePopup extends AbstractUIObject implements ElementsUtil {
 
     protected static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-    protected static final long LOADING_BLOCK_APPEAR_TIMEOUT = R.TESTDATA.getLong("loading_block_appear_timeout");
 
     @FindBy(className = "HiderText")
     private ExtendedWebElement loadingBlock;

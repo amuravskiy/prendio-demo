@@ -10,6 +10,8 @@ import com.solvd.prendiodemo.web.components.cart.ShipToPopup;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
+import static com.solvd.prendiodemo.constants.Constants.LOADING_BLOCK_APPEAR_TIMEOUT;
+
 public class CartPage extends BasePage {
 
     @FindBy(id = "divCartId")

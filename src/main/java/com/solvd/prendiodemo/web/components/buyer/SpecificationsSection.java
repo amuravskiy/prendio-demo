@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-
 public class SpecificationsSection extends AbstractUIObject implements ElementsUtil {
 
     @FindBy(xpath = "..//input[@id='txtmaterialname']")

@@ -4,15 +4,14 @@ import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebEleme
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.PageOpeningStrategy;
 import com.solvd.prendiodemo.domain.ItemContents;
 import com.solvd.prendiodemo.web.components.SearchResultsItemEntry;
-import com.zebrunner.carina.utils.R;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 
-public class SearchResultPage extends BasePage {
+import static com.solvd.prendiodemo.constants.Constants.RETRIEVING_TIMEOUT;
 
-    private static final int RETRIEVING_TIMEOUT = R.TESTDATA.getInt("retrieving_timeout");
+public class SearchResultPage extends BasePage {
 
     @FindBy(id = "divsearchcontainer")
     private ExtendedWebElement searchResultsActive;

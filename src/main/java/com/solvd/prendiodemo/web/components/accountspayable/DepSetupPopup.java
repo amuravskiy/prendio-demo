@@ -92,7 +92,6 @@ public class DepSetupPopup extends BasePopup {
         saveButton.click();
     }
 
-
     public DepartmentInfo getInfo() {
         return DepartmentInfo.builder()
                 .name(getValue(depNameField))

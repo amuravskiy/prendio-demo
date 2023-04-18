@@ -7,7 +7,6 @@ import com.solvd.prendiodemo.web.components.NavigationMenu;
 import com.solvd.prendiodemo.web.components.NavigationTabs;
 import com.solvd.prendiodemo.web.components.SearchBlock;
 import com.solvd.prendiodemo.web.components.UserPhotoBlock;
-import com.zebrunner.carina.utils.R;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -18,10 +17,11 @@ import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.solvd.prendiodemo.constants.Constants.LOADING_BLOCK_APPEAR_TIMEOUT;
+
 public class BasePage extends AbstractPage implements ElementsUtil {
 
     protected static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-    protected static final long LOADING_BLOCK_APPEAR_TIMEOUT = R.TESTDATA.getLong("loading_block_appear_timeout");
 
     @FindBy(className = "logo_block")
     protected ExtendedWebElement logoBlock;
@@ -57,19 +57,19 @@ public class BasePage extends AbstractPage implements ElementsUtil {
         driver.switchTo().window(tabHandles.get(index));
     }
 
-    public DashboardPage clickDashboard() {
+    public DashboardPage clickDashboardTab() {
         return navigationMenu.clickDashboardButton();
     }
 
-    public BuyerPage clickBuyer() {
+    public BuyerPage clickBuyerTab() {
         return navigationMenu.clickBuyerButton();
     }
 
-    public ReceiverPage clickReceiver() {
+    public ReceiverPage clickReceiverTab() {
         return navigationMenu.clickReceiverButton();
     }
 
-    public AccountPayablePage clickAccountsPayable() {
+    public AccountPayablePage clickAccountsPayableTab() {
         return navigationMenu.clickAccountsPayableButton();
     }
 
@@ -88,7 +88,6 @@ public class BasePage extends AbstractPage implements ElementsUtil {
 
     public String getFullName() {
         String fullName = userPhotoBlock.openProfile().getFullName();
-        LOGGER.info("Full name from user profile: " + fullName);
         return fullName;
     }
 

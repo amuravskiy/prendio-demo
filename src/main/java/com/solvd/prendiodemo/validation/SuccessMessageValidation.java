@@ -13,11 +13,8 @@ public class SuccessMessageValidation {
         this.page = page;
     }
 
-    public void validateSuccessMessageVisible() {
+    public void validateSuccessMessageVisibleWithText(String expected) {
         softAssert.assertTrue(page.isSuccessMessageVisible(), "Success message is not visible");
-    }
-
-    public void validateSuccessMessageText(String expected) {
         softAssert.assertEquals(page.getSuccessMessageText(), expected, "Success message text is not as expected");
     }
 }

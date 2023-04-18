@@ -3,7 +3,6 @@ package com.solvd.prendiodemo.web.components.profile;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.solvd.prendiodemo.utils.FileUtil;
 import com.solvd.prendiodemo.web.components.BasePopup;
-import com.zebrunner.carina.utils.R;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
@@ -12,7 +11,7 @@ import java.io.File;
 
 public class ImageUploadPopup extends BasePopup {
 
-    private static final String SAMPLE_PHOTO_URL_PNG = R.TESTDATA.get("sample_photo_url_png");
+    private static final String SAMPLE_PHOTO_URL_PNG = "https://dev-aws-procure.prendio.com/assets/images/prendio.png";
 
     @FindBy(xpath = "//input[@id='file']")
     private ExtendedWebElement uploadInput;
