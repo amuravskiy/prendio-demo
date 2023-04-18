@@ -99,7 +99,7 @@ public class ReceiverScanMatchPage extends ReceiverPage {
     }
 
     public boolean isSupplierSelectPopupVisible() {
-        return supplierSelectPopup.isVisible();
+        return supplierSelectPopup.getRootExtendedElement().isVisible(LOADING_BLOCK_APPEAR_TIMEOUT);
     }
 
     public SupplierSelectPopup getSupplierSelectPopup() {
