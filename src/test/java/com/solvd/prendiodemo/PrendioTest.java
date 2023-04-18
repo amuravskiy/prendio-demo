@@ -5,6 +5,7 @@ import com.solvd.prendiodemo.domain.*;
 import com.solvd.prendiodemo.service.LoginService;
 import com.solvd.prendiodemo.validation.SuccessMessageValidation;
 import com.solvd.prendiodemo.web.components.BasePopup;
+import com.solvd.prendiodemo.web.components.SupplierSelectPopup;
 import com.solvd.prendiodemo.web.components.UserStatusWindow;
 import com.solvd.prendiodemo.web.components.accountspayable.DepSetupPopup;
 import com.solvd.prendiodemo.web.components.accountspayable.DepUserPopup;
@@ -273,6 +274,11 @@ public class PrendioTest extends AbstractTest {
         matchPage.checkFirstItem();
         SlipInfo infoEntered = matchPage.fillSlipInfoRandomly();
         matchPage.clickNext();
+        if (matchPage.isSupplierSelectPopupVisible()) {
+            SupplierSelectPopup supplSelectPopup = matchPage.getSupplierSelectPopup();
+            supplSelectPopup.selectFirstAvailable();
+            Assert.assertTrue(supplSelectPopup.isDisappeared(), "Popup didn't disappear");
+        }
         matchPage.ensureLoaded();
         successMessageValidation.validateSuccessMessageVisible();
         successMessageValidation.validateSuccessMessageText("Entry Added Successfully");

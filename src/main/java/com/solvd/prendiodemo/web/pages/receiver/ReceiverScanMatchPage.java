@@ -6,6 +6,7 @@ import com.solvd.prendiodemo.domain.SlipInfo;
 import com.solvd.prendiodemo.utils.DateUtil;
 import com.solvd.prendiodemo.web.components.CalendarForm;
 import com.solvd.prendiodemo.web.components.ScanItemContainer;
+import com.solvd.prendiodemo.web.components.SupplierSelectPopup;
 import com.solvd.prendiodemo.web.pages.ReceiverPage;
 import org.apache.commons.lang3.RandomUtils;
 import org.openqa.selenium.WebDriver;
@@ -44,6 +45,9 @@ public class ReceiverScanMatchPage extends ReceiverPage {
 
     @FindBy(id = "ui-datepicker-div")
     private CalendarForm calendarForm;
+
+    @FindBy(xpath = "//div[@id='popupform' and //div[@class='message_information']]")
+    private SupplierSelectPopup supplierSelectPopup;
 
     public ReceiverScanMatchPage(WebDriver driver) {
         super(driver);
@@ -92,6 +96,14 @@ public class ReceiverScanMatchPage extends ReceiverPage {
         calendarForm = new CalendarForm(getDriver(), getDriver());
         calendarForm.waitDateToBeVisible();
         calendarForm.clickSpecificDay(info.getDay());
+    }
+
+    public boolean isSupplierSelectPopupVisible() {
+        return supplierSelectPopup.isVisible();
+    }
+
+    public SupplierSelectPopup getSupplierSelectPopup() {
+        return supplierSelectPopup;
     }
 
     public void clickNext() {
