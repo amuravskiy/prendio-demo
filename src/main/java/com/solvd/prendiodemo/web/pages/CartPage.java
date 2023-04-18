@@ -84,7 +84,7 @@ public class CartPage extends BasePage {
     }
 
     public boolean isInfoPopupVisible() {
-        return okPopup.isVisible();
+        return okPopup.getRootExtendedElement().isVisible(LOADING_BLOCK_APPEAR_TIMEOUT);
     }
 
     public BasePopup clickDuplicateCart() {

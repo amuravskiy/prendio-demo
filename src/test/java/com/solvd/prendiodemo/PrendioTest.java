@@ -45,7 +45,6 @@ public class PrendioTest extends AbstractTest {
     private static final String TEMPLATE_CART_NAME = R.TESTDATA.get("template_cart_name");
     private static final String CATALOG_QUERY = R.TESTDATA.get("catalog_query");
 
-
     @MethodOwner(owner = "Andrew Nazarenko")
     @Test(description = "Verifies login works properly", testName = "Login Test")
     public void checkLoginTest() {
@@ -140,7 +139,7 @@ public class PrendioTest extends AbstractTest {
         allCartsPage.assertPageOpened();
         Assert.assertTrue(allCartsPage.isCartPresent(newCartId), "Cart with id " + newCartId + " not found");
         Assert.assertEquals(allCartsPage.getCartNameById(newCartId), newCartName, "Cart id does not match");
-        allCartsPage = allCartsPage.search(newCartName);
+        allCartsPage = allCartsPage.search(TEMPLATE_CART_NAME);
         Assert.assertEquals(allCartsPage.getCartNameById(templateCartId), TEMPLATE_CART_NAME, "Cart name does not match");
         cartPage = allCartsPage.clickById(templateCartId);
         Assert.assertEquals(cartPage.getCartContents(), cartContents, "Cart contents does not match");
@@ -230,6 +229,8 @@ public class PrendioTest extends AbstractTest {
         confirmationPopup.clickConfirmationButton();
         Assert.assertTrue(confirmationPopup.isDisappeared(), "Popup didn't disappear");
         departmentPage = new DepartmentPage(getDriver());
+        departmentPage = departmentPage.searchDepartmentByDesc(infoEntered.getDescription());
+        departmentPage.assertPageOpened();
         depSetupPopup = departmentPage.editDepByName(infoEntered.getName());
         DepUserPopup depUserPopup = depSetupPopup.clickUsers();
         String username = depUserPopup.selectAnyUser();

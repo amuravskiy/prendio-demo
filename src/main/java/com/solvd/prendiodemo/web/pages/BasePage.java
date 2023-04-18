@@ -21,7 +21,7 @@ import java.util.List;
 public class BasePage extends AbstractPage implements ElementsUtil {
 
     protected static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-    private static final long LOADING_BLOCK_APPEAR_TIMEOUT = R.TESTDATA.getLong("loading_block_appear_timeout");
+    protected static final long LOADING_BLOCK_APPEAR_TIMEOUT = R.TESTDATA.getLong("loading_block_appear_timeout");
 
     @FindBy(className = "logo_block")
     protected ExtendedWebElement logoBlock;

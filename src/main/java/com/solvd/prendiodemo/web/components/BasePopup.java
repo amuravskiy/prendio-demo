@@ -17,7 +17,7 @@ import java.lang.invoke.MethodHandles;
 public class BasePopup extends AbstractUIObject implements ElementsUtil {
 
     protected static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-    private static final long LOADING_BLOCK_APPEAR_TIMEOUT = R.TESTDATA.getLong("loading_block_appear_timeout");
+    protected static final long LOADING_BLOCK_APPEAR_TIMEOUT = R.TESTDATA.getLong("loading_block_appear_timeout");
 
     @FindBy(className = "HiderText")
     private ExtendedWebElement loadingBlock;
