@@ -1,4 +1,4 @@
-package com.solvd.prendiodemo.web.components;
+package com.solvd.prendiodemo.web.components.cart;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractUIObject;

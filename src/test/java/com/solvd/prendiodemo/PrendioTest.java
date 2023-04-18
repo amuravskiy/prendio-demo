@@ -5,8 +5,8 @@ import com.solvd.prendiodemo.domain.*;
 import com.solvd.prendiodemo.service.LoginService;
 import com.solvd.prendiodemo.validation.SuccessMessageValidation;
 import com.solvd.prendiodemo.web.components.BasePopup;
-import com.solvd.prendiodemo.web.components.SupplierSelectPopup;
-import com.solvd.prendiodemo.web.components.UserStatusWindow;
+import com.solvd.prendiodemo.web.components.receiver.SupplierSelectPopup;
+import com.solvd.prendiodemo.web.components.common.UserStatusWindow;
 import com.solvd.prendiodemo.web.components.accountspayable.DepSetupPopup;
 import com.solvd.prendiodemo.web.components.accountspayable.DepUserPopup;
 import com.solvd.prendiodemo.web.components.accountspayable.DepWatcherSetupPopup;
@@ -88,7 +88,6 @@ public class PrendioTest extends AbstractTest {
         Assert.assertTrue(supplierInfoPopup.isVisible(), "Supplier Info popup is not visible");
 
         String trailRecordText = supplierInfoPopup.getCreatedTrailText();
-        System.out.println(trailRecordText);
         String currentDateFormatted = ADD_SUPPLIER_DATE_FORMAT.format(Instant.now());
         Matcher trailFullNameMatcher = Pattern.compile("by ([\\w ]+) as").matcher(trailRecordText);
         Matcher trailDateMatcher = Pattern.compile(" ([0-9/]+) by").matcher(trailRecordText);

@@ -1,4 +1,4 @@
-package com.solvd.prendiodemo.web.components;
+package com.solvd.prendiodemo.web.components.order;
 
 import com.qaprosoft.carina.core.gui.AbstractUIObject;
 import org.openqa.selenium.SearchContext;

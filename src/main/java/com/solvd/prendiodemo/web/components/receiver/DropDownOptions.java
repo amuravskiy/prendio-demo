@@ -1,4 +1,4 @@
-package com.solvd.prendiodemo.web.components;
+package com.solvd.prendiodemo.web.components.receiver;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ElementLoadingStrategy;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;

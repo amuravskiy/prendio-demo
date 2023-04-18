@@ -2,8 +2,8 @@ package com.solvd.prendiodemo.web.pages;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.PageOpeningStrategy;
-import com.solvd.prendiodemo.web.components.CartTableEntry;
-import com.solvd.prendiodemo.web.components.SearchFilter;
+import com.solvd.prendiodemo.web.components.cart.CartTableEntry;
+import com.solvd.prendiodemo.web.components.common.SearchFilter;
 import org.openqa.selenium.NotFoundException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;

@@ -3,7 +3,7 @@ package com.solvd.prendiodemo.web.pages.accountspayable;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.PageOpeningStrategy;
 import com.solvd.prendiodemo.web.components.BasePopup;
-import com.solvd.prendiodemo.web.components.SearchFilter;
+import com.solvd.prendiodemo.web.components.common.SearchFilter;
 import com.solvd.prendiodemo.web.pages.BasePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;

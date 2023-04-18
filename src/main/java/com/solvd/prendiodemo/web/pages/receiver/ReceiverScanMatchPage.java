@@ -4,9 +4,9 @@ import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebEleme
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.PageOpeningStrategy;
 import com.solvd.prendiodemo.domain.SlipInfo;
 import com.solvd.prendiodemo.utils.DateUtil;
-import com.solvd.prendiodemo.web.components.CalendarForm;
-import com.solvd.prendiodemo.web.components.ScanItemContainer;
-import com.solvd.prendiodemo.web.components.SupplierSelectPopup;
+import com.solvd.prendiodemo.web.components.common.CalendarForm;
+import com.solvd.prendiodemo.web.components.receiver.ScanItemContainer;
+import com.solvd.prendiodemo.web.components.receiver.SupplierSelectPopup;
 import com.solvd.prendiodemo.web.pages.ReceiverPage;
 import org.apache.commons.lang3.RandomUtils;
 import org.openqa.selenium.WebDriver;

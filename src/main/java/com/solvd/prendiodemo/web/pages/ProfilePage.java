@@ -4,7 +4,7 @@ import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebEleme
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.PageOpeningStrategy;
 import com.solvd.prendiodemo.domain.UserProfileInfo;
 import com.solvd.prendiodemo.utils.DateUtil;
-import com.solvd.prendiodemo.web.components.CalendarForm;
+import com.solvd.prendiodemo.web.components.common.CalendarForm;
 import com.solvd.prendiodemo.web.components.profile.ImageUploadPopup;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;

@@ -1,6 +1,7 @@
-package com.solvd.prendiodemo.web.components;
+package com.solvd.prendiodemo.web.components.receiver;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
+import com.solvd.prendiodemo.web.components.BasePopup;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
