@@ -24,19 +24,19 @@ public class NavigationTabs extends AbstractUIObject {
         super(driver, searchContext);
     }
 
-    public void clickSuppliers() {
+    public void clickSuppliersSection() {
         suppliersButton.click();
     }
 
-    public void clickAddresses() {
+    public void clickAddressesSection() {
         addressesButton.click();
     }
 
-    public void clickVouchers() {
+    public void clickVouchersSection() {
         vouchersButton.click();
     }
 
-    public void clickScan() {
+    public void clickScanSection() {
         scanButton.click();
     }
 }

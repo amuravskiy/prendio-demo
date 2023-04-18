@@ -113,7 +113,7 @@ public class AddSupplierPopup extends BasePopup {
         return getGeneralInfo();
     }
 
-    public void clickSave() {
+    public void clickSaveButton() {
         saveButton.click();
     }
 
@@ -146,7 +146,7 @@ public class AddSupplierPopup extends BasePopup {
 
     public SupplierInfo getFullInfo() {
         SupplierInfo info = getGeneralInfo();
-        getPopupLeftMenu().clickAccountNumbers();
+        getPopupLeftMenu().clickAccountNumbersSection();
         firstAccountNumberTableEntry.waitToBeClickable();
         info.setShipToLine2(firstAccountNumberTableEntry.getShipToAddress().split(",")[0]);
         info.setAccountNumber(firstAccountNumberTableEntry.getAccountNumber());
@@ -154,7 +154,7 @@ public class AddSupplierPopup extends BasePopup {
     }
 
     public AddSupplierPopup clickCatalogItems() {
-        getPopupLeftMenu().clickCatalogItems();
+        getPopupLeftMenu().clickCatalogItemsSection();
         return this;
     }
 
@@ -168,7 +168,7 @@ public class AddSupplierPopup extends BasePopup {
     }
 
     public AddSupplierItemPopup clickOnAddedItemEdit() {
-        addedItem.getEditIcon().click();
+        addedItem.clickEditIcon();
         return addSupplierItemPopup;
     }
 }

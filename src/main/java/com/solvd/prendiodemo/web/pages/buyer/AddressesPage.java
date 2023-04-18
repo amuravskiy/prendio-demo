@@ -37,7 +37,7 @@ public class AddressesPage extends BasePage {
         return addressSetupPopup;
     }
 
-    public AddressesPage search(String query) {
+    public AddressesPage searchAddressByAddressLine(String query) {
         searchFilter.search(query);
         return new AddressesPage(getDriver());
     }
@@ -47,7 +47,7 @@ public class AddressesPage extends BasePage {
     }
 
     public AddressSetupPopup editFirstAddress() {
-        firstAddress.getEditIcon().click();
+        firstAddress.clickEditIcon();
         ensureLoaded();
         return addressSetupPopup;
     }

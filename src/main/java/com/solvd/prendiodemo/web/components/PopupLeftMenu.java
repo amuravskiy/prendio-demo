@@ -24,19 +24,19 @@ public class PopupLeftMenu extends AbstractUIObject {
         super(driver, searchContext);
     }
 
-    public void clickAccountNumbers() {
+    public void clickAccountNumbersSection() {
         accountNumbersButton.click();
     }
 
-    public void clickCatalogItems() {
+    public void clickCatalogItemsSection() {
         catalogItemsButton.click();
     }
 
-    public void clickWatchers() {
+    public void clickWatchersSection() {
         watchersButton.click();
     }
 
-    public void clickUsers() {
+    public void clickUsersSection() {
         usersButton.click();
     }
 }

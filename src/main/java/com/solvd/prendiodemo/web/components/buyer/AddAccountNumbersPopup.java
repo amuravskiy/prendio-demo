@@ -36,7 +36,7 @@ public class AddAccountNumbersPopup extends BasePopup {
         return accNum;
     }
 
-    public void clickSave() {
+    public void clickSaveButton() {
         saveButton.click();
     }
 }

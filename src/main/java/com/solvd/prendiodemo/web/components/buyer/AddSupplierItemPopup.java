@@ -92,7 +92,7 @@ public class AddSupplierItemPopup extends BasePopup {
                 .build();
     }
 
-    public void clickAddSpec() {
+    public void clickAddSpecButton() {
         specificationsSection = specificationsSection.addSpec();
     }
 
@@ -100,7 +100,7 @@ public class AddSupplierItemPopup extends BasePopup {
         return specificationsSection.getSize();
     }
 
-    public void clickSave() {
+    public void clickSaveButton() {
         saveButton.click();
     }
 }

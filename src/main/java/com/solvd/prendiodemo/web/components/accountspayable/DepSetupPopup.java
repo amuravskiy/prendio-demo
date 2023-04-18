@@ -59,13 +59,13 @@ public class DepSetupPopup extends BasePopup {
         return getInfo();
     }
 
-    public void clickWatchers() {
-        getPopupLeftMenu().clickWatchers();
+    public void clickWatchersSection() {
+        getPopupLeftMenu().clickWatchersSection();
         waitUntil(ExpectedConditions.textToBePresentInElement(watchersBlock.getElement(), "("), EXPLICIT_TIMEOUT);
     }
 
     public DepUserPopup clickUsers() {
-        getPopupLeftMenu().clickUsers();
+        getPopupLeftMenu().clickUsersSection();
         ensureLoaded();
         return depUserPopup;
     }
@@ -84,11 +84,11 @@ public class DepSetupPopup extends BasePopup {
     }
 
     public BasePopup close() {
-        super.clickClose();
+        super.clickCloseButton();
         return confirmationPopup;
     }
 
-    public void clickSave() {
+    public void clickSaveButton() {
         saveButton.click();
     }
 

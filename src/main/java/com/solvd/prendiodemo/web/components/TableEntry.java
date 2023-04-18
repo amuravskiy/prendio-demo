@@ -22,7 +22,7 @@ public class TableEntry extends AbstractUIObject {
         return nameContainer;
     }
 
-    public ExtendedWebElement getEditIcon() {
-        return editIcon;
+    public void clickEditIcon() {
+        editIcon.click();
     }
 }

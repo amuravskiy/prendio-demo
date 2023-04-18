@@ -25,12 +25,12 @@ public class BuyerPage extends BasePage {
     }
 
     public BuyerSuppliersPage clickSuppliers() {
-        getNavigationTabs().clickSuppliers();
+        getNavigationTabs().clickSuppliersSection();
         return new BuyerSuppliersPage(getDriver());
     }
 
     public AddressesPage clickAddresses() {
-        getNavigationTabs().clickAddresses();
+        getNavigationTabs().clickAddressesSection();
         return new AddressesPage(getDriver());
     }
 }

@@ -41,11 +41,11 @@ public class SearchResultsItemEntry extends AbstractUIObject {
         return itemTitle.getText();
     }
 
-    public void clickAddToCart() {
+    public void clickAddToCartButton() {
         addToCartButton.click();
     }
 
-    public void clickAddToANewCart() {
+    public void clickAddToANewCartButton() {
         addNewCartButton.click();
     }
 

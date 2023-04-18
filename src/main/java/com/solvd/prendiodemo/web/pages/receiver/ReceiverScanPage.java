@@ -42,7 +42,7 @@ public class ReceiverScanPage extends ReceiverPage {
         fileInput.attachFile(FileUtil.loadFileAndGetPath(SAMPLE_SLIP_URL, new File("sample_slip.pdf")));
     }
 
-    public void clickUpload() {
+    public void clickUploadButton() {
         uploadButton.click();
     }
 

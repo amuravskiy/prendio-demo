@@ -35,7 +35,7 @@ public class ImageUploadPopup extends BasePopup {
         uploadInput.attachFile(FileUtil.loadFileAndGetPath(SAMPLE_PHOTO_URL_PNG, new File("sample_photo.png")));
     }
 
-    public void clickUpload() {
+    public void clickUploadButton() {
         setPhoto.click();
     }
 }

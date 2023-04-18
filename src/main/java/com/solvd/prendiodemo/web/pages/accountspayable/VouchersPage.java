@@ -28,7 +28,7 @@ public class VouchersPage extends AccountPayablePage {
         setPageOpeningStrategy(PageOpeningStrategy.BY_ELEMENT);
     }
 
-    public VouchersPage search(String query) {
+    public VouchersPage searchVoucher(String query) {
         searchField.type(query);
         searchField.sendKeys(Keys.ENTER);
         return new VouchersPage(getDriver());

@@ -35,7 +35,7 @@ public class DepWatcherSetupPopup extends BasePopup {
         return watcherInfo;
     }
 
-    public void clickSave() {
+    public void clickSaveButton() {
         saveButton.click();
     }
 }

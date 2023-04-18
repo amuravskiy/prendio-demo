@@ -88,14 +88,14 @@ public class ReceiverScanMatchPage extends ReceiverPage {
         receivedDateIcon.click();
         calendarForm = new CalendarForm(getDriver(), getDriver());
         calendarForm.waitDateToBeVisible();
-        calendarForm.clickSpecificDay(info.getDay());
+        calendarForm.clickSpecificDayButton(info.getDay());
     }
 
     private void selectInvDate(SlipInfo info) {
         indDateIcon.click();
         calendarForm = new CalendarForm(getDriver(), getDriver());
         calendarForm.waitDateToBeVisible();
-        calendarForm.clickSpecificDay(info.getDay());
+        calendarForm.clickSpecificDayButton(info.getDay());
     }
 
     public boolean isSupplierSelectPopupVisible() {
@@ -106,7 +106,7 @@ public class ReceiverScanMatchPage extends ReceiverPage {
         return supplierSelectPopup;
     }
 
-    public void clickNext() {
+    public void clickNextButton() {
         nextButton.click();
     }
 }

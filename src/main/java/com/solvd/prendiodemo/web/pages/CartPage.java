@@ -75,7 +75,7 @@ public class CartPage extends BasePage {
         setPageOpeningStrategy(PageOpeningStrategy.BY_ELEMENT);
     }
 
-    public void clickApplyToAll() {
+    public void clickApplyToAllButton() {
         applyToAllButton.click();
     }
 

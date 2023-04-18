@@ -48,8 +48,7 @@ public class DepartmentPage extends BasePage {
                 .filter(dep -> dep.getNameContainer().getText().equals(name))
                 .findFirst()
                 .orElseThrow()
-                .getEditIcon()
-                .click();
+                .clickEditIcon();
         return depSetupPopup;
     }
 

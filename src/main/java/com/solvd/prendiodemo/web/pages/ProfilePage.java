@@ -84,7 +84,7 @@ public class ProfilePage extends BasePage {
         startDateInput.click();
         calendarForm = new CalendarForm(getDriver(), getDriver());
         calendarForm.waitDateToBeVisible();
-        calendarForm.clickFirstAvailableDate();
+        calendarForm.clickFirstAvailableDateButon();
         return DateUtil.formatDateProfile(getValue(startDateInput));
     }
 
@@ -92,7 +92,7 @@ public class ProfilePage extends BasePage {
         endDateInput.click();
         calendarForm = new CalendarForm(getDriver(), getDriver());
         calendarForm.waitDateToBeVisible();
-        calendarForm.clickFirstAvailableDate();
+        calendarForm.clickFirstAvailableDateButon();
         return DateUtil.formatDateProfile(getValue(endDateInput));
     }
 
@@ -129,7 +129,7 @@ public class ProfilePage extends BasePage {
                 .build();
     }
 
-    public void clickSave() {
+    public void clickSaveButton() {
         saveButton.click();
         ensureLoaded();
     }

@@ -4,6 +4,7 @@ import com.solvd.prendiodemo.web.pages.DashboardPage;
 import com.solvd.prendiodemo.web.pages.LoginPage;
 import com.solvd.prendiodemo.web.pages.OneLoginPortalPage;
 import org.openqa.selenium.WebDriver;
+import org.testng.Assert;
 
 public class LoginService {
 
@@ -16,12 +17,12 @@ public class LoginService {
     public DashboardPage login(String username, String password) {
         LoginPage loginPage = new LoginPage(driver);
         loginPage.open();
-        loginPage.assertPageOpened();
+        Assert.assertTrue(loginPage.isPageOpened(), "Login page is not opened");
         OneLoginPortalPage oneLoginPortalPage = loginPage.login(username, password);
-        oneLoginPortalPage.assertPageOpened();
+        Assert.assertTrue(oneLoginPortalPage.isPageOpened(), "OneLoginPortal page is not opened");
         DashboardPage dashboardPage = oneLoginPortalPage.goToPrendio();
         dashboardPage.switchToTab(1);
-        dashboardPage.assertPageOpened();
+        Assert.assertTrue(dashboardPage.isPageOpened(), "Dashboard page is not opened");
         return dashboardPage;
     }
 }

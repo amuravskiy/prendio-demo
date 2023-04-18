@@ -40,8 +40,8 @@ public class BuyerSuppliersPage extends BasePage {
         return addSupplierPopup;
     }
 
-    public BuyerSuppliersPage search(String query) {
-        searchFilter.search(query);
+    public BuyerSuppliersPage searchSupplierByName(String name) {
+        searchFilter.search(name);
         return new BuyerSuppliersPage(getDriver());
     }
 
@@ -58,8 +58,7 @@ public class BuyerSuppliersPage extends BasePage {
     public AddSupplierPopup editSupplierByName(String name) {
         findSupplierEntryByName(name)
                 .orElseThrow()
-                .getEditIcon()
-                .click();
+                .clickEditIcon();
         return addSupplierPopup;
     }
 

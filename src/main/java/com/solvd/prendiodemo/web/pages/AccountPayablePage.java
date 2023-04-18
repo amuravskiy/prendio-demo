@@ -22,17 +22,17 @@ public class AccountPayablePage extends BasePage {
         setPageOpeningStrategy(PageOpeningStrategy.BY_ELEMENT);
     }
 
-    public AccountsPayableSuppliersPage clickSuppliers() {
-        navigationTabs.clickSuppliers();
+    public AccountsPayableSuppliersPage clickSuppliersSection() {
+        navigationTabs.clickSuppliersSection();
         return new AccountsPayableSuppliersPage(getDriver());
     }
 
-    public VouchersPage clickVouchers() {
-        navigationTabs.clickVouchers();
+    public VouchersPage clickVouchersSection() {
+        navigationTabs.clickVouchersSection();
         return new VouchersPage(getDriver());
     }
 
-    public DepartmentPage clickDepartment() {
+    public DepartmentPage clickDepartmentSection() {
         departmentButton.click();
         return new DepartmentPage(getDriver());
     }

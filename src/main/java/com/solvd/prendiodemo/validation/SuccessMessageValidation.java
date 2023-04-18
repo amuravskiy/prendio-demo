@@ -18,6 +18,6 @@ public class SuccessMessageValidation {
     }
 
     public void validateSuccessMessageText(String expected) {
-        softAssert.assertEquals(page.getSuccessMessageText(), expected, "Success message is not visible");
+        softAssert.assertEquals(page.getSuccessMessageText(), expected, "Success message text is not as expected");
     }
 }

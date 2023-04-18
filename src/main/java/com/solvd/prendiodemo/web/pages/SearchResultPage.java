@@ -45,8 +45,8 @@ public class SearchResultPage extends BasePage {
                 .allMatch(searchResultsItemEntry -> searchResultsItemEntry.getTitleText().toLowerCase().contains(query.toLowerCase()));
     }
 
-    public void clickAddToCart(int index) {
-        searchResultsItemEntries.get(index).clickAddToCart();
+    public void clickAddToCartButton(int index) {
+        searchResultsItemEntries.get(index).clickAddToCartButton();
         ensureLoaded();
     }
 
@@ -59,7 +59,7 @@ public class SearchResultPage extends BasePage {
     }
 
     public CartPage clickCreateNewCart(int index) {
-        searchResultsItemEntries.get(index).clickAddToANewCart();
+        searchResultsItemEntries.get(index).clickAddToANewCartButton();
         ensureLoaded();
         return new CartPage(getDriver());
     }

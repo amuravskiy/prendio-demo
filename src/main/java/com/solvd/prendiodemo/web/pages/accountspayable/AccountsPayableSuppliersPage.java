@@ -39,8 +39,8 @@ public class AccountsPayableSuppliersPage extends BasePage {
         return supplierInfoPopup;
     }
 
-    public AccountsPayableSuppliersPage search(String query) {
-        searchFilter.search(query);
+    public AccountsPayableSuppliersPage searchSupplierByName(String name) {
+        searchFilter.search(name);
         return new AccountsPayableSuppliersPage(getDriver());
     }
 }

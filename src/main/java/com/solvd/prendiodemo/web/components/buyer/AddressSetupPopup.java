@@ -60,7 +60,7 @@ public class AddressSetupPopup extends BasePopup {
         super(driver, searchContext);
     }
 
-    public void clickSave() {
+    public void clickSaveButton() {
         saveButton.click();
     }
 
@@ -95,8 +95,8 @@ public class AddressSetupPopup extends BasePopup {
                 .build();
     }
 
-    public void clickUsers() {
-        getPopupLeftMenu().clickUsers();
+    public void clickUsersSection() {
+        getPopupLeftMenu().clickUsersSection();
     }
 
     public boolean isUserSectionVisible() {

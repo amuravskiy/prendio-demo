@@ -53,7 +53,7 @@ public class BasePopup extends AbstractUIObject implements ElementsUtil {
         return popupHeader.getText();
     }
 
-    public void clickClose() {
+    public void clickCloseButton() {
         closeButton.click();
     }
 

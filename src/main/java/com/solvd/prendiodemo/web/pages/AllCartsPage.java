@@ -28,7 +28,7 @@ public class AllCartsPage extends BasePage {
         setPageOpeningStrategy(PageOpeningStrategy.BY_ELEMENT);
     }
 
-    public AllCartsPage search(String name) {
+    public AllCartsPage searchCartByName(String name) {
         searchFilter.search(name);
         if (!cartEntries.isEmpty()) {
             cartEntries.get(0).getRootExtendedElement().waitUntilElementDisappear(EXPLICIT_TIMEOUT);

@@ -21,12 +21,12 @@ public class ReceiverPage extends BasePage {
         setPageOpeningStrategy(PageOpeningStrategy.BY_ELEMENT);
     }
 
-    public ReceiverScanPage clickScan() {
-        navigationTabs.clickScan();
+    public ReceiverScanPage clickScanSection() {
+        navigationTabs.clickScanSection();
         return new ReceiverScanPage(getDriver());
     }
 
-    public ReceiverScanMatchPage clickScanMatch() {
+    public ReceiverScanMatchPage clickScanMatchSection() {
         scanMatchButton.click();
         return new ReceiverScanMatchPage(getDriver());
     }
