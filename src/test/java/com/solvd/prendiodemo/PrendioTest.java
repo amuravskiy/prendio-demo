@@ -88,9 +88,10 @@ public class PrendioTest extends AbstractTest {
         Assert.assertTrue(supplierInfoPopup.isVisible(), "Supplier Info popup is not visible");
 
         String trailRecordText = supplierInfoPopup.getCreatedTrailText();
+        System.out.println(trailRecordText);
         String currentDateFormatted = ADD_SUPPLIER_DATE_FORMAT.format(Instant.now());
-        Matcher trailFullNameMatcher = Pattern.compile("trail_full_name_regex").matcher(trailRecordText);
-        Matcher trailDateMatcher = Pattern.compile("([0-9/]+) by").matcher(trailRecordText);
+        Matcher trailFullNameMatcher = Pattern.compile("by ([\\w ]+) as").matcher(trailRecordText);
+        Matcher trailDateMatcher = Pattern.compile(" ([0-9/]+) by").matcher(trailRecordText);
         softAssert.assertTrue(trailDateMatcher.find(), "Date is not found in trail text");
         softAssert.assertTrue(trailFullNameMatcher.find(), "Full name is not found in trail text");
         String trailDate = trailDateMatcher.group(1);

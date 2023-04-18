@@ -82,8 +82,9 @@ public class BasePage extends AbstractPage implements ElementsUtil {
     }
 
     public void ensureLoaded() {
-        waitUntil(ExpectedConditions.elementToBeClickable(loadingBlock.getElement()), LOADING_BLOCK_APPEAR_TIMEOUT);
-        loadingBlock.waitUntilElementDisappear(EXPLICIT_TIMEOUT);
+        if (waitUntil(ExpectedConditions.elementToBeClickable(loadingBlock.getElement()), LOADING_BLOCK_APPEAR_TIMEOUT)) {
+            loadingBlock.waitUntilElementDisappear(EXPLICIT_TIMEOUT);
+        }
     }
 
     public String getFullName() {
