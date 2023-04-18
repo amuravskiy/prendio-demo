@@ -62,6 +62,7 @@ public class PrendioTest extends AbstractTest {
     public void checkAddingSupplierTrailTest() {
         SoftAssert softAssert = new SoftAssert();
         DashboardPage dashboardPage = new LoginService(getDriver()).login(USERNAME, PASSWORD);
+
         String fullName = dashboardPage.getFullName();
         BuyerPage buyerPage = dashboardPage.clickBuyerTab();
         Assert.assertTrue(buyerPage.isPageOpened(), "Buyer page is not opened");
@@ -104,7 +105,6 @@ public class PrendioTest extends AbstractTest {
     public void checkCartTemplateTest() {
         SoftAssert softAssert = new SoftAssert();
         DashboardPage dashboardPage = new LoginService(getDriver()).login(USERNAME, PASSWORD);
-        Assert.assertTrue(dashboardPage.isPageOpened(), "Dashboard page is not opened");
 
         AllCartsPage allCartsPage = dashboardPage.clickViewAllCarts();
         Assert.assertTrue(allCartsPage.isPageOpened(), "All Carts page is not opened");
@@ -139,7 +139,7 @@ public class PrendioTest extends AbstractTest {
         Assert.assertEquals(cartPage.getCartName(), TEMPLATE_CART_NAME.replace(" Template", ""), "Cart name does not match");
 
         dashboardPage = cartPage.clickDashboardTab();
-        Assert.assertTrue(dashboardPage.isPageOpened(), "Dashboard page is not opened");
+
         allCartsPage = dashboardPage.clickViewAllCarts();
         Assert.assertTrue(allCartsPage.isPageOpened(), "All Carts page is not opened");
 
@@ -159,7 +159,6 @@ public class PrendioTest extends AbstractTest {
         final int index = 0;
         SoftAssert softAssert = new SoftAssert();
         DashboardPage dashboardPage = new LoginService(getDriver()).login(USERNAME, PASSWORD);
-        Assert.assertTrue(dashboardPage.isPageOpened(), "Dashboard page is not opened");
 
         SearchResultPage searchResultPage = dashboardPage.searchCatalog(CATALOG_QUERY);
         Assert.assertTrue(searchResultPage.isPageOpened(), "Search Result page is not opened");
@@ -196,7 +195,7 @@ public class PrendioTest extends AbstractTest {
         Assert.assertTrue(reqApprovalPopup.isVisible(), "Requisition Approval popup is not visible");
         dashboardPage = cartPage.clickSubmitReqApproval();
 
-        Assert.assertTrue(dashboardPage.isPageOpened(), "Dashboard page is not opened");
+
         Assert.assertTrue(dashboardPage.getOrderPreviewsCartName(0).contains(cartId), "Cart id is not found in first order");
         softAssert.assertAll();
     }
@@ -206,12 +205,13 @@ public class PrendioTest extends AbstractTest {
     public void checkCreateAndEditDepartmentTest() {
         SoftAssert softAssert = new SoftAssert();
         DashboardPage dashboardPage = new LoginService(getDriver()).login(USERNAME, PASSWORD);
-        Assert.assertTrue(dashboardPage.isPageOpened(), "Dashboard page is not opened");
+
         AccountPayablePage accountPayablePage = dashboardPage.clickAccountsPayableTab();
         Assert.assertTrue(accountPayablePage.isPageOpened(), "Account Payable page is not opened");
         DepartmentPage departmentPage = accountPayablePage.clickDepartmentSection();
         Assert.assertTrue(departmentPage.isPageOpened(), "Department page is not opened");
         Assert.assertTrue(departmentPage.isAddButtonVisible(), "Add department page is not visible");
+
         DepSetupPopup depSetupPopup = departmentPage.clickAddDep();
         Assert.assertTrue(depSetupPopup.isVisible(), "Department Setup popup is not visible");
         DepartmentInfo infoEntered = depSetupPopup.fillFieldsRandomly();
@@ -219,8 +219,10 @@ public class PrendioTest extends AbstractTest {
         Assert.assertTrue(depSetupPopup.isDisappeared(), "Popup didn't disappear");
         SuccessMessageValidation successMessageValidation = new SuccessMessageValidation(softAssert, departmentPage);
         successMessageValidation.validateSuccessMessageVisibleWithText("Department Added Successfully");
+
         departmentPage = departmentPage.searchDepartmentByDesc(infoEntered.getDescription());
         Assert.assertTrue(departmentPage.isPageOpened(), "Department page is not opened");
+
         depSetupPopup = departmentPage.editDepByName(infoEntered.getName());
         Assert.assertTrue(depSetupPopup.isVisible(), "Department Setup popup is not visible");
         String expectedName = ("Department Setup - " + infoEntered.getName()).toLowerCase();
@@ -228,6 +230,7 @@ public class PrendioTest extends AbstractTest {
         depSetupPopup.clickWatchersSection();
         softAssert.assertTrue(depSetupPopup.getWatchersText().contains("0"), "Watchers info doesn't show 0 watchers");
         softAssert.assertTrue(depSetupPopup.isWatchersTableEmpty(), "Watcher table is not empty");
+
         DepWatcherSetupPopup depWatcherSetupPopup = depSetupPopup.clickAddWatcher();
         Assert.assertTrue(depWatcherSetupPopup.isVisible(), "Department Watcher Setup popup is not visible");
         WatcherInfo watcherInfoEntered = depWatcherSetupPopup.selectFirstWatcher();
@@ -237,10 +240,13 @@ public class PrendioTest extends AbstractTest {
         BasePopup confirmationPopup = depSetupPopup.close();
         Assert.assertTrue(confirmationPopup.isVisible(), "Confirmation popup is not visible");
         confirmationPopup.clickConfirmationButton();
+        Assert.assertTrue(depSetupPopup.isDisappeared(), "Popup didn't disappear");
         Assert.assertTrue(confirmationPopup.isDisappeared(), "Popup didn't disappear");
+
         departmentPage = new DepartmentPage(getDriver());
         departmentPage = departmentPage.searchDepartmentByDesc(infoEntered.getDescription());
         Assert.assertTrue(departmentPage.isPageOpened(), "Department page is not opened");
+
         depSetupPopup = departmentPage.editDepByName(infoEntered.getName());
         DepUserPopup depUserPopup = depSetupPopup.clickUsers();
         String username = depUserPopup.selectAnyUser();
@@ -248,6 +254,7 @@ public class PrendioTest extends AbstractTest {
         depUserPopup.clickCloseButton();
         depSetupPopup.ensureLoaded();
         Assert.assertTrue(depUserPopup.isDisappeared(), "Popup didn't disappear");
+
         departmentPage = new DepartmentPage(getDriver());
         depSetupPopup = departmentPage.editDepByName(infoEntered.getName());
         DepartmentInfo loadedInfo = depSetupPopup.getInfo();
@@ -264,9 +271,10 @@ public class PrendioTest extends AbstractTest {
     public void checkReceiverVoucherCreationTest() {
         SoftAssert softAssert = new SoftAssert();
         DashboardPage dashboardPage = new LoginService(getDriver()).login(USERNAME, PASSWORD);
-        Assert.assertTrue(dashboardPage.isPageOpened(), "Dashboard page is not opened");
+
         ReceiverPage receiverPage = dashboardPage.clickReceiverTab();
         Assert.assertTrue(receiverPage.isPageOpened(), "Receiver page is not opened");
+
         ReceiverScanPage scanPage = receiverPage.clickScanSection();
         Assert.assertTrue(scanPage.isPageOpened(), "Scan page is not opened");
         scanPage.addUploadFile();
@@ -275,6 +283,7 @@ public class PrendioTest extends AbstractTest {
         softAssert.assertTrue(scanPage.isProgressBarVisible(), "Progress bar is not visible");
         softAssert.assertTrue(scanPage.isProgressBarDisappeared(), "Progress did not disappear");
         softAssert.assertEquals(scanPage.getUploadStatusText(), "100%", "Upload status text doesn't show 100%");
+
         ReceiverScanMatchPage matchPage = receiverPage.clickScanMatchSection();
         Assert.assertTrue(matchPage.isPageOpened(), "Match page is not opened");
         Assert.assertTrue(matchPage.isFirstScanItemVisible(), "First Scan item is not visible");
@@ -287,8 +296,10 @@ public class PrendioTest extends AbstractTest {
             Assert.assertTrue(supplSelectPopup.isDisappeared(), "Popup didn't disappear");
         }
         matchPage.ensureLoaded();
+
         AccountPayablePage accountPayablePage = matchPage.clickAccountsPayableTab();
         Assert.assertTrue(accountPayablePage.isPageOpened(), "Account Payable page is not opened");
+
         VouchersPage vouchersPage = accountPayablePage.clickVouchersSection();
         String invNumber = infoEntered.getInvoiceNumber();
         vouchersPage = vouchersPage.searchVoucher(invNumber);
@@ -301,12 +312,14 @@ public class PrendioTest extends AbstractTest {
     public void checkUserProfileUpdateTest() {
         SoftAssert softAssert = new SoftAssert();
         DashboardPage dashboardPage = new LoginService(getDriver()).login(USERNAME, PASSWORD);
-        Assert.assertTrue(dashboardPage.isPageOpened(), "Dashboard page is not opened");
+
         UserStatusWindow statusWindow = dashboardPage.getUserPhotoBlock().openUserStatus();
         statusWindow.assertUIObjectPresent();
+
         ProfilePage profilePage = statusWindow.clickViewProfileButton();
         Assert.assertTrue(profilePage.isPageOpened(), "Profile page is not opened");
         UserProfileInfo filledInfo = profilePage.fillProfileInfoRandomly();
+
         profilePage.hoverUploadButton();
         Assert.assertTrue(profilePage.isUploadButtonVisible(), "Upload button is not visible");
         ImageUploadPopup imageUploadPopup = profilePage.clickUploadButton();
@@ -321,6 +334,7 @@ public class PrendioTest extends AbstractTest {
         profilePage.clickSaveButton();
         profilePage.ensureLoaded();
         successMessageValidation.validateSuccessMessageVisibleWithText("User Profile Saved.");
+
         getDriver().navigate().refresh();
         profilePage = new ProfilePage(getDriver());
         Assert.assertTrue(profilePage.isPageOpened(), "Profile page is not opened");
@@ -334,10 +348,12 @@ public class PrendioTest extends AbstractTest {
     public void checkCreateSupplierTest() {
         SoftAssert softAssert = new SoftAssert();
         DashboardPage dashboardPage = new LoginService(getDriver()).login(USERNAME, PASSWORD);
-        Assert.assertTrue(dashboardPage.isPageOpened(), "Dashboard page is not opened");
+
         BuyerPage buyerPage = dashboardPage.clickBuyerTab();
+
         BuyerSuppliersPage suppliersPage = buyerPage.clickSuppliers();
         Assert.assertTrue(suppliersPage.isPageOpened(), "Suppliers page is not opened");
+
         AddSupplierPopup addSupplierPopup = suppliersPage.clickAddSupplierButton();
         Assert.assertTrue(addSupplierPopup.isVisible(), "addSupplier popup is not visible");
         SupplierInfo infoEntered = addSupplierPopup.fillInfoRandomly();
@@ -348,6 +364,7 @@ public class PrendioTest extends AbstractTest {
         Assert.assertTrue(addSupplierPopup.isAccountsSectionDisplayed(), "Account section is not displayed");
         AddAccountNumbersPopup addAccountNumbersPopup = addSupplierPopup.clickAdd();
         Assert.assertTrue(addAccountNumbersPopup.isVisible(), "Add Account Numbers popup is not visible");
+
         AddressPopup addressPopup = addAccountNumbersPopup.clickSelectShipToAddress();
         Assert.assertTrue(addressPopup.isVisible(), "Account Numbers Address popup is not visible");
         infoEntered.setShipToLine2(addressPopup.getAddressLine2Text(0));
@@ -359,9 +376,11 @@ public class PrendioTest extends AbstractTest {
         successMessageValidation.validateSuccessMessageVisibleWithText("Account Added Successfully");
         addSupplierPopup.clickCloseButton();
         Assert.assertTrue(addSupplierPopup.isDisappeared(), "Popup didn't disappear");
+
         String name = infoEntered.getName();
         suppliersPage = suppliersPage.searchSupplierByName(name);
         Assert.assertTrue(suppliersPage.isSupplierFound(name), "Supplier with name " + name + " not found");
+
         addSupplierPopup = suppliersPage.editSupplierByName(name);
         suppliersPage.ensureLoaded();
         Assert.assertTrue(addSupplierPopup.isVisible(), "Edit Supplier popup is not visible");
@@ -375,11 +394,13 @@ public class PrendioTest extends AbstractTest {
     public void checkCreateShippingAddressTest() {
         SoftAssert softAssert = new SoftAssert();
         DashboardPage dashboardPage = new LoginService(getDriver()).login(USERNAME, PASSWORD);
-        Assert.assertTrue(dashboardPage.isPageOpened(), "Dashboard page is not opened");
+
         BuyerPage buyerPage = dashboardPage.clickBuyerTab();
         Assert.assertTrue(buyerPage.isPageOpened(), "Buyer page is not opened");
+
         AddressesPage addressesPage = buyerPage.clickAddresses();
         Assert.assertTrue(addressesPage.isPageOpened(), "Addresses page is not opened");
+
         AddressSetupPopup addressSetupPopup = addressesPage.clickAddAddress();
         Assert.assertTrue(addressSetupPopup.isVisible(), "Address Setup popup is not visible");
         AddressInfo addressInfo = addressSetupPopup.fillInfoRandomly();
@@ -387,6 +408,7 @@ public class PrendioTest extends AbstractTest {
         SuccessMessageValidation successMessageValidation = new SuccessMessageValidation(softAssert, addressesPage);
         successMessageValidation.validateSuccessMessageVisibleWithText("Saved Successfully");
         addressSetupPopup.ensureLoaded();
+
         addressSetupPopup.clickUsersSection();
         Assert.assertTrue(addressSetupPopup.isUserSectionVisible(), "User section is not visible");
         addressSetupPopup.ensureLoaded();
@@ -395,9 +417,11 @@ public class PrendioTest extends AbstractTest {
         addressSetupPopup.clickCloseButton();
         addressSetupPopup.ensureLoaded();
         Assert.assertTrue(addressSetupPopup.isDisappeared(), "Popup didn't disappear");
+
         String addressLine1 = addressInfo.getAddressLines().get(0);
         addressesPage = addressesPage.searchAddressByAddressLine(addressLine1);
         Assert.assertTrue(addressesPage.isAddressFound(addressLine1), "Address not found");
+
         addressSetupPopup = addressesPage.editFirstAddress();
         Assert.assertTrue(addressSetupPopup.isVisible(), "Address Setup popup is not visible");
         Assert.assertEquals(addressSetupPopup.getInfo(), addressInfo, "Addresses aren't identical");
@@ -409,10 +433,11 @@ public class PrendioTest extends AbstractTest {
     public void checkAddSupplierItemTest() {
         SoftAssert softAssert = new SoftAssert();
         DashboardPage dashboardPage = new LoginService(getDriver()).login(USERNAME, PASSWORD);
-        Assert.assertTrue(dashboardPage.isPageOpened(), "Dashboard page is not opened");
+
         BuyerPage buyerPage = dashboardPage.clickBuyerTab();
         BuyerSuppliersPage suppliersPage = buyerPage.clickSuppliers();
         Assert.assertTrue(suppliersPage.isPageOpened(), "Suppliers page is not opened");
+
         AddSupplierPopup supplierPopup = suppliersPage.clickAddSupplierButton();
         Assert.assertTrue(supplierPopup.isVisible(), "Supplier popup is not visible");
         supplierPopup.fillRequiredFieldsRandomly();
@@ -420,9 +445,11 @@ public class PrendioTest extends AbstractTest {
         SuccessMessageValidation successMessageValidation = new SuccessMessageValidation(softAssert, suppliersPage);
         successMessageValidation.validateSuccessMessageVisibleWithText("Supplier Added Successfully");
         supplierPopup.ensureLoaded();
+
         AddSupplierPopup catalogItemsPopup = supplierPopup.clickCatalogItems();
         buyerPage.ensureLoaded();
         Assert.assertTrue(catalogItemsPopup.isCatalogItemsSectionOpened(), "Catalog Item section is not opened");
+
         AddSupplierItemPopup itemPopup = catalogItemsPopup.clickAddItem();
         catalogItemsPopup.ensureLoaded();
         Assert.assertTrue(itemPopup.isVisible(), "Add Supplier Item popup is not visible");
@@ -435,6 +462,7 @@ public class PrendioTest extends AbstractTest {
         successMessageValidation.validateSuccessMessageVisibleWithText("Catalog Items Added Successfully");
         itemPopup.clickCloseButton();
         Assert.assertTrue(itemPopup.isDisappeared(), "Popup didn't disappear");
+
         supplierPopup = new BuyerSuppliersPage(getDriver()).getAddSupplierPopup();
         itemPopup = supplierPopup.clickOnAddedItemEdit();
         itemPopup.ensureLoaded();

@@ -6,7 +6,7 @@ import org.testng.asserts.SoftAssert;
 public class SuccessMessageValidation {
 
     private final SoftAssert softAssert;
-    private BasePage page;
+    private final BasePage page;
 
     public SuccessMessageValidation(SoftAssert softAssert, BasePage page) {
         this.softAssert = softAssert;
