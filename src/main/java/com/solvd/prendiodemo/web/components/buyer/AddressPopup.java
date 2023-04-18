@@ -11,18 +11,19 @@ import org.openqa.selenium.support.FindBy;
 public class AddressPopup extends BasePopup {
 
     @FindBy(xpath = "//table[@id='tblbilllist']//tbody//tr[1]")
-    private ExtendedWebElement loadedMarket;
+    private ExtendedWebElement loadedMarker;
 
     @FindBy(xpath = "//table[@id='tblbilllist']//tbody//tr[1]")
     private ShipToAddresses firstShipToAddresses;
 
     public AddressPopup(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
-        setUiLoadedMarker(loadedMarket);
+        setUiLoadedMarker(loadedMarker);
         setLoadingStrategy(ElementLoadingStrategy.BY_VISIBILITY);
     }
 
     public void clickFirstAddress() {
+        firstShipToAddresses.waitClickable();
         firstShipToAddresses.click();
     }
 
@@ -32,6 +33,6 @@ public class AddressPopup extends BasePopup {
 
     @Override
     public boolean isVisible() {
-        return loadedMarket.isVisible();
+        return loadedMarker.isVisible();
     }
 }

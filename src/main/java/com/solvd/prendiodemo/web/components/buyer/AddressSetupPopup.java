@@ -74,7 +74,7 @@ public class AddressSetupPopup extends BasePopup {
         selectByIndex(countrySelect, 1);
         phoneField.getElement().clear();
         phoneField.type(RandomStringUtils.randomNumeric(10));
-        if (!getValue(addressCode).matches("[1-9]\\d{3}]")) {
+        if (!getValue(addressCode).matches("[1-9]\\d{3}")) {
             addressCode.type(String.valueOf(RandomUtils.nextInt(1, 10_000)));
         }
         defaultAddressContainer.click();

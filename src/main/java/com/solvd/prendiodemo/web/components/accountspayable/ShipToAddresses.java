@@ -5,6 +5,7 @@ import com.qaprosoft.carina.core.gui.AbstractUIObject;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class ShipToAddresses extends AbstractUIObject {
 
@@ -17,6 +18,10 @@ public class ShipToAddresses extends AbstractUIObject {
 
     public String getLine2() {
         return line2.getText();
+    }
+
+    public void waitClickable() {
+        waitUntil(ExpectedConditions.elementToBeClickable(this.getRootElement()), EXPLICIT_TIMEOUT);
     }
 
     public void click() {
