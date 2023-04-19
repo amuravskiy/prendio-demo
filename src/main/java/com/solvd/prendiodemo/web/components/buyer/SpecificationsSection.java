@@ -22,7 +22,7 @@ public class SpecificationsSection extends AbstractUIObject implements ElementsU
     private List<ExtendedWebElement> materialValues;
 
     @FindBy(className = "dbaddnew_icon")
-    private ExtendedWebElement addSpecButton;
+    private ExtendedWebElement addSpecificationButton;
 
     public SpecificationsSection(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
@@ -32,19 +32,19 @@ public class SpecificationsSection extends AbstractUIObject implements ElementsU
         return materials.size();
     }
 
-    public List<ItemSpec> getSpecs() {
+    public List<ItemSpec> getSpecifications() {
         return IntStream.range(0, materials.size())
                 .filter(i -> !getValue(materials.get(i)).isBlank())
                 .mapToObj(i -> new ItemSpec(getValue(materials.get(i)), getValue(materialValues.get(i))))
                 .collect(Collectors.toList());
     }
 
-    public SpecificationsSection addSpec() {
-        addSpecButton.click();
+    public SpecificationsSection addSpecification() {
+        addSpecificationButton.click();
         return new SpecificationsSection(getDriver(), getRootElement());
     }
 
-    public void addRandomSpec() {
+    public void addRandomSpecification() {
         materials.get(0).type(RandomStringUtils.randomAlphabetic(30));
         materialValues.get(0).type(RandomStringUtils.randomAlphabetic(30));
     }

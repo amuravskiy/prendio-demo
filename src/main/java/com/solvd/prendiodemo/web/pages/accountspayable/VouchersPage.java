@@ -3,7 +3,7 @@ package com.solvd.prendiodemo.web.pages.accountspayable;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.PageOpeningStrategy;
 import com.solvd.prendiodemo.web.components.accountspayable.VoucherEntry;
-import com.solvd.prendiodemo.web.pages.AccountPayablePage;
+import com.solvd.prendiodemo.web.pages.AccountsPayablePage;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
@@ -11,7 +11,7 @@ import org.openqa.selenium.support.FindBy;
 import java.util.List;
 import java.util.Optional;
 
-public class VouchersPage extends AccountPayablePage {
+public class VouchersPage extends AccountsPayablePage {
 
     @FindBy(xpath = "//li//a[text()='Vouchers']")
     private ExtendedWebElement vouchersSectionActive;

@@ -2,7 +2,7 @@ package com.solvd.prendiodemo.web.components.receiver;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractUIObject;
-import com.solvd.prendiodemo.web.pages.AccountPayablePage;
+import com.solvd.prendiodemo.web.pages.AccountsPayablePage;
 import com.solvd.prendiodemo.web.pages.BuyerPage;
 import com.solvd.prendiodemo.web.pages.DashboardPage;
 import com.solvd.prendiodemo.web.pages.ReceiverPage;
@@ -43,8 +43,8 @@ public class NavigationMenu extends AbstractUIObject {
         return new ReceiverPage(getDriver());
     }
 
-    public AccountPayablePage clickAccountsPayableButton() {
+    public AccountsPayablePage clickAccountsPayableButton() {
         accountsPayableButton.click();
-        return new AccountPayablePage(getDriver());
+        return new AccountsPayablePage(getDriver());
     }
 }

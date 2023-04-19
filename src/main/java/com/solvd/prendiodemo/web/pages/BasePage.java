@@ -64,7 +64,7 @@ public class BasePage extends AbstractPage implements ElementsUtil {
         return getNavigationMenu().clickReceiverButton();
     }
 
-    public AccountPayablePage clickAccountsPayableTab() {
+    public AccountsPayablePage clickAccountsPayableTab() {
         return getNavigationMenu().clickAccountsPayableButton();
     }
 

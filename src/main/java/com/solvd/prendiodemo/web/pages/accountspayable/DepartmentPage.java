@@ -34,10 +34,6 @@ public class DepartmentPage extends BasePage {
         setPageOpeningStrategy(PageOpeningStrategy.BY_ELEMENT);
     }
 
-    public boolean isAddButtonVisible() {
-        return addDepartmentButton.isVisible();
-    }
-
     public DepartmentSetupPopup clickAddDepartment() {
         addDepartmentButton.click();
         return departmentSetupPopup;

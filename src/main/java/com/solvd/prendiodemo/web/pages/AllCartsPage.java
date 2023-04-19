@@ -42,7 +42,7 @@ public class AllCartsPage extends BasePage {
 
     public CartPage clickById(String id) {
         return cartEntries.stream()
-                .filter(cartTableEntry -> cartTableEntry.getId().equals(id))
+                .filter(cartTableEntry -> cartTableEntry.getCartId().equals(id))
                 .findFirst()
                 .orElseThrow()
                 .clickEntryId();
@@ -50,12 +50,12 @@ public class AllCartsPage extends BasePage {
 
     public boolean isCartFound(String cartName) {
         return cartEntries.stream()
-                .anyMatch(cart -> cart.getName().equals(cartName));
+                .anyMatch(cart -> cart.getCartName().equals(cartName));
     }
 
     private Optional<CartTableEntry> findCartEntryById(String id) {
         return cartEntries.stream()
-                .filter(cart -> cart.getId().equals(id))
+                .filter(cart -> cart.getCartId().equals(id))
                 .findFirst();
     }
 
@@ -66,6 +66,6 @@ public class AllCartsPage extends BasePage {
     public String getCartNameById(String id) {
         return findCartEntryById(id)
                 .orElseThrow(() -> new NotFoundException("Cart with id " + id + " not found"))
-                .getName();
+                .getCartName();
     }
 }

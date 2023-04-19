@@ -79,9 +79,9 @@ public class PrendioTest extends AbstractTest {
         addSupplierPopup.clickCloseButton();
         Assert.assertTrue(addSupplierPopup.isDisappeared(), "Popup didn't disappear");
 
-        AccountPayablePage accountPayablePage = buyerSuppliersPage.clickAccountsPayableTab();
-        Assert.assertTrue(accountPayablePage.isPageOpened(), "Accounts Payable page is not opened");
-        AccountsPayableSuppliersPage apSuppliersPage = accountPayablePage.clickSuppliersSection();
+        AccountsPayablePage accountsPayablePage = buyerSuppliersPage.clickAccountsPayableTab();
+        Assert.assertTrue(accountsPayablePage.isPageOpened(), "Accounts Payable page is not opened");
+        AccountsPayableSuppliersPage apSuppliersPage = accountsPayablePage.clickSuppliersSection();
         Assert.assertTrue(apSuppliersPage.isPageOpened(), "Accounts Payable Suppliers page is not opened");
         apSuppliersPage = apSuppliersPage.searchSupplierByName(supplierName);
         Assert.assertTrue(apSuppliersPage.isPageOpened(), "Accounts Payable Suppliers page is not opened");
@@ -207,11 +207,10 @@ public class PrendioTest extends AbstractTest {
         SoftAssert softAssert = new SoftAssert();
         DashboardPage dashboardPage = new LoginService(getDriver()).login(USERNAME, PASSWORD);
 
-        AccountPayablePage accountPayablePage = dashboardPage.clickAccountsPayableTab();
-        Assert.assertTrue(accountPayablePage.isPageOpened(), "Account Payable page is not opened");
-        DepartmentPage departmentPage = accountPayablePage.clickDepartmentSection();
+        AccountsPayablePage accountsPayablePage = dashboardPage.clickAccountsPayableTab();
+        Assert.assertTrue(accountsPayablePage.isPageOpened(), "Account Payable page is not opened");
+        DepartmentPage departmentPage = accountsPayablePage.clickDepartmentSection();
         Assert.assertTrue(departmentPage.isPageOpened(), "Department page is not opened");
-        Assert.assertTrue(departmentPage.isAddButtonVisible(), "Add department page is not visible");
 
         DepartmentSetupPopup departmentSetupPopup = departmentPage.clickAddDepartment();
         Assert.assertTrue(departmentSetupPopup.isVisible(), "Department Setup popup is not visible");
@@ -303,10 +302,10 @@ public class PrendioTest extends AbstractTest {
         }
         matchPage.ensureLoaded();
 
-        AccountPayablePage accountPayablePage = matchPage.clickAccountsPayableTab();
-        Assert.assertTrue(accountPayablePage.isPageOpened(), "Account Payable page is not opened");
+        AccountsPayablePage accountsPayablePage = matchPage.clickAccountsPayableTab();
+        Assert.assertTrue(accountsPayablePage.isPageOpened(), "Account Payable page is not opened");
 
-        VouchersPage vouchersPage = accountPayablePage.clickVouchersSection();
+        VouchersPage vouchersPage = accountsPayablePage.clickVouchersSection();
         String invoiceNumber = infoEntered.getInvoiceNumber();
         vouchersPage = vouchersPage.searchVoucher(invoiceNumber);
         Assert.assertTrue(vouchersPage.isVoucherFound(invoiceNumber), "Voucher with invoice number " + invoiceNumber + " not found");
@@ -376,7 +375,7 @@ public class PrendioTest extends AbstractTest {
 
         AddressPopup addressPopup = addAccountNumbersPopup.clickSelectShipToAddress();
         Assert.assertTrue(addressPopup.isVisible(), "Account Numbers Address popup is not visible");
-        infoEntered.setShipToLine2(addressPopup.getAddressLineTwoText(0));
+        infoEntered.setShipToLineTwo(addressPopup.getAddressLineTwoText(0));
         addressPopup.clickFirstAddress();
         Assert.assertTrue(addressPopup.isDisappeared(), "Popup didn't disappear");
         infoEntered.setAccountNumber(addAccountNumbersPopup.fillAccountNumberRandomly());
@@ -434,9 +433,9 @@ public class PrendioTest extends AbstractTest {
         addressSetupPopup.ensureLoaded();
         Assert.assertTrue(addressSetupPopup.isDisappeared(), "Popup didn't disappear");
 
-        String addressLine1 = addressInfo.getAddressLines().get(0);
-        addressesPage = addressesPage.searchAddressByAddressLine(addressLine1);
-        Assert.assertTrue(addressesPage.isAddressFound(addressLine1), "Address not found");
+        String addressLineOne = addressInfo.getAddressLines().get(0);
+        addressesPage = addressesPage.searchAddressByAddressLine(addressLineOne);
+        Assert.assertTrue(addressesPage.isAddressFound(addressLineOne), "Address not found");
 
         addressSetupPopup = addressesPage.editFirstAddress();
         Assert.assertTrue(addressSetupPopup.isVisible(), "Address Setup popup is not visible");

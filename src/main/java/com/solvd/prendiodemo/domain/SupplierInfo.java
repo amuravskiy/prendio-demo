@@ -22,6 +22,6 @@ public class SupplierInfo {
     private String state;
     private String zip;
     private String notes;
-    private String shipToLine2;
+    private String shipToLineTwo;
     private String accountNumber;
 }

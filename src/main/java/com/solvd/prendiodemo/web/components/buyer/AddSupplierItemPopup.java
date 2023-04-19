@@ -70,7 +70,7 @@ public class AddSupplierItemPopup extends BasePopup {
         safetyDetail.fillRandomValues();
         selectByIndex(unitSelect, 1);
         qtyEachField.type(String.valueOf(RandomUtils.nextInt(1, 10_000 + 1)));
-        specificationsSection.addRandomSpec();
+        specificationsSection.addRandomSpecification();
         return getInfo();
     }
 
@@ -88,12 +88,12 @@ public class AddSupplierItemPopup extends BasePopup {
                 .cas(getValue(casNumberField))
                 .unit(getSelectedOptionText(unitSelect))
                 .qtyEach(getValue(qtyEachField))
-                .specs(specificationsSection.getSpecs())
+                .specs(specificationsSection.getSpecifications())
                 .build();
     }
 
     public void addSpecification() {
-        specificationsSection = specificationsSection.addSpec();
+        specificationsSection = specificationsSection.addSpecification();
     }
 
     public int getSize() {

@@ -9,7 +9,7 @@ import com.solvd.prendiodemo.web.pages.accountspayable.VouchersPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
-public class AccountPayablePage extends BasePage {
+public class AccountsPayablePage extends BasePage {
 
     @FindBy(xpath = "//li[@id and @class='active' and a[text()='Accounts Payable']]")
     private ExtendedWebElement accountsPayableActive;
@@ -17,7 +17,7 @@ public class AccountPayablePage extends BasePage {
     @FindBy(xpath = "//li[a[text()='Department']]")
     private ExtendedWebElement departmentButton;
 
-    public AccountPayablePage(WebDriver driver) {
+    public AccountsPayablePage(WebDriver driver) {
         super(driver);
         setUiLoadedMarker(accountsPayableActive);
         setPageOpeningStrategy(PageOpeningStrategy.BY_ELEMENT);

@@ -27,11 +27,11 @@ public class CartTableEntry extends AbstractUIObject {
         return new CartPage(getDriver());
     }
 
-    public String getName() {
+    public String getCartName() {
         return name.getText();
     }
 
-    public String getId() {
+    public String getCartId() {
         return idLink.getText();
     }
 }

@@ -149,7 +149,7 @@ public class AddSupplierPopup extends BasePopup {
         SupplierInfo info = getGeneralInfo();
         getPopupLeftMenu().clickPopupSection(PopupSections.ACCOUNT_NUMBERS);
         firstAccountNumberTableEntry.waitToBeClickable();
-        info.setShipToLine2(firstAccountNumberTableEntry.getShipToAddress().split(",")[0]);
+        info.setShipToLineTwo(firstAccountNumberTableEntry.getShipToAddress().split(",")[0]);
         info.setAccountNumber(firstAccountNumberTableEntry.getAccountNumber());
         return info;
     }
