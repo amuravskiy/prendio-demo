@@ -25,9 +25,8 @@ public class NavigationTabs extends AbstractUIObject {
         super(driver, searchContext);
     }
 
-    public void clickNavigationSection(NavigationTabsSections sectionToClick) {
-        switch (sectionToClick) {
-
+    public void clickNavigationSection(NavigationTabsSections navigationSectionToClick) {
+        switch (navigationSectionToClick) {
             case SUPPLIERS:
                 suppliersButton.click();
                 break;
@@ -41,7 +40,7 @@ public class NavigationTabs extends AbstractUIObject {
                 scanButton.click();
                 break;
             default:
-                throw new IllegalStateException("Unexpected value: " + sectionToClick);
+                throw new IllegalStateException("Unexpected value: " + navigationSectionToClick);
         }
     }
 }

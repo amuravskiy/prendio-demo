@@ -25,8 +25,8 @@ public class PopupLeftMenu extends AbstractUIObject {
         super(driver, searchContext);
     }
 
-    public void clickPopupSection(PopupSections sectionToClick) {
-        switch (sectionToClick) {
+    public void clickPopupSection(PopupSections popupSectionToClick) {
+        switch (popupSectionToClick) {
             case ACCOUNT_NUMBERS:
                 accountNumbersButton.click();
                 break;
@@ -40,7 +40,7 @@ public class PopupLeftMenu extends AbstractUIObject {
                 usersButton.click();
                 break;
             default:
-                throw new IllegalStateException("Unexpected value: " + sectionToClick);
+                throw new IllegalStateException("Unexpected value: " + popupSectionToClick);
         }
     }
 }
