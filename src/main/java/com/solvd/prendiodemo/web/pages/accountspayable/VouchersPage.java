@@ -34,17 +34,17 @@ public class VouchersPage extends AccountPayablePage {
         return new VouchersPage(getDriver());
     }
 
-    private Optional<VoucherEntry> findVoucherEntryByInvNumber(String invNumber) {
+    private Optional<VoucherEntry> findVoucherEntryByInvoiceNumber(String invoiceNumber) {
         return vouchers.stream()
-                .filter(voucher -> voucher.getInvNumberText().equals(invNumber))
+                .filter(voucher -> voucher.getInvoiceNumberText().equals(invoiceNumber))
                 .findFirst();
     }
 
-    public boolean isVoucherFound(String invNumber) {
-        return findVoucherEntryByInvNumber(invNumber).isPresent();
+    public boolean isVoucherFound(String invoiceNumber) {
+        return findVoucherEntryByInvoiceNumber(invoiceNumber).isPresent();
     }
 
-    public VoucherEntry getVoucherEntryByInvNumber(String invNumber) {
-        return findVoucherEntryByInvNumber(invNumber).orElseThrow();
+    public VoucherEntry getVoucherEntryByInvoiceNumber(String invoiceNumber) {
+        return findVoucherEntryByInvoiceNumber(invoiceNumber).orElseThrow();
     }
 }

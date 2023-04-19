@@ -11,7 +11,7 @@ import java.util.List;
 public class ShipToPopup extends BasePopup {
 
     @FindBy(xpath = "..//table[@id='tblcartlistpopup']//tbody//tr//td[1]")
-    private List<ExtendedWebElement> line1s;
+    private List<ExtendedWebElement> adressLineOnes;
 
     @FindBy(xpath = "..//table[@id='tblcartlistpopup']//tbody//tr")
     private List<ExtendedWebElement> addresses;
@@ -21,7 +21,7 @@ public class ShipToPopup extends BasePopup {
     }
 
     public String chooseShipToAddress(int index) {
-        String address = line1s.get(index).getText();
+        String address = adressLineOnes.get(index).getText();
         addresses.get(index).click();
         return address;
     }

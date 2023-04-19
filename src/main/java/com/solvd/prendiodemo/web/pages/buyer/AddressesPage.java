@@ -42,8 +42,8 @@ public class AddressesPage extends BasePage {
         return new AddressesPage(getDriver());
     }
 
-    public boolean isAddressFound(String line1) {
-        return firstAddress.getContainerName().getText().split(",")[0].equals(line1);
+    public boolean isAddressFound(String lineOne) {
+        return firstAddress.getContainerName().getText().split(",")[0].equals(lineOne);
     }
 
     public AddressSetupPopup editFirstAddress() {

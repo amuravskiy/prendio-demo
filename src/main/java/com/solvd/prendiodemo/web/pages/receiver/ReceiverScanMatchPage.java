@@ -28,13 +28,13 @@ public class ReceiverScanMatchPage extends ReceiverPage {
     private ExtendedWebElement receivedDateIcon;
 
     @FindBy(id = "invoicenotxt")
-    private ExtendedWebElement invNumberInput;
+    private ExtendedWebElement invoiceNumberInput;
 
     @FindBy(xpath = "//input[@id='invoiceduedatetxt']/following::span[@class='calendar_icon'][1]")
-    private ExtendedWebElement indDateIcon;
+    private ExtendedWebElement invoiceDateIcon;
 
     @FindBy(id = "merge_total")
-    private ExtendedWebElement invAmountInput;
+    private ExtendedWebElement invoiceAmountInput;
 
     @FindBy(xpath = "//form[@id='inoiceform']//input[@type='checkbox']")
     private ExtendedWebElement noPoCheckbox;
@@ -67,9 +67,9 @@ public class ReceiverScanMatchPage extends ReceiverPage {
 
     public SlipInfo fillSlipInfoRandomly() {
         SlipInfo info = SlipInfo.builder()
-                .recDate(DateUtil.getCurrentDateScanMatch())
+                .receivedDate(DateUtil.getCurrentDateScanMatch())
                 .invoiceNumber(String.valueOf(RandomUtils.nextInt(1, 10_000)))
-                .invDate(DateUtil.getCurrentDateScanMatch())
+                .invoiceDate(DateUtil.getCurrentDateScanMatch())
                 .invoiceAmount(String.valueOf(RandomUtils.nextInt(1, 10_000)))
                 .day(DateUtil.getDayOfTheMonth())
                 .build();
@@ -78,10 +78,10 @@ public class ReceiverScanMatchPage extends ReceiverPage {
     }
 
     private void fillSlipInfo(SlipInfo info) {
-        invNumberInput.type(info.getInvoiceNumber());
+        invoiceNumberInput.type(info.getInvoiceNumber());
         selectReceivedDate(info);
         selectInvoiceDueDate(info);
-        invAmountInput.type(info.getInvoiceAmount());
+        invoiceAmountInput.type(info.getInvoiceAmount());
         noPoCheckbox.clickByJs();
         selectByIndex(chooseUserSelect, 1);
     }
@@ -94,7 +94,7 @@ public class ReceiverScanMatchPage extends ReceiverPage {
     }
 
     private void selectInvoiceDueDate(SlipInfo info) {
-        indDateIcon.click();
+        invoiceDateIcon.click();
         calendarForm = new CalendarForm(getDriver(), getDriver());
         calendarForm.waitDateToBeVisible();
         calendarForm.clickSpecificDayButton(info.getDay());

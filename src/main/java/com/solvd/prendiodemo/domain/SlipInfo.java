@@ -7,9 +7,9 @@ import lombok.Data;
 @Builder
 public class SlipInfo {
 
-    private String recDate;
+    private String receivedDate;
     private String invoiceNumber;
-    private String invDate;
+    private String invoiceDate;
     private String invoiceAmount;
     private int day;
 }

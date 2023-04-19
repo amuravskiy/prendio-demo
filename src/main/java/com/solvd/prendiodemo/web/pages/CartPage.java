@@ -123,7 +123,7 @@ public class CartPage extends BasePage {
         return shipToAddressText.getText().split("\n")[0];
     }
 
-    public void setSelects() {
+    public void setCartSelects() {
         selectByIndex(orderTypeSelect, 2);
         selectDepartment();
         selectGlAccount();

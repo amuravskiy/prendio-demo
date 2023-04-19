@@ -17,7 +17,7 @@ public class DepartmentPage extends BasePage {
     private ExtendedWebElement departmentActive;
 
     @FindBy(xpath = "//a[@id='Add_Department']")
-    private ExtendedWebElement addDepButton;
+    private ExtendedWebElement addDepartmentButton;
 
     @FindBy(xpath = "//div[contains(@class,'departmentpopup')]")
     private DepartmentSetupPopup departmentSetupPopup;
@@ -35,11 +35,11 @@ public class DepartmentPage extends BasePage {
     }
 
     public boolean isAddButtonVisible() {
-        return addDepButton.isVisible();
+        return addDepartmentButton.isVisible();
     }
 
     public DepartmentSetupPopup clickAddDepartment() {
-        addDepButton.click();
+        addDepartmentButton.click();
         return departmentSetupPopup;
     }
 

@@ -12,7 +12,7 @@ public class VoucherEntry extends AbstractUIObject {
     private ExtendedWebElement date;
 
     @FindBy(xpath = ".//td[@id='filterinvoice']")
-    private ExtendedWebElement invNumber;
+    private ExtendedWebElement invoiceNumber;
 
     public VoucherEntry(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
@@ -22,7 +22,7 @@ public class VoucherEntry extends AbstractUIObject {
         return date.getText();
     }
 
-    public String getInvNumberText() {
-        return invNumber.getText();
+    public String getInvoiceNumberText() {
+        return invoiceNumber.getText();
     }
 }

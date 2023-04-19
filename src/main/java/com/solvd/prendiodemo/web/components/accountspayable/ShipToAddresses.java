@@ -10,14 +10,14 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 public class ShipToAddresses extends AbstractUIObject {
 
     @FindBy(xpath = "./td[2]")
-    private ExtendedWebElement line2;
+    private ExtendedWebElement lineTwo;
 
     public ShipToAddresses(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
     }
 
-    public String getLine2() {
-        return line2.getText();
+    public String getLineTwo() {
+        return lineTwo.getText();
     }
 
     public void waitClickable() {

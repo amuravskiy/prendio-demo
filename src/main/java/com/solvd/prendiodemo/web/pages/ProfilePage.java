@@ -58,7 +58,7 @@ public class ProfilePage extends BasePage {
         setPageOpeningStrategy(PageOpeningStrategy.BY_ELEMENT);
     }
 
-    public String getFullName() {
+    public String getCurrentUserFullName() {
         return getValue(firstNameField) + " " + getValue(lastNameField);
     }
 

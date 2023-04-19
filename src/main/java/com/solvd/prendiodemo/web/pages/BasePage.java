@@ -91,8 +91,8 @@ public class BasePage extends AbstractPage implements ElementsUtil {
         }
     }
 
-    public String getFullName() {
-        return userPhotoBlock.openProfile().getFullName();
+    public String getCurrentUserFullName() {
+        return userPhotoBlock.openProfile().getCurrentUserFullName();
     }
 
     public void waitSuccessMessageVisible() {

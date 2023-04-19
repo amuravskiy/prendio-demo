@@ -27,8 +27,8 @@ public class AddressPopup extends BasePopup {
         firstShipToAddresses.click();
     }
 
-    public String getAddressLine2Text(int index) {
-        return firstShipToAddresses.getLine2();
+    public String getAddressLineTwoText(int index) {
+        return firstShipToAddresses.getLineTwo();
     }
 
     @Override
