@@ -413,8 +413,13 @@ public class PrendioTest extends AbstractTest {
 
         AddressSetupPopup addressSetupPopup = addressesPage.clickAddAddressButton();
         Assert.assertTrue(addressSetupPopup.isVisible(), "Address Setup popup is not visible");
-        AddressInfo addressInfo = addressSetupPopup.fillInfoRandomly();
-        addressSetupPopup.clickSaveButton();
+        AddressInfo addressInfo;
+        do {
+            addressInfo = addressSetupPopup.fillInfoRandomly();
+            addressSetupPopup.clickSaveButton();
+        }
+        while (addressesPage.isErrorMessagePresent());
+
         SuccessMessageValidation successMessageValidation = new SuccessMessageValidation(softAssert, addressesPage);
         String expectedMessage = "Saved Successfully";
         successMessageValidation.validateSuccessMessageVisibleWithText(expectedMessage);

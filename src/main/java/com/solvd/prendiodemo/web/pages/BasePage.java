@@ -33,6 +33,9 @@ public class BasePage extends AbstractPage implements ElementsUtil {
     @FindBy(className = "successmsg")
     private ExtendedWebElement successMessage;
 
+    @FindBy(className = "errormsg")
+    private ExtendedWebElement errorMessage;
+
     @FindBy(className = "HiderText")
     private ExtendedWebElement loadingBlock;
 
@@ -101,6 +104,10 @@ public class BasePage extends AbstractPage implements ElementsUtil {
 
     public boolean isSuccessMessageVisible() {
         return successMessage.isVisible();
+    }
+
+    public boolean isErrorMessagePresent() {
+        return waitUntil(ExpectedConditions.presenceOfElementLocated(errorMessage.getBy()), LOADING_BLOCK_APPEAR_TIMEOUT);
     }
 
     public String getSuccessMessageText() {
