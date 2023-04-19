@@ -73,14 +73,14 @@ public class ReceiverScanMatchPage extends ReceiverPage {
                 .invoiceAmount(String.valueOf(RandomUtils.nextInt(1, 10_000)))
                 .day(DateUtil.getDayOfTheMonth())
                 .build();
-        fillWith(info);
+        fillSlipInfo(info);
         return info;
     }
 
-    private void fillWith(SlipInfo info) {
+    private void fillSlipInfo(SlipInfo info) {
         invNumberInput.type(info.getInvoiceNumber());
         selectReceivedDate(info);
-        selectInvDate(info);
+        selectInvoiceDueDate(info);
         invAmountInput.type(info.getInvoiceAmount());
         noPoCheckbox.clickByJs();
         selectByIndex(chooseUserSelect, 1);
@@ -93,7 +93,7 @@ public class ReceiverScanMatchPage extends ReceiverPage {
         calendarForm.clickSpecificDayButton(info.getDay());
     }
 
-    private void selectInvDate(SlipInfo info) {
+    private void selectInvoiceDueDate(SlipInfo info) {
         indDateIcon.click();
         calendarForm = new CalendarForm(getDriver(), getDriver());
         calendarForm.waitDateToBeVisible();

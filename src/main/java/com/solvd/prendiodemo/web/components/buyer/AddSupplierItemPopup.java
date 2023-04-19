@@ -18,13 +18,13 @@ public class AddSupplierItemPopup extends BasePopup {
     private ExtendedWebElement supplierPartField;
 
     @FindBy(id = "txtdescription")
-    private ExtendedWebElement descField;
+    private ExtendedWebElement descriptionField;
 
     @FindBy(xpath = "//a[text()='Copy Down']")
     private ExtendedWebElement copyDownButton;
 
     @FindBy(id = "txtGdescription")
-    private ExtendedWebElement genericDesc;
+    private ExtendedWebElement genericDescription;
 
     @FindBy(id = "txtdeprecatedpart")
     private ExtendedWebElement deprecatedPartField;
@@ -33,7 +33,7 @@ public class AddSupplierItemPopup extends BasePopup {
     private ExtendedWebElement manufacturerField;
 
     @FindBy(id = "txtMfrPart")
-    private ExtendedWebElement manufactNumberField;
+    private ExtendedWebElement manufacturerNumberField;
 
     @FindBy(id = "supnotes")
     private ExtendedWebElement notesField;
@@ -64,7 +64,7 @@ public class AddSupplierItemPopup extends BasePopup {
     }
 
     public SupplierItemInfo fillInfoRandomly() {
-        Stream.of(supplierPartField, descField, deprecatedPartField, manufacturerField, manufactNumberField, notesField, casNumberField)
+        Stream.of(supplierPartField, descriptionField, deprecatedPartField, manufacturerField, manufacturerNumberField, notesField, casNumberField)
                 .forEach(field -> field.type(RandomStringUtils.randomAlphabetic(15)));
         copyDownButton.click();
         safetyDetail.fillRandomValues();
@@ -77,11 +77,11 @@ public class AddSupplierItemPopup extends BasePopup {
     public SupplierItemInfo getInfo() {
         return SupplierItemInfo.builder()
                 .supplierPart(getValue(supplierPartField))
-                .desc(getValue(descField))
-                .genericDesc(getValue(genericDesc))
+                .desc(getValue(descriptionField))
+                .genericDesc(getValue(genericDescription))
                 .deprecatedPart(getValue(deprecatedPartField))
                 .manufacturer(getValue(manufacturerField))
-                .manufactNumber(getValue(manufactNumberField))
+                .manufactNumber(getValue(manufacturerNumberField))
                 .notes(getValue(notesField)).
                 status(getSelectedOptionText(statusSelect)).
                 safetyCheckboxesChecked(safetyDetail.getCheckboxesChecked())
@@ -92,11 +92,11 @@ public class AddSupplierItemPopup extends BasePopup {
                 .build();
     }
 
-    public void clickAddSpecButton() {
+    public void addSpecification() {
         specificationsSection = specificationsSection.addSpec();
     }
 
-    public int getSpecListSize() {
+    public int getSize() {
         return specificationsSection.getSize();
     }
 

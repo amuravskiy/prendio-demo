@@ -18,7 +18,7 @@ public class TableEntry extends AbstractUIObject {
         super(driver, searchContext);
     }
 
-    public ExtendedWebElement getNameContainer() {
+    public ExtendedWebElement getContainerName() {
         return nameContainer;
     }
 

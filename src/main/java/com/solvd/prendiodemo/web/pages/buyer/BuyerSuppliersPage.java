@@ -47,7 +47,7 @@ public class BuyerSuppliersPage extends BasePage {
 
     private Optional<TableEntry> findSupplierEntryByName(String name) {
         return suppliers.stream()
-                .filter(supp -> supp.getNameContainer().getText().equals(name))
+                .filter(supp -> supp.getContainerName().getText().equals(name))
                 .findFirst();
     }
 

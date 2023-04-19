@@ -23,7 +23,7 @@ public class DashboardPage extends BasePage {
         setPageOpeningStrategy(PageOpeningStrategy.BY_ELEMENT);
     }
 
-    public AllCartsPage clickViewAllCarts() {
+    public AllCartsPage clickViewAllCartsButton() {
         viewAllCartsButton.click();
         return new AllCartsPage(getDriver());
     }

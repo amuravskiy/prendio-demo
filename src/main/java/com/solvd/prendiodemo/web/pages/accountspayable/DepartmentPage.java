@@ -2,7 +2,7 @@ package com.solvd.prendiodemo.web.pages.accountspayable;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.PageOpeningStrategy;
-import com.solvd.prendiodemo.web.components.accountspayable.DepSetupPopup;
+import com.solvd.prendiodemo.web.components.accountspayable.DepartmentSetupPopup;
 import com.solvd.prendiodemo.web.components.common.SearchFilter;
 import com.solvd.prendiodemo.web.components.common.TableEntry;
 import com.solvd.prendiodemo.web.pages.BasePage;
@@ -20,7 +20,7 @@ public class DepartmentPage extends BasePage {
     private ExtendedWebElement addDepButton;
 
     @FindBy(xpath = "//div[contains(@class,'departmentpopup')]")
-    private DepSetupPopup depSetupPopup;
+    private DepartmentSetupPopup departmentSetupPopup;
 
     @FindBy(xpath = "//tbody[@class='ui-sortable']/tr")
     private List<TableEntry> departments;
@@ -38,22 +38,24 @@ public class DepartmentPage extends BasePage {
         return addDepButton.isVisible();
     }
 
-    public DepSetupPopup clickAddDep() {
+    public DepartmentSetupPopup clickAddDepartment() {
         addDepButton.click();
-        return depSetupPopup;
+        return departmentSetupPopup;
     }
 
-    public DepSetupPopup editDepByName(String name) {
+    public DepartmentSetupPopup editDepartmentByName(String name) {
         departments.stream()
-                .filter(dep -> dep.getNameContainer().getText().equals(name))
+                .filter(dep -> dep.getContainerName().getText().equals(name))
                 .findFirst()
                 .orElseThrow()
                 .clickEditIcon();
-        return depSetupPopup;
+        return departmentSetupPopup;
     }
 
     public DepartmentPage searchDepartmentByDesc(String desc) {
         searchFilter.search(desc);
+        ensureLoaded();
+        waitForJSToLoad();
         return new DepartmentPage(getDriver());
     }
 }

@@ -22,7 +22,7 @@ public class SupplierSelectPopup extends BasePopup {
         supplierField.type(query);
     }
 
-    public void selectFirstAvailable() {
+    public void selectFirstAvailableSupplier() {
         options.clickOptionByIndex(0);
     }
 }

@@ -9,7 +9,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 
-public class DepUserPopup extends BasePopup {
+public class DepartmentUserPopup extends BasePopup {
 
     @FindBy(xpath = "//table[@id='tbldeptuser']//input[@class='memberdeptchk']")
     private List<ExtendedWebElement> membersCheckboxes;
@@ -17,7 +17,7 @@ public class DepUserPopup extends BasePopup {
     @FindBy(xpath = "//table[@id='tbldeptuser']//input[@class='memberdeptchk']//..//..//td[1]")
     private List<ExtendedWebElement> checkboxUsername;
 
-    public DepUserPopup(WebDriver driver, SearchContext searchContext) {
+    public DepartmentUserPopup(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
     }
 

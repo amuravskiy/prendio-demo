@@ -58,19 +58,23 @@ public class BasePage extends AbstractPage implements ElementsUtil {
     }
 
     public DashboardPage clickDashboardTab() {
-        return navigationMenu.clickDashboardButton();
+        return getNavigationMenu().clickDashboardButton();
     }
 
     public BuyerPage clickBuyerTab() {
-        return navigationMenu.clickBuyerButton();
+        return getNavigationMenu().clickBuyerButton();
     }
 
     public ReceiverPage clickReceiverTab() {
-        return navigationMenu.clickReceiverButton();
+        return getNavigationMenu().clickReceiverButton();
     }
 
     public AccountPayablePage clickAccountsPayableTab() {
-        return navigationMenu.clickAccountsPayableButton();
+        return getNavigationMenu().clickAccountsPayableButton();
+    }
+
+    public NavigationMenu getNavigationMenu() {
+        return navigationMenu;
     }
 
     public NavigationTabs getNavigationTabs() {

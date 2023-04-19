@@ -32,7 +32,7 @@ public class AddressesPage extends BasePage {
         setPageOpeningStrategy(PageOpeningStrategy.BY_ELEMENT);
     }
 
-    public AddressSetupPopup clickAddAddress() {
+    public AddressSetupPopup clickAddAddressButton() {
         addAddressButton.click();
         return addressSetupPopup;
     }
@@ -43,7 +43,7 @@ public class AddressesPage extends BasePage {
     }
 
     public boolean isAddressFound(String line1) {
-        return firstAddress.getNameContainer().getText().split(",")[0].equals(line1);
+        return firstAddress.getContainerName().getText().split(",")[0].equals(line1);
     }
 
     public AddressSetupPopup editFirstAddress() {

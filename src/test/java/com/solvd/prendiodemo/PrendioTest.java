@@ -5,14 +5,14 @@ import com.solvd.prendiodemo.domain.*;
 import com.solvd.prendiodemo.service.LoginService;
 import com.solvd.prendiodemo.validation.SuccessMessageValidation;
 import com.solvd.prendiodemo.web.components.BasePopup;
-import com.solvd.prendiodemo.web.components.receiver.SupplierSelectPopup;
-import com.solvd.prendiodemo.web.components.common.UserStatusWindow;
-import com.solvd.prendiodemo.web.components.accountspayable.DepSetupPopup;
-import com.solvd.prendiodemo.web.components.accountspayable.DepUserPopup;
-import com.solvd.prendiodemo.web.components.accountspayable.DepWatcherSetupPopup;
+import com.solvd.prendiodemo.web.components.accountspayable.DepartmentSetupPopup;
+import com.solvd.prendiodemo.web.components.accountspayable.DepartmentUserPopup;
+import com.solvd.prendiodemo.web.components.accountspayable.DepartmentWatcherSetupPopup;
 import com.solvd.prendiodemo.web.components.buyer.*;
 import com.solvd.prendiodemo.web.components.cart.ShipToPopup;
+import com.solvd.prendiodemo.web.components.common.UserStatusWindow;
 import com.solvd.prendiodemo.web.components.profile.ImageUploadPopup;
+import com.solvd.prendiodemo.web.components.receiver.SupplierSelectPopup;
 import com.solvd.prendiodemo.web.pages.*;
 import com.solvd.prendiodemo.web.pages.accountspayable.AccountsPayableSuppliersPage;
 import com.solvd.prendiodemo.web.pages.accountspayable.DepartmentPage;
@@ -106,11 +106,11 @@ public class PrendioTest extends AbstractTest {
         SoftAssert softAssert = new SoftAssert();
         DashboardPage dashboardPage = new LoginService(getDriver()).login(USERNAME, PASSWORD);
 
-        AllCartsPage allCartsPage = dashboardPage.clickViewAllCarts();
+        AllCartsPage allCartsPage = dashboardPage.clickViewAllCartsButton();
         Assert.assertTrue(allCartsPage.isPageOpened(), "All Carts page is not opened");
         allCartsPage = allCartsPage.searchCartByName(TEMPLATE_CART_NAME);
         Assert.assertTrue(allCartsPage.isPageOpened(), "All Carts page is not opened");
-        Assert.assertTrue(allCartsPage.isCartWithNameFound(TEMPLATE_CART_NAME), "Cart with name " + TEMPLATE_CART_NAME + " is not found");
+        Assert.assertTrue(allCartsPage.isCartFound(TEMPLATE_CART_NAME), "Cart with name " + TEMPLATE_CART_NAME + " is not found");
 
         CartPage cartPage = allCartsPage.clickFirstCart();
         Assert.assertTrue(cartPage.isPageOpened(), "Cart page is not opened");
@@ -120,8 +120,8 @@ public class PrendioTest extends AbstractTest {
             Assert.assertTrue(okPopup.isDisappeared(), "Popup didn't disappear");
         }
         CartContents cartContents = cartPage.getCartContents();
-        String templateCartId = cartPage.getId();
-        BasePopup confirmationPopup = cartPage.clickDuplicateCart();
+        String templateCartId = cartPage.getCartId();
+        BasePopup confirmationPopup = cartPage.clickDuplicateCartButton();
         Assert.assertTrue(confirmationPopup.isVisible(), "Confirmation popup is not visible");
         confirmationPopup.clickConfirmationButton();
         Assert.assertTrue(confirmationPopup.isDisappeared(), "Popup didn't disappear");
@@ -135,12 +135,12 @@ public class PrendioTest extends AbstractTest {
         SuccessMessageValidation successMessageValidation = new SuccessMessageValidation(softAssert, cartPage);
         successMessageValidation.validateSuccessMessageVisibleWithText("Cart items saved");
         String newCartName = cartPage.getCartName();
-        String newCartId = cartPage.getId();
+        String newCartId = cartPage.getCartId();
         Assert.assertEquals(cartPage.getCartName(), TEMPLATE_CART_NAME.replace(" Template", ""), "Cart name does not match");
 
         dashboardPage = cartPage.clickDashboardTab();
 
-        allCartsPage = dashboardPage.clickViewAllCarts();
+        allCartsPage = dashboardPage.clickViewAllCartsButton();
         Assert.assertTrue(allCartsPage.isPageOpened(), "All Carts page is not opened");
 
         Assert.assertTrue(allCartsPage.isCartPresent(newCartId), "Cart with id " + newCartId + " not found");
@@ -179,10 +179,10 @@ public class PrendioTest extends AbstractTest {
         Assert.assertTrue(shipToPopup.isVisible(), "Ship To popup is not visible");
         String line1 = shipToPopup.chooseShipToAddress(0);
         cartPage.ensureLoaded();
-        Assert.assertEquals(cartPage.getShipToAddressLine1Text(), line1, "Selected address Line1 does not match");
+        Assert.assertEquals(cartPage.getShipToAddressLineOneText(), line1, "Selected address Line1 does not match");
         cartPage.setSelects();
         cartPage.clickApplyToAllButton();
-        String cartId = cartPage.getId();
+        String cartId = cartPage.getCartId();
         Assert.assertTrue(cartPage.isItemSelectsAsCartSelects(0), "Selects aren't set as per cart for an item");
 
         BasePopup reqApprovalPopup = cartPage.clickSubmitCartButton();
@@ -194,7 +194,6 @@ public class PrendioTest extends AbstractTest {
         }
         Assert.assertTrue(reqApprovalPopup.isVisible(), "Requisition Approval popup is not visible");
         dashboardPage = cartPage.clickSubmitReqApproval();
-
 
         Assert.assertTrue(dashboardPage.getOrderPreviewsCartName(0).contains(cartId), "Cart id is not found in first order");
         softAssert.assertAll();
@@ -212,57 +211,58 @@ public class PrendioTest extends AbstractTest {
         Assert.assertTrue(departmentPage.isPageOpened(), "Department page is not opened");
         Assert.assertTrue(departmentPage.isAddButtonVisible(), "Add department page is not visible");
 
-        DepSetupPopup depSetupPopup = departmentPage.clickAddDep();
-        Assert.assertTrue(depSetupPopup.isVisible(), "Department Setup popup is not visible");
-        DepartmentInfo infoEntered = depSetupPopup.fillFieldsRandomly();
-        depSetupPopup.clickSaveButton();
-        Assert.assertTrue(depSetupPopup.isDisappeared(), "Popup didn't disappear");
+        DepartmentSetupPopup departmentSetupPopup = departmentPage.clickAddDepartment();
+        Assert.assertTrue(departmentSetupPopup.isVisible(), "Department Setup popup is not visible");
+        DepartmentInfo infoEntered = departmentSetupPopup.fillFieldsRandomly();
+        departmentSetupPopup.clickSaveButton();
+        Assert.assertTrue(departmentSetupPopup.isDisappeared(), "Popup didn't disappear");
         SuccessMessageValidation successMessageValidation = new SuccessMessageValidation(softAssert, departmentPage);
         successMessageValidation.validateSuccessMessageVisibleWithText("Department Added Successfully");
 
         departmentPage = departmentPage.searchDepartmentByDesc(infoEntered.getDescription());
         Assert.assertTrue(departmentPage.isPageOpened(), "Department page is not opened");
 
-        depSetupPopup = departmentPage.editDepByName(infoEntered.getName());
-        Assert.assertTrue(depSetupPopup.isVisible(), "Department Setup popup is not visible");
+        departmentSetupPopup = departmentPage.editDepartmentByName(infoEntered.getName());
+        Assert.assertTrue(departmentSetupPopup.isVisible(), "Department Setup popup is not visible");
         String expectedName = ("Department Setup - " + infoEntered.getName()).toLowerCase();
-        Assert.assertEquals(depSetupPopup.getHeaderText().toLowerCase(), expectedName, "Department Setup popup department name not found");
-        depSetupPopup.clickWatchersSection();
-        softAssert.assertTrue(depSetupPopup.getWatchersText().contains("0"), "Watchers info doesn't show 0 watchers");
-        softAssert.assertTrue(depSetupPopup.isWatchersTableEmpty(), "Watcher table is not empty");
+        Assert.assertEquals(departmentSetupPopup.getHeaderText().toLowerCase(), expectedName, "Department Setup popup department name not found");
+        departmentSetupPopup.clickWatchersSection();
+        softAssert.assertTrue(departmentSetupPopup.getWatchersText().contains("0"), "Watchers info doesn't show 0 watchers");
+        softAssert.assertTrue(departmentSetupPopup.isWatchersTableEmpty(), "Watcher table is not empty");
 
-        DepWatcherSetupPopup depWatcherSetupPopup = depSetupPopup.clickAddWatcher();
-        Assert.assertTrue(depWatcherSetupPopup.isVisible(), "Department Watcher Setup popup is not visible");
-        WatcherInfo watcherInfoEntered = depWatcherSetupPopup.selectFirstWatcher();
-        depWatcherSetupPopup.clickSaveButton();
-        Assert.assertTrue(depWatcherSetupPopup.isDisappeared(), "Popup didn't disappear");
+        DepartmentWatcherSetupPopup departmentWatcherSetupPopup = departmentSetupPopup.clickAddWatcherButton();
+        Assert.assertTrue(departmentWatcherSetupPopup.isVisible(), "Department Watcher Setup popup is not visible");
+        WatcherInfo watcherInfoEntered = departmentWatcherSetupPopup.selectFirstWatcher();
+        departmentWatcherSetupPopup.clickSaveButton();
+        Assert.assertTrue(departmentWatcherSetupPopup.isDisappeared(), "Popup didn't disappear");
         successMessageValidation.validateSuccessMessageVisibleWithText("Department Watcher Added Successfully");
-        BasePopup confirmationPopup = depSetupPopup.close();
+        BasePopup confirmationPopup = departmentSetupPopup.close();
         Assert.assertTrue(confirmationPopup.isVisible(), "Confirmation popup is not visible");
         confirmationPopup.clickConfirmationButton();
-        Assert.assertTrue(depSetupPopup.isDisappeared(), "Popup didn't disappear");
+        Assert.assertTrue(departmentSetupPopup.isDisappeared(), "Popup didn't disappear");
         Assert.assertTrue(confirmationPopup.isDisappeared(), "Popup didn't disappear");
 
         departmentPage = new DepartmentPage(getDriver());
         departmentPage = departmentPage.searchDepartmentByDesc(infoEntered.getDescription());
         Assert.assertTrue(departmentPage.isPageOpened(), "Department page is not opened");
 
-        depSetupPopup = departmentPage.editDepByName(infoEntered.getName());
-        DepUserPopup depUserPopup = depSetupPopup.clickUsers();
-        String username = depUserPopup.selectAnyUser();
+        departmentSetupPopup = departmentPage.editDepartmentByName(infoEntered.getName());
+        DepartmentUserPopup departmentUserPopup = departmentSetupPopup.clickUsersButton();
+        String username = departmentUserPopup.selectAnyUser();
         successMessageValidation.validateSuccessMessageVisibleWithText("Saved Successfully");
-        depUserPopup.clickCloseButton();
-        depSetupPopup.ensureLoaded();
-        Assert.assertTrue(depUserPopup.isDisappeared(), "Popup didn't disappear");
+        departmentUserPopup.clickCloseButton();
+        departmentSetupPopup.ensureLoaded();
+        Assert.assertTrue(departmentUserPopup.isDisappeared(), "Popup didn't disappear");
 
         departmentPage = new DepartmentPage(getDriver());
-        depSetupPopup = departmentPage.editDepByName(infoEntered.getName());
-        DepartmentInfo loadedInfo = depSetupPopup.getInfo();
+        departmentPage = departmentPage.searchDepartmentByDesc(infoEntered.getDescription());
+        departmentSetupPopup = departmentPage.editDepartmentByName(infoEntered.getName());
+        DepartmentInfo loadedInfo = departmentSetupPopup.getInfo();
         Assert.assertEquals(loadedInfo, infoEntered, "Department info does not match entered");
-        depSetupPopup.clickWatchersSection();
-        Assert.assertEquals(depSetupPopup.getWatcherInfo(), watcherInfoEntered, "Watcher info does not match entered");
-        depUserPopup = depSetupPopup.clickUsers();
-        Assert.assertEquals(depUserPopup.getSelectedUserName(), username, "Selected user does not match");
+        departmentSetupPopup.clickWatchersSection();
+        Assert.assertEquals(departmentSetupPopup.getWatcherInfo(), watcherInfoEntered, "Watcher info does not match entered");
+        departmentUserPopup = departmentSetupPopup.clickUsersButton();
+        Assert.assertEquals(departmentUserPopup.getSelectedUserName(), username, "Selected user does not match");
         softAssert.assertAll();
     }
 
@@ -290,10 +290,11 @@ public class PrendioTest extends AbstractTest {
         matchPage.checkFirstItem();
         SlipInfo infoEntered = matchPage.fillSlipInfoRandomly();
         matchPage.clickNextButton();
+        matchPage.ensureLoaded();
         if (matchPage.isSupplierSelectPopupVisible()) {
-            SupplierSelectPopup supplSelectPopup = matchPage.getSupplierSelectPopup();
-            supplSelectPopup.selectFirstAvailable();
-            Assert.assertTrue(supplSelectPopup.isDisappeared(), "Popup didn't disappear");
+            SupplierSelectPopup supplierSelectPopup = matchPage.getSupplierSelectPopup();
+            supplierSelectPopup.selectFirstAvailableSupplier();
+            Assert.assertTrue(supplierSelectPopup.isDisappeared(), "Popup didn't disappear");
         }
         matchPage.ensureLoaded();
 
@@ -355,14 +356,14 @@ public class PrendioTest extends AbstractTest {
         Assert.assertTrue(suppliersPage.isPageOpened(), "Suppliers page is not opened");
 
         AddSupplierPopup addSupplierPopup = suppliersPage.clickAddSupplierButton();
-        Assert.assertTrue(addSupplierPopup.isVisible(), "addSupplier popup is not visible");
+        Assert.assertTrue(addSupplierPopup.isVisible(), "Add Supplier popup is not visible");
         SupplierInfo infoEntered = addSupplierPopup.fillInfoRandomly();
         addSupplierPopup.clickSaveButton();
         SuccessMessageValidation successMessageValidation = new SuccessMessageValidation(softAssert, suppliersPage);
         successMessageValidation.validateSuccessMessageVisibleWithText("Supplier Added Successfully");
         addSupplierPopup.getPopupLeftMenu().clickAccountNumbersSection();
         Assert.assertTrue(addSupplierPopup.isAccountsSectionDisplayed(), "Account section is not displayed");
-        AddAccountNumbersPopup addAccountNumbersPopup = addSupplierPopup.clickAdd();
+        AddAccountNumbersPopup addAccountNumbersPopup = addSupplierPopup.clickAddButton();
         Assert.assertTrue(addAccountNumbersPopup.isVisible(), "Add Account Numbers popup is not visible");
 
         AddressPopup addressPopup = addAccountNumbersPopup.clickSelectShipToAddress();
@@ -401,7 +402,7 @@ public class PrendioTest extends AbstractTest {
         AddressesPage addressesPage = buyerPage.clickAddresses();
         Assert.assertTrue(addressesPage.isPageOpened(), "Addresses page is not opened");
 
-        AddressSetupPopup addressSetupPopup = addressesPage.clickAddAddress();
+        AddressSetupPopup addressSetupPopup = addressesPage.clickAddAddressButton();
         Assert.assertTrue(addressSetupPopup.isVisible(), "Address Setup popup is not visible");
         AddressInfo addressInfo = addressSetupPopup.fillInfoRandomly();
         addressSetupPopup.clickSaveButton();
@@ -450,13 +451,13 @@ public class PrendioTest extends AbstractTest {
         buyerPage.ensureLoaded();
         Assert.assertTrue(catalogItemsPopup.isCatalogItemsSectionOpened(), "Catalog Item section is not opened");
 
-        AddSupplierItemPopup itemPopup = catalogItemsPopup.clickAddItem();
+        AddSupplierItemPopup itemPopup = catalogItemsPopup.clickAddItemButton();
         catalogItemsPopup.ensureLoaded();
         Assert.assertTrue(itemPopup.isVisible(), "Add Supplier Item popup is not visible");
         SupplierItemInfo infoEntered = itemPopup.fillInfoRandomly();
         softAssert.assertEquals(infoEntered.getGenericDesc(), infoEntered.getDesc(), "Description is not copied");
-        itemPopup.clickAddSpecButton();
-        Assert.assertTrue(itemPopup.getSpecListSize() > 1, "Spec number has not increased");
+        itemPopup.addSpecification();
+        Assert.assertTrue(itemPopup.getSize() > 1, "Spec number has not increased");
         itemPopup.clickSaveButton();
         itemPopup.ensureLoaded();
         successMessageValidation.validateSuccessMessageVisibleWithText("Catalog Items Added Successfully");
@@ -464,7 +465,7 @@ public class PrendioTest extends AbstractTest {
         Assert.assertTrue(itemPopup.isDisappeared(), "Popup didn't disappear");
 
         supplierPopup = new BuyerSuppliersPage(getDriver()).getAddSupplierPopup();
-        itemPopup = supplierPopup.clickOnAddedItemEdit();
+        itemPopup = supplierPopup.clickEditItemButton();
         itemPopup.ensureLoaded();
         Assert.assertTrue(itemPopup.isVisible(), "Edit Supplier Item popup is not visible");
         SupplierItemInfo infoRead = itemPopup.getInfo();

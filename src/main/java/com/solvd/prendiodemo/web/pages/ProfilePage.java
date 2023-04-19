@@ -77,14 +77,14 @@ public class ProfilePage extends BasePage {
     }
 
     public Pair<String, String> fillOutOfOffice() {
-        return new ImmutablePair<>(fillStartDay(), fillEndDate());
+        return new ImmutablePair<>(fillStartDate(), fillEndDate());
     }
 
-    private String fillStartDay() {
+    private String fillStartDate() {
         startDateInput.click();
         calendarForm = new CalendarForm(getDriver(), getDriver());
         calendarForm.waitDateToBeVisible();
-        calendarForm.clickFirstAvailableDateButon();
+        calendarForm.clickFirstAvailableDateButton();
         return DateUtil.formatDateProfile(getValue(startDateInput));
     }
 
@@ -92,7 +92,7 @@ public class ProfilePage extends BasePage {
         endDateInput.click();
         calendarForm = new CalendarForm(getDriver(), getDriver());
         calendarForm.waitDateToBeVisible();
-        calendarForm.clickFirstAvailableDateButon();
+        calendarForm.clickFirstAvailableDateButton();
         return DateUtil.formatDateProfile(getValue(endDateInput));
     }
 

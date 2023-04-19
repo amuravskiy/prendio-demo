@@ -9,7 +9,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-public class DepWatcherSetupPopup extends BasePopup {
+public class DepartmentWatcherSetupPopup extends BasePopup {
 
     @FindBy(xpath = "//select[@id='selectwatcher']")
     private ExtendedWebElement watcherSelect;
@@ -20,7 +20,7 @@ public class DepWatcherSetupPopup extends BasePopup {
     @FindBy(id = "Savedeptwatch")
     private ExtendedWebElement saveButton;
 
-    public DepWatcherSetupPopup(WebDriver driver, SearchContext searchContext) {
+    public DepartmentWatcherSetupPopup(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
     }
 

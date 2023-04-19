@@ -5,9 +5,11 @@ import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebEleme
 import com.qaprosoft.carina.core.gui.AbstractUIObject;
 import com.solvd.prendiodemo.utils.ElementsUtil;
 import com.solvd.prendiodemo.web.components.receiver.PopupLeftMenu;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,6 +50,17 @@ public class BasePopup extends AbstractUIObject implements ElementsUtil {
     public void ensureLoaded() {
         waitUntil(ExpectedConditions.elementToBeClickable(loadingBlock.getElement()), LOADING_BLOCK_APPEAR_TIMEOUT);
         loadingBlock.waitUntilElementDisappear(EXPLICIT_TIMEOUT);
+    }
+
+    public void waitJsToLoad() {
+        ExpectedCondition<Boolean> jQueryLoad = driver -> {
+            try {
+                return ((Long) ((JavascriptExecutor) getDriver()).executeScript("return jQuery.active") == 0);
+            } catch (Exception ignore) {
+                return false;
+            }
+        };
+        waitUntil(jQueryLoad, EXPLICIT_TIMEOUT);
     }
 
     public String getHeaderText() {

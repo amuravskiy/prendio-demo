@@ -10,16 +10,16 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-public class DepSetupPopup extends BasePopup {
+public class DepartmentSetupPopup extends BasePopup {
 
     @FindBy(id = "txtdepname")
-    private ExtendedWebElement depNameField;
+    private ExtendedWebElement departmentNameField;
 
     @FindBy(id = "txtdepdesc")
-    private ExtendedWebElement depDescField;
+    private ExtendedWebElement departmentDescriptionField;
 
     @FindBy(id = "txtdepnotes")
-    private ExtendedWebElement depNotesField;
+    private ExtendedWebElement departmentNotesField;
 
     @FindBy(xpath = "//span[@id='deptwatchercount']//..")
     private ExtendedWebElement watchersBlock;
@@ -34,7 +34,7 @@ public class DepSetupPopup extends BasePopup {
     private ExtendedWebElement emptyWatchersTableMarker;
 
     @FindBy(xpath = "//div[@id='popupform1' and contains(@class, 'addprowatcherpopup')]")
-    private DepWatcherSetupPopup depWatcherSetupPopup;
+    private DepartmentWatcherSetupPopup departmentWatcherSetupPopup;
 
     @FindBy(xpath = "//table[@id='tbldeptwatcher']/tbody/tr")
     private WatchersTableEntry firstWatcher;
@@ -46,16 +46,16 @@ public class DepSetupPopup extends BasePopup {
     private ExtendedWebElement saveButton;
 
     @FindBy(xpath = "//div[contains(@class,'departmentpopup')]")
-    private DepUserPopup depUserPopup;
+    private DepartmentUserPopup departmentUserPopup;
 
-    public DepSetupPopup(WebDriver driver, SearchContext searchContext) {
+    public DepartmentSetupPopup(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
     }
 
     public DepartmentInfo fillFieldsRandomly() {
-        depNameField.type(RandomStringUtils.randomAlphabetic(10));
-        depDescField.type(RandomStringUtils.randomAlphabetic(20));
-        depNotesField.type(RandomStringUtils.randomAlphabetic(30));
+        departmentNameField.type(RandomStringUtils.randomAlphabetic(10));
+        departmentDescriptionField.type(RandomStringUtils.randomAlphabetic(20));
+        departmentNotesField.type(RandomStringUtils.randomAlphabetic(30));
         return getInfo();
     }
 
@@ -64,10 +64,10 @@ public class DepSetupPopup extends BasePopup {
         waitUntil(ExpectedConditions.textToBePresentInElement(watchersBlock.getElement(), "("), EXPLICIT_TIMEOUT);
     }
 
-    public DepUserPopup clickUsers() {
+    public DepartmentUserPopup clickUsersButton() {
         getPopupLeftMenu().clickUsersSection();
         ensureLoaded();
-        return depUserPopup;
+        return departmentUserPopup;
     }
 
     public String getWatchersText() {
@@ -78,9 +78,9 @@ public class DepSetupPopup extends BasePopup {
         return emptyWatchersTableMarker.isPresent(0);
     }
 
-    public DepWatcherSetupPopup clickAddWatcher() {
+    public DepartmentWatcherSetupPopup clickAddWatcherButton() {
         addWatcherButton.click();
-        return depWatcherSetupPopup;
+        return departmentWatcherSetupPopup;
     }
 
     public BasePopup close() {
@@ -94,9 +94,9 @@ public class DepSetupPopup extends BasePopup {
 
     public DepartmentInfo getInfo() {
         return DepartmentInfo.builder()
-                .name(getValue(depNameField))
-                .description(getValue(depDescField))
-                .notes(getValue(depNotesField))
+                .name(getValue(departmentNameField))
+                .description(getValue(departmentDescriptionField))
+                .notes(getValue(departmentNotesField))
                 .build();
     }
 

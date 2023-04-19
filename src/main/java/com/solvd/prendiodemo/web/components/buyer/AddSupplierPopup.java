@@ -121,7 +121,7 @@ public class AddSupplierPopup extends BasePopup {
         return accountNumbersSectionActive.isVisible();
     }
 
-    public AddAccountNumbersPopup clickAdd() {
+    public AddAccountNumbersPopup clickAddButton() {
         addAccountButton.click();
         return addAccountNumbersPopup;
     }
@@ -158,7 +158,7 @@ public class AddSupplierPopup extends BasePopup {
         return this;
     }
 
-    public AddSupplierItemPopup clickAddItem() {
+    public AddSupplierItemPopup clickAddItemButton() {
         addItemButton.click();
         return addSupplierItemPopup;
     }
@@ -167,7 +167,7 @@ public class AddSupplierPopup extends BasePopup {
         return catalogItemsSectionActive.isVisible();
     }
 
-    public AddSupplierItemPopup clickOnAddedItemEdit() {
+    public AddSupplierItemPopup clickEditItemButton() {
         addedItem.clickEditIcon();
         return addSupplierItemPopup;
     }

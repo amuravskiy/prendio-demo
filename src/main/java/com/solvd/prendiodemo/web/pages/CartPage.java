@@ -81,7 +81,7 @@ public class CartPage extends BasePage {
         applyToAllButton.click();
     }
 
-    public String getId() {
+    public String getCartId() {
         return cartId.getText();
     }
 
@@ -89,7 +89,7 @@ public class CartPage extends BasePage {
         return okPopup.getRootExtendedElement().isVisible(LOADING_BLOCK_APPEAR_TIMEOUT);
     }
 
-    public BasePopup clickDuplicateCart() {
+    public BasePopup clickDuplicateCartButton() {
         duplicateCartButton.click();
         return confirmationPopup;
     }
@@ -119,7 +119,7 @@ public class CartPage extends BasePage {
         return shipToPopup;
     }
 
-    public String getShipToAddressLine1Text() {
+    public String getShipToAddressLineOneText() {
         return shipToAddressText.getText().split("\n")[0];
     }
 

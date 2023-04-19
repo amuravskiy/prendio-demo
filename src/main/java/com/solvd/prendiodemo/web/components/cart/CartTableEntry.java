@@ -22,7 +22,7 @@ public class CartTableEntry extends AbstractUIObject {
         super(driver, searchContext);
     }
 
-    public CartPage clickId() {
+    public CartPage clickEntryId() {
         idLink.click();
         return new CartPage(getDriver());
     }

@@ -27,7 +27,7 @@ public class CalendarForm extends AbstractUIObject implements ElementsUtil {
         waitUntil(ExpectedConditions.elementToBeClickable(firstAvailableDay.getElement()), EXPLICIT_TIMEOUT);
     }
 
-    public void clickFirstAvailableDateButon() {
+    public void clickFirstAvailableDateButton() {
         firstAvailableDay.click();
     }
 

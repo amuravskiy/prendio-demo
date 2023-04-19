@@ -37,7 +37,7 @@ public class AllCartsPage extends BasePage {
     }
 
     public CartPage clickFirstCart() {
-        return cartEntries.get(0).clickId();
+        return cartEntries.get(0).clickEntryId();
     }
 
     public CartPage clickById(String id) {
@@ -45,12 +45,12 @@ public class AllCartsPage extends BasePage {
                 .filter(cartTableEntry -> cartTableEntry.getId().equals(id))
                 .findFirst()
                 .orElseThrow()
-                .clickId();
+                .clickEntryId();
     }
 
-    public boolean isCartWithNameFound(String name) {
+    public boolean isCartFound(String cartName) {
         return cartEntries.stream()
-                .anyMatch(cart -> cart.getName().equals(name));
+                .anyMatch(cart -> cart.getName().equals(cartName));
     }
 
     private Optional<CartTableEntry> findCartEntryById(String id) {

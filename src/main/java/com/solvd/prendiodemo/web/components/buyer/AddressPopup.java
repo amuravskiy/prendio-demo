@@ -4,11 +4,9 @@ import com.qaprosoft.carina.core.foundation.webdriver.decorator.ElementLoadingSt
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.solvd.prendiodemo.web.components.BasePopup;
 import com.solvd.prendiodemo.web.components.accountspayable.ShipToAddresses;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 
 public class AddressPopup extends BasePopup {
 
@@ -25,14 +23,7 @@ public class AddressPopup extends BasePopup {
     }
 
     public void clickFirstAddress() {
-        ExpectedCondition<Boolean> jQueryLoad = driver -> {
-            try {
-                return ((Long) ((JavascriptExecutor) getDriver()).executeScript("return jQuery.active") == 0);
-            } catch (Exception ignore) {
-                return false;
-            }
-        };
-        waitUntil(jQueryLoad, EXPLICIT_TIMEOUT);
+        waitJsToLoad();
         firstShipToAddresses.click();
     }
 
