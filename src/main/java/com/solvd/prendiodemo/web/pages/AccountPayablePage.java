@@ -2,6 +2,7 @@ package com.solvd.prendiodemo.web.pages;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.PageOpeningStrategy;
+import com.solvd.prendiodemo.domain.NavigationTabsSections;
 import com.solvd.prendiodemo.web.pages.accountspayable.AccountsPayableSuppliersPage;
 import com.solvd.prendiodemo.web.pages.accountspayable.DepartmentPage;
 import com.solvd.prendiodemo.web.pages.accountspayable.VouchersPage;
@@ -23,12 +24,12 @@ public class AccountPayablePage extends BasePage {
     }
 
     public AccountsPayableSuppliersPage clickSuppliersSection() {
-        navigationTabs.clickSuppliersSection();
+        getNavigationTabs().clickNavigationSection(NavigationTabsSections.SUPPLIERS);
         return new AccountsPayableSuppliersPage(getDriver());
     }
 
     public VouchersPage clickVouchersSection() {
-        navigationTabs.clickVouchersSection();
+        getNavigationTabs().clickNavigationSection(NavigationTabsSections.VOUCHERS);
         return new VouchersPage(getDriver());
     }
 

@@ -2,6 +2,7 @@ package com.solvd.prendiodemo.web.components.buyer;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.solvd.prendiodemo.domain.AddressInfo;
+import com.solvd.prendiodemo.domain.PopupSections;
 import com.solvd.prendiodemo.web.components.BasePopup;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
@@ -96,7 +97,7 @@ public class AddressSetupPopup extends BasePopup {
     }
 
     public void clickUsersSection() {
-        getPopupLeftMenu().clickUsersSection();
+        getPopupLeftMenu().clickPopupSection(PopupSections.USERS);
     }
 
     public boolean isUserSectionVisible() {

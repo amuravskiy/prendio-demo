@@ -1,6 +1,7 @@
 package com.solvd.prendiodemo.web.components.buyer;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
+import com.solvd.prendiodemo.domain.PopupSections;
 import com.solvd.prendiodemo.domain.SupplierInfo;
 import com.solvd.prendiodemo.web.components.BasePopup;
 import com.solvd.prendiodemo.web.components.accountspayable.AccountNumbersTableEntry;
@@ -146,7 +147,7 @@ public class AddSupplierPopup extends BasePopup {
 
     public SupplierInfo getFullInfo() {
         SupplierInfo info = getGeneralInfo();
-        getPopupLeftMenu().clickAccountNumbersSection();
+        getPopupLeftMenu().clickPopupSection(PopupSections.ACCOUNT_NUMBERS);
         firstAccountNumberTableEntry.waitToBeClickable();
         info.setShipToLine2(firstAccountNumberTableEntry.getShipToAddress().split(",")[0]);
         info.setAccountNumber(firstAccountNumberTableEntry.getAccountNumber());
@@ -154,7 +155,7 @@ public class AddSupplierPopup extends BasePopup {
     }
 
     public AddSupplierPopup clickCatalogItems() {
-        getPopupLeftMenu().clickCatalogItemsSection();
+        getPopupLeftMenu().clickPopupSection(PopupSections.CATALOG_ITEMS);
         return this;
     }
 

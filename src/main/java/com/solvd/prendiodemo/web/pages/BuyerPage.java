@@ -2,6 +2,7 @@ package com.solvd.prendiodemo.web.pages;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.PageOpeningStrategy;
+import com.solvd.prendiodemo.domain.NavigationTabsSections;
 import com.solvd.prendiodemo.web.pages.buyer.AddressesPage;
 import com.solvd.prendiodemo.web.pages.buyer.BuyerSuppliersPage;
 import org.openqa.selenium.WebDriver;
@@ -25,12 +26,12 @@ public class BuyerPage extends BasePage {
     }
 
     public BuyerSuppliersPage clickSuppliers() {
-        getNavigationTabs().clickSuppliersSection();
+        getNavigationTabs().clickNavigationSection(NavigationTabsSections.SUPPLIERS);
         return new BuyerSuppliersPage(getDriver());
     }
 
     public AddressesPage clickAddresses() {
-        getNavigationTabs().clickAddressesSection();
+        getNavigationTabs().clickNavigationSection(NavigationTabsSections.ADDRESSES);
         return new AddressesPage(getDriver());
     }
 }

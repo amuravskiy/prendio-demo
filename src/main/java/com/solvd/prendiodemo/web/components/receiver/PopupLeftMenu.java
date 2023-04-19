@@ -2,6 +2,7 @@ package com.solvd.prendiodemo.web.components.receiver;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractUIObject;
+import com.solvd.prendiodemo.domain.PopupSections;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
@@ -24,19 +25,22 @@ public class PopupLeftMenu extends AbstractUIObject {
         super(driver, searchContext);
     }
 
-    public void clickAccountNumbersSection() {
-        accountNumbersButton.click();
-    }
-
-    public void clickCatalogItemsSection() {
-        catalogItemsButton.click();
-    }
-
-    public void clickWatchersSection() {
-        watchersButton.click();
-    }
-
-    public void clickUsersSection() {
-        usersButton.click();
+    public void clickPopupSection(PopupSections sectionToClick) {
+        switch (sectionToClick) {
+            case ACCOUNT_NUMBERS:
+                accountNumbersButton.click();
+                break;
+            case CATALOG_ITEMS:
+                catalogItemsButton.click();
+                break;
+            case WATCHERS:
+                watchersButton.click();
+                break;
+            case USERS:
+                usersButton.click();
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + sectionToClick);
+        }
     }
 }

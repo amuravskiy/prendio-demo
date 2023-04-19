@@ -10,10 +10,7 @@ import com.solvd.prendiodemo.web.components.receiver.NavigationTabs;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,25 +18,20 @@ import static com.solvd.prendiodemo.constants.Constants.LOADING_BLOCK_APPEAR_TIM
 
 public class BasePage extends AbstractPage implements ElementsUtil {
 
-    protected static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-
-    @FindBy(className = "logo_block")
-    protected ExtendedWebElement logoBlock;
-
     @FindBy(className = "searchblock")
-    protected SearchBlock searchBlock;
+    private SearchBlock searchBlock;
 
     @FindBy(className = "userstatusmenu_block")
-    protected UserPhotoBlock userPhotoBlock;
+    private UserPhotoBlock userPhotoBlock;
 
     @FindBy(xpath = "//div[@id='myNavbar']")
-    protected NavigationMenu navigationMenu;
+    private NavigationMenu navigationMenu;
 
     @FindBy(className = "rtabs")
-    protected NavigationTabs navigationTabs;
+    private NavigationTabs navigationTabs;
 
     @FindBy(className = "successmsg")
-    protected ExtendedWebElement successMessage;
+    private ExtendedWebElement successMessage;
 
     @FindBy(className = "HiderText")
     private ExtendedWebElement loadingBlock;

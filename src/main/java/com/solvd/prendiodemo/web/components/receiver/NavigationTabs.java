@@ -2,6 +2,7 @@ package com.solvd.prendiodemo.web.components.receiver;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractUIObject;
+import com.solvd.prendiodemo.domain.NavigationTabsSections;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
@@ -24,19 +25,23 @@ public class NavigationTabs extends AbstractUIObject {
         super(driver, searchContext);
     }
 
-    public void clickSuppliersSection() {
-        suppliersButton.click();
-    }
+    public void clickNavigationSection(NavigationTabsSections sectionToClick) {
+        switch (sectionToClick) {
 
-    public void clickAddressesSection() {
-        addressesButton.click();
-    }
-
-    public void clickVouchersSection() {
-        vouchersButton.click();
-    }
-
-    public void clickScanSection() {
-        scanButton.click();
+            case SUPPLIERS:
+                suppliersButton.click();
+                break;
+            case ADDRESSES:
+                addressesButton.click();
+                break;
+            case VOUCHERS:
+                vouchersButton.click();
+                break;
+            case SCAN:
+                scanButton.click();
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + sectionToClick);
+        }
     }
 }

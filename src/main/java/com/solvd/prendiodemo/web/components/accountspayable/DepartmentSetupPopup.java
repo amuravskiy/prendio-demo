@@ -2,6 +2,7 @@ package com.solvd.prendiodemo.web.components.accountspayable;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.solvd.prendiodemo.domain.DepartmentInfo;
+import com.solvd.prendiodemo.domain.PopupSections;
 import com.solvd.prendiodemo.domain.WatcherInfo;
 import com.solvd.prendiodemo.web.components.BasePopup;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -60,12 +61,12 @@ public class DepartmentSetupPopup extends BasePopup {
     }
 
     public void clickWatchersSection() {
-        getPopupLeftMenu().clickWatchersSection();
+        getPopupLeftMenu().clickPopupSection(PopupSections.WATCHERS);
         waitUntil(ExpectedConditions.textToBePresentInElement(watchersBlock.getElement(), "("), EXPLICIT_TIMEOUT);
     }
 
     public DepartmentUserPopup clickUsersButton() {
-        getPopupLeftMenu().clickUsersSection();
+        getPopupLeftMenu().clickPopupSection(PopupSections.USERS);
         ensureLoaded();
         return departmentUserPopup;
     }

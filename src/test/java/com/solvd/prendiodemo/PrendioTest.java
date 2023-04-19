@@ -369,7 +369,7 @@ public class PrendioTest extends AbstractTest {
         SuccessMessageValidation successMessageValidation = new SuccessMessageValidation(softAssert, suppliersPage);
         String expectedMessage = "Supplier Added Successfully";
         successMessageValidation.validateSuccessMessageVisibleWithText(expectedMessage);
-        addSupplierPopup.getPopupLeftMenu().clickAccountNumbersSection();
+        addSupplierPopup.getPopupLeftMenu().clickPopupSection(PopupSections.ACCOUNT_NUMBERS);
         Assert.assertTrue(addSupplierPopup.isAccountsSectionDisplayed(), "Account section is not displayed");
         AddAccountNumbersPopup addAccountNumbersPopup = addSupplierPopup.clickAddButton();
         Assert.assertTrue(addAccountNumbersPopup.isVisible(), "Add Account Numbers popup is not visible");
