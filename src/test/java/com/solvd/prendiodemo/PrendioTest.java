@@ -338,7 +338,7 @@ public class PrendioTest extends AbstractTest {
         String expectedMessage = "Image Uploaded Successfully";
         successMessageValidation.validateSuccessMessageVisibleWithText(expectedMessage);
         profilePage.clickSaveButton();
-        profilePage.ensureLoaded();
+        profilePage.waitForJSToLoad();
         expectedMessage = "User Profile Saved.";
         successMessageValidation.validateSuccessMessageVisibleWithText(expectedMessage);
 
