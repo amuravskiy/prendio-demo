@@ -11,7 +11,7 @@ import java.io.File;
 
 public class ReceiverScanPage extends ReceiverPage {
 
-    private static final String SAMPLE_SLIP_URL = "https://www.ups.com/media/en/packinglist.pdf";
+    private static final String SAMPLE_SLIP_URL = "https://fdotwww.blob.core.windows.net/sitefinity/docs/default-source/programmanagement/productevaluation/ipl/files/sample-packing-slip.pdf";
 
     @FindBy(xpath = "//li//a[text()='Scan']")
     private ExtendedWebElement scanSectionActive;
